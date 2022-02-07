@@ -26,6 +26,24 @@ public class MovieService {
                 .collect(toList());
     }
 
+    public MovieDto findById(Integer id) {
+        var maybeMovie = movieDao.findById(id);
+        if (maybeMovie.isPresent()) {
+            var movie = maybeMovie.get();
+            return new MovieDto(
+                    movie.getId(),
+                    movie.getTitle(),
+                    movie.getYear(),
+                    movie.getCountry(),
+                    movie.getGenre().getTitle()
+            );
+        } else {
+            // TODO throw exception?
+            return null;
+        }
+    }
+
+
     public static MovieService getInstance() {
         return INSTANCE;
     }
