@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ImageService {
@@ -28,8 +28,11 @@ public class ImageService {
     }
 
     @SneakyThrows
-    public byte[] downloadImage(String imagePath) {
-        return Files.readAllBytes(Path.of(basePath, imagePath));
+    public Optional<InputStream> get(String imagePath) {
+        var imageFullPath = Path.of(basePath, imagePath);
+        return Files.exists(imageFullPath)
+                ? Optional.of(Files.newInputStream(imageFullPath))
+                : Optional.empty();
     }
 
     public static ImageService getInstance() {
