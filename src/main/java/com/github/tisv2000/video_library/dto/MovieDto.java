@@ -5,9 +5,11 @@ import lombok.*;
 @Value
 @AllArgsConstructor
 public class MovieDto {
-    private Integer id;
-    private String title;
-    private Integer year;
-    private String country;
-    private String genre;
+    Integer id;
+    String title;
+    Integer year;
+    String country;
+    String genre;
+    String image;
+    String description;
 }

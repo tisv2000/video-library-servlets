@@ -13,4 +13,6 @@ public class Movie {
     private Integer year;
     private String country;
     private Genre genre;
+    private String image;
+    private String description;
 }

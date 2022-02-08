@@ -1,2 +1,2 @@
 
-<h1>Header</h1>
+<h1 style="text-align: center">******** Header ********</h1>

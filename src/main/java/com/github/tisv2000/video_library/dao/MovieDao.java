@@ -24,19 +24,19 @@ public class MovieDao implements Dao<Integer, Movie> {
     }
 
     private static final String FIND_BY_ID_SQL = """
-            SELECT id, title, year, country, genre_id
+            SELECT id, title, year, country, genre_id, image, description
             FROM movie
             WHERE id = ?
             """;
 
     private static final String FIND_ALL_SQL = """
-            SELECT id, title, year, country, genre_id
+            SELECT id, title, year, country, genre_id, image, description
             FROM movie
             """;
 
     private static final String SAVE_SQL = """
-            INSERT INTO movie (title, year, country, genre_id)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO movie (title, year, country, genre_id, description)
+            VALUES (?, ?, ?, ?, ?)
             """;
 
     private static final String UPDATE_SQL = """
@@ -44,7 +44,8 @@ public class MovieDao implements Dao<Integer, Movie> {
             SET title = ?,
                 year = ?,
                 country = ?,
-                genre_id = ?
+                genre_id = ?,
+                description = ?
             WHERE id = ?
             """;
 
@@ -62,6 +63,7 @@ public class MovieDao implements Dao<Integer, Movie> {
             preparedStatement.setInt(2, entity.getYear());
             preparedStatement.setString(3, entity.getCountry());
             preparedStatement.setInt(4, entity.getGenre().getId());
+            preparedStatement.setString(5, entity.getDescription());
 
             preparedStatement.executeUpdate();
 
@@ -81,6 +83,7 @@ public class MovieDao implements Dao<Integer, Movie> {
             preparedStatement.setInt(2, entity.getYear());
             preparedStatement.setString(3, entity.getCountry());
             preparedStatement.setInt(4, entity.getGenre().getId());
+            preparedStatement.setString(4, entity.getDescription());
             preparedStatement.setInt(5, entity.getId());
 
             return preparedStatement.executeUpdate() == 1;
@@ -136,6 +139,8 @@ public class MovieDao implements Dao<Integer, Movie> {
                 .year(resultSet.getInt("year"))
                 .country(resultSet.getString("country"))
                 .genre(GENRE.findById(resultSet.getInt("genre_id")).get())
+                .image(resultSet.getString("image"))
+                .description(resultSet.getString("description"))
                 .build();
     }
 }

@@ -28,7 +28,9 @@ public class MovieDaoTest {
             new Genre(
                     3,
                     "Action"
-            )
+            ),
+            "",
+            ""
     );
 
     @Test
