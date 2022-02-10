@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS person_role;
 DROP TABLE IF EXISTS review;
 DROP TABLE IF EXISTS movie;
 DROP TABLE IF EXISTS genre;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS genre
 (
@@ -48,9 +49,12 @@ CREATE TABLE IF NOT EXISTS movie_person
 CREATE TABLE IF NOT EXISTS users
 (
     id       SERIAL PRIMARY KEY,
-    name     VARCHAR(256),
-    password VARCHAR(256),
-    email    VARCHAR(256)
+    name     VARCHAR(256) NOT NULL,
+    birthday DATE NOT NULL,
+    password VARCHAR(256) NOT NULL,
+    email    VARCHAR(256) NOT NULL UNIQUE,
+    role     VARCHAR(32)  NOT NULL,
+    gender    VARCHAR(32)  NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS review
