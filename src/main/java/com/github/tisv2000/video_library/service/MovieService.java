@@ -4,11 +4,14 @@ package com.github.tisv2000.video_library.service;
 import com.github.tisv2000.video_library.dao.MovieDao;
 import com.github.tisv2000.video_library.dto.MovieDto;
 import jakarta.servlet.http.Part;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MovieService {
 
     private static final MovieService INSTANCE = new MovieService();

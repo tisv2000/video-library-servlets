@@ -7,19 +7,19 @@
 </head>
 <body>
 <%--url to servlet--%>
-<form action="/registration" method="post">
+<form action="/registration" method="post" enctype="multipart/form-data">
 
     <label for="nameId">Name:
-        <input type="text" name="name" id="nameId">
+        <input type="text" name="name" id="nameId" required>
     </label><br>
     <label for="birthdayId">Birthday:
         <input type="date" name="birthday" id="birthdayId">
     </label><br>
     <label for="emailId">Email:
-        <input type="text" name="email" id="emailId">
+        <input type="text" name="email" id="emailId" required>
     </label><br>
     <label for="passwordId">Password:
-        <input type="password" name="password" id="passwordId">
+        <input type="password" name="password" id="passwordId" required>
     </label><br>
     <%--        ?role=user--%>
     <select name="role" id="roleId">Role
@@ -31,6 +31,9 @@
     <c:forEach var="gender" items="${requestScope.genders}">
         <input type="radio" name="gender" value="${gender}"> ${fn:toLowerCase(gender)}
     </c:forEach><br>
+    <label for="imageId">Image:
+        <input type="file" name="image" id="imageId">
+    </label><br>
 
     <button type="submit">Send</button>
 </form>

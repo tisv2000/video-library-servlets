@@ -6,11 +6,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @WebServlet("/images/*")
 public class ImageServlet extends HttpServlet {
 
@@ -27,6 +30,11 @@ public class ImageServlet extends HttpServlet {
                     writeImage(image, resp);
                 }, () -> resp.setStatus(404)
         );
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 
     @SneakyThrows

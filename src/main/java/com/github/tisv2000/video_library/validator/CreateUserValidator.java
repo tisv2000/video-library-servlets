@@ -3,7 +3,10 @@ package com.github.tisv2000.video_library.validator;
 import com.github.tisv2000.video_library.dto.CreateUserDto;
 import com.github.tisv2000.video_library.entity.Gender;
 import com.github.tisv2000.video_library.util.LocalDateFormatter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateUserValidator implements Validator<CreateUserDto> {
 
     // зачем его делать singleton? - могут быть зависимости на другие классы, например на dao (проверить email на уникальность)
@@ -19,6 +22,7 @@ public class CreateUserValidator implements Validator<CreateUserDto> {
         if(Gender.valueOf(object.getGender()) == null) {
             validationResult.add(Error.of("invalid.gender", "Gender is invalid"));
         }
+        // regex - email, password
         return validationResult;
     }
 

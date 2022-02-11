@@ -2,6 +2,8 @@ package com.github.tisv2000.video_library.dao;
 
 import com.github.tisv2000.video_library.entity.User;
 import com.github.tisv2000.video_library.util.ConnectionManager;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.sql.ResultSet;
@@ -9,6 +11,7 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserDao implements Dao<Integer, User>{
 
     public static final UserDao INSTANCE = new UserDao();

@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS users
     birthday DATE NOT NULL,
     password VARCHAR(256) NOT NULL,
     email    VARCHAR(256) NOT NULL UNIQUE,
+    image   VARCHAR(124) NOT NULL,
     role     VARCHAR(32)  NOT NULL,
     gender    VARCHAR(32)  NOT NULL
 );
