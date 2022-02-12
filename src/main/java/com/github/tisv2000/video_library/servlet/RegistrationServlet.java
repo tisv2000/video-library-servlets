@@ -35,6 +35,7 @@ public class RegistrationServlet extends HttpServlet {
                 .name(req.getParameter("name"))
                 .birthday(req.getParameter("birthday"))
                 .email(req.getParameter("email"))
+                .image(req.getPart("image").getSubmittedFileName())
                 .password(req.getParameter("password"))
                 .role(req.getParameter("role"))
                 .gender(req.getParameter("gender"))

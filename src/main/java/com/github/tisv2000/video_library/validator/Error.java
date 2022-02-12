@@ -2,8 +2,9 @@ package com.github.tisv2000.video_library.validator;
 
 import lombok.Value;
 
-@Value(staticConstructor = "of") // TODO immutable ??? создается статическим методом
+// подставляет private final к каждому полю, нет setters
+@Value(staticConstructor = "of")
 public class Error {
-    String code; // почему private не нужен?
+    String code;
     String message;
 }

@@ -13,7 +13,6 @@ import lombok.SneakyThrows;
 import java.io.IOException;
 import java.io.InputStream;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @WebServlet("/images/*")
 public class ImageServlet extends HttpServlet {
 
@@ -32,10 +31,6 @@ public class ImageServlet extends HttpServlet {
         );
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
 
     @SneakyThrows
     private void writeImage(InputStream image, HttpServletResponse resp) {

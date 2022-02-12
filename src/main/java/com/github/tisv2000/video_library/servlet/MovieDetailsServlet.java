@@ -19,7 +19,6 @@ public class MovieDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var movieId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/")+1));
         var movie = movieService.findById(movieId);
-//resp.getOutputStream()
 
         req.setAttribute("movie", movie);
         req.getRequestDispatcher("/WEB-INF/jsp/movieDetails.jsp").forward(req, resp);
