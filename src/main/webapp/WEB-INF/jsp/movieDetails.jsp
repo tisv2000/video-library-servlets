@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%--<head>--%>
@@ -5,8 +6,7 @@
 <%--</head>--%>
 <body>
 <%@include file="header.jsp" %>
-
-<h1 style="margin-left: 20px">Movie details</h1>
+<h2 style="margin-left: 20px">Movie details</h2>
 <img src="/images${requestScope.movie.image}" width="auto" height="50%" style="float:left;margin-left: 20px;margin-right: 10px"/>
 <div style="align-content:center;margin-right: 50px">
     <span><b>Title:</b> ${requestScope.movie.title}</span> <br>

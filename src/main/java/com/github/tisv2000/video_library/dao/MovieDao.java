@@ -1,5 +1,6 @@
 package com.github.tisv2000.video_library.dao;
 
+import com.github.tisv2000.video_library.dto.MovieFilterDto;
 import com.github.tisv2000.video_library.entity.Movie;
 import com.github.tisv2000.video_library.util.ConnectionManager;
 import lombok.AccessLevel;
@@ -30,6 +31,11 @@ public class MovieDao implements Dao<Integer, Movie> {
             """;
 
     private static final String FIND_ALL_SQL = """
+            SELECT id, title, year, country, genre_id, image, description
+            FROM movie
+            """;
+
+    private static String FIND_ALL_FILTERED_SQL = """
             SELECT id, title, year, country, genre_id, image, description
             FROM movie
             """;
@@ -122,11 +128,51 @@ public class MovieDao implements Dao<Integer, Movie> {
         }
     }
 
+
+    @SneakyThrows
+//    public List<Movie> findAllByFilters(HashMap<String, String> movieFilterParams) {
+    public List<Movie> findAllByFilters(MovieFilterDto movieFilterParams) {
+//        StringBuilder updatedSqlForFiltering = new StringBuilder();
+//        int arrayLength = 0;
+//        movieFilterParams.entrySet()
+//                .stream().filter(entry -> !entry.getValue().isEmpty()).peek(arrayLength = arrayLength+1)
+//                .forEach(e -> {
+//                    updatedSqlForFiltering.append(e.getKey()).append("=? AND");
+//                });
+//        if (updatedSqlForFiltering.length() != 0) {
+//            updatedSqlForFiltering.insert(0, " WHERE ");
+//        }
+//        FIND_ALL_FILTERED_SQL += updatedSqlForFiltering.toString();
+
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(FIND_ALL_FILTERED_SQL);) {
+//          TODO  WHERE title=? AND year=? AND country=? AND genre_id=?
+
+            preparedStatement.setObject(1, nullable(movieFilterParams.getTitle()));
+            preparedStatement.setObject(2, nullable(movieFilterParams.getYear()));
+            preparedStatement.setObject(3, nullable(movieFilterParams.getCountry()));
+            preparedStatement.setObject(4, nullable(movieFilterParams.getGenre()));
+
+            var resultSet = preparedStatement.executeQuery();
+            List<Movie> movies = new ArrayList<>();
+            while (resultSet.next()) {
+                movies.add(build(resultSet));
+            }
+            return movies;
+        }
+    }
+
+    private Object nullable(String param) {
+        if (param.isEmpty()) {
+            return "ANY";
+        } else return param;
+    }
+
     @Override
     @SneakyThrows
     public boolean delete(Integer id) {
-        try(var connection = ConnectionManager.get();
-            var preparedStatement = connection.prepareStatement(DELETE_SQL);) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(DELETE_SQL);) {
             preparedStatement.setInt(1, id);
             return preparedStatement.executeUpdate() == 1;
         }

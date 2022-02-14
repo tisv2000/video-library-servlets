@@ -1,5 +1,6 @@
 package com.github.tisv2000.video_library.dto;
 
+import com.github.tisv2000.video_library.entity.Genre;
 import lombok.*;
 
 @Value
@@ -9,7 +10,7 @@ public class MovieDto {
     String title;
     Integer year;
     String country;
-    String genre;
+    Genre genre;
     String image;
     String description;
 }

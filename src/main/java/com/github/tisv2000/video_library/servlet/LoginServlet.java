@@ -1,6 +1,6 @@
 package com.github.tisv2000.video_library.servlet;
 
-import com.github.tisv2000.video_library.dto.GetUserDto;
+import com.github.tisv2000.video_library.dto.UserInfoDto;
 import com.github.tisv2000.video_library.service.UserService;
 import com.github.tisv2000.video_library.util.JspHelper;
 import jakarta.servlet.ServletException;
@@ -27,7 +27,6 @@ public class LoginServlet extends HttpServlet {
         userService.login(req.getParameter("email"), req.getParameter("password"))
                 .ifPresentOrElse(
                         user -> onLoginSuccess(user, req, resp),
-                        // почему ()?
                         () -> onLoginFailure(req, resp)
                 );
     }
@@ -38,7 +37,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     @SneakyThrows
-    private void onLoginSuccess(GetUserDto user, HttpServletRequest req, HttpServletResponse resp) {
+    private void onLoginSuccess(UserInfoDto user, HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().setAttribute("user", user);
         resp.sendRedirect("/movies");
     }

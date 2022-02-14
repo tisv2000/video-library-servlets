@@ -1,2 +1,9 @@
+<div style="float:right;margin-right:10px">
+    ${sessionScope.user.name}
 
-<h1 style="text-align: center">******** Header ********</h1>
+    <a href="/logout">
+        Log out
+    </a>
+</div>
+<br>
+

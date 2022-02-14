@@ -41,7 +41,7 @@ public class RegistrationServlet extends HttpServlet {
                 .gender(req.getParameter("gender"))
                 .build();
         userService.create(userDto);
-        imageService.upload("/users/user" + userDto.getId() + ".jpg", req.getPart("image").getInputStream());
+        imageService.upload("/users/user" + userDto.getId() + ".jpeg", req.getPart("image").getInputStream());
         resp.sendRedirect("/login");
     }
 }

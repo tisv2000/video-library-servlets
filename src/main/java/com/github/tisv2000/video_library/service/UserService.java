@@ -2,7 +2,7 @@ package com.github.tisv2000.video_library.service;
 
 import com.github.tisv2000.video_library.dao.UserDao;
 import com.github.tisv2000.video_library.dto.CreateUserDto;
-import com.github.tisv2000.video_library.dto.GetUserDto;
+import com.github.tisv2000.video_library.dto.UserInfoDto;
 import com.github.tisv2000.video_library.exception.ValidationException;
 import com.github.tisv2000.video_library.mapper.CreateUserMapper;
 import com.github.tisv2000.video_library.mapper.GetUserMapper;
@@ -23,12 +23,6 @@ public class UserService {
 
     // Either object - закончился успешно либо провален
     public Integer create(CreateUserDto createUserDto) {
-        /**
-         * validation - service level, can check smth in db
-         * map dto -> entity
-         * userDao.save in db
-         * return
-         **/
         var validationResult = createUserValidator.isValid(createUserDto);
         if (!validationResult.isValid()) {
             throw new ValidationException(validationResult.getErrors());
@@ -38,7 +32,7 @@ public class UserService {
         return userEntity.getId();
     }
 
-    public Optional<GetUserDto> login(String email, String password) {
+    public Optional<UserInfoDto> login(String email, String password) {
         // почему мы не проверяем на уровне сервиса на наличие ошибок?
         return userDao.findByEmailAndPassword(email, password)
                 .map(getUserMapper::mapFrom);
