@@ -29,7 +29,7 @@
     <button type="submit" style="margin-left: 10px">Filter</button><br>
 </form>
 <h3 style="color: blueviolet">Add a new movie</h3>
-<form action="/movies" method="post">
+<form action="/movies" method="post" enctype="multipart/form-data">
     <label for="addTitleId">Title:
         <input type="text" name="title" id="addTitleId">
     </label><br>
@@ -49,6 +49,9 @@
     </label><br>
     <label for="addDescriptionId">Description:
         <input type="text" name="description" id="addDescriptionId">
+    </label><br>
+    <label for="imageId">Image:
+        <input type="file" name="image" id="imageId">
     </label><br>
     <button type="submit">Add movie</button><br><br>
 </form>

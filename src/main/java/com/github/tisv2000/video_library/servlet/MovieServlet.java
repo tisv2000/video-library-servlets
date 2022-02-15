@@ -43,9 +43,9 @@ public class MovieServlet extends HttpServlet {
     private void filterMovie(HttpServletRequest req, HttpServletResponse resp) {
         MovieFilterDto movieFilterDto = MovieFilterDto.builder()
                 .title(req.getParameter("title"))
-                .year(req.getParameter("year"))
+                .year(Integer.valueOf(req.getParameter("year")))
                 .country(req.getParameter("country"))
-                .genre(req.getParameter("genre"))
+                .genre(Integer.valueOf(req.getParameter("genre")))
                 .build();
         var validationResult = movieFilterValidator.isValid(movieFilterDto);
         if (!validationResult.isValid()) {
@@ -68,7 +68,7 @@ public class MovieServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // разница между getAttribute и getAttribute
+        // разница между getAttribute и getParams
         var movieCreateDto = MovieCreateDto.builder()
                 .title(req.getParameter("title"))
                 .year(req.getParameter("year"))

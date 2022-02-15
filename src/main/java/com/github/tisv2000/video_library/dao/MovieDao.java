@@ -7,12 +7,14 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
+import java.lang.reflect.Field;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MovieDao implements Dao<Integer, Movie> {
@@ -34,11 +36,11 @@ public class MovieDao implements Dao<Integer, Movie> {
             SELECT id, title, year, country, genre_id, image, description
             FROM movie
             """;
-
-    private static String FIND_ALL_FILTERED_SQL = """
-            SELECT id, title, year, country, genre_id, image, description
-            FROM movie
-            """;
+//
+//    private static final String FIND_ALL_FILTERED_SQL = """
+//            SELECT id, title, year, country, genre_id, image, description
+//            FROM movie
+//            """;
 
     private static final String SAVE_SQL = """
             INSERT INTO movie (title, year, country, genre_id, description)
@@ -131,7 +133,7 @@ public class MovieDao implements Dao<Integer, Movie> {
 
     @SneakyThrows
 //    public List<Movie> findAllByFilters(HashMap<String, String> movieFilterParams) {
-    public List<Movie> findAllByFilters(MovieFilterDto movieFilterParams) {
+    public List<Movie> findAllByFilters(MovieFilterDto movieFilterDto) {
 //        StringBuilder updatedSqlForFiltering = new StringBuilder();
 //        int arrayLength = 0;
 //        movieFilterParams.entrySet()
@@ -144,14 +146,23 @@ public class MovieDao implements Dao<Integer, Movie> {
 //        }
 //        FIND_ALL_FILTERED_SQL += updatedSqlForFiltering.toString();
 
-        try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(FIND_ALL_FILTERED_SQL);) {
-//          TODO  WHERE title=? AND year=? AND country=? AND genre_id=?
+        Map<String, Object> movieFilterParams = readDtoFields(movieFilterDto);
 
-            preparedStatement.setObject(1, nullable(movieFilterParams.getTitle()));
-            preparedStatement.setObject(2, nullable(movieFilterParams.getYear()));
-            preparedStatement.setObject(3, nullable(movieFilterParams.getCountry()));
-            preparedStatement.setObject(4, nullable(movieFilterParams.getGenre()));
+        String sql = FIND_ALL_SQL;
+
+        String where = movieFilterParams.entrySet().stream()
+                .filter(entry -> entry.getValue() != null)
+                .map(entry -> entry.getKey() + "=?")
+                .collect(Collectors.joining(" AND "));
+
+        if (!where.isEmpty()) {
+            sql = sql + " WHERE " + where;
+        }
+
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(sql);) {
+
+            prepareStatement(preparedStatement, movieFilterParams);
 
             var resultSet = preparedStatement.executeQuery();
             List<Movie> movies = new ArrayList<>();
@@ -162,11 +173,38 @@ public class MovieDao implements Dao<Integer, Movie> {
         }
     }
 
-    private Object nullable(String param) {
-        if (param.isEmpty()) {
-            return "ANY";
-        } else return param;
+    @SneakyThrows
+    private void prepareStatement(PreparedStatement preparedStatement, Map<String, Object> movieFilterParams) {
+        AtomicInteger count = new AtomicInteger(1);
+        movieFilterParams.values().stream()
+                .forEach(value ->
+                {
+                    try {
+                        preparedStatement.setObject(count.getAndIncrement(), value);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
+
+    // TODO extract
+    @SneakyThrows
+    private Map<String, Object> readDtoFields(Object dto) {
+        Map<String, Object> movieFilterParams = new HashMap<>();
+        Field[] declaredFields = movieFilterParams.getClass().getDeclaredFields();
+        Arrays.stream(declaredFields).forEach(field -> addFieldEntry(field, dto, movieFilterParams));
+        return movieFilterParams;
+    }
+
+    @SneakyThrows
+    private void addFieldEntry(Field field, Object dto, Map<String, Object> map) {
+        field.setAccessible(true);
+        String key = field.getName();
+        // TODO повторить рефлексию, ресивер
+        Object value = field.get(dto);
+        map.put(key, value);
+    }
+
 
     @Override
     @SneakyThrows
