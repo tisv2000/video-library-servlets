@@ -72,7 +72,7 @@ public class MovieServlet extends HttpServlet {
         var movieCreateDto = MovieCreateDto.builder()
                 .title(req.getParameter("title"))
                 .year(req.getParameter("year"))
-                .image(req.getPart("image").getSubmittedFileName())
+//                .image(req.getPart("image").getSubmittedFileName())
                 .country(req.getParameter("country"))
                 .genre(req.getParameter("genre"))
                 .description(req.getParameter("description"))
@@ -85,6 +85,8 @@ public class MovieServlet extends HttpServlet {
 
         // TODO improve logic to save pictures - make unique names, so that they are not get overwritten
         imageService.upload("movies/" + movieCreateDto.getImage() + ".jpeg", req.getPart("image").getInputStream());
+//        imageService.upload("/users/user" + userDto.getId() + ".jpeg", req.getPart("image").getInputStream());
+
         resp.sendRedirect("movies/" + movieId);
     }
 }

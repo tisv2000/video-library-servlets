@@ -159,7 +159,7 @@ public class MovieDao implements Dao<Integer, Movie> {
             counter++;
         }
 
-        if (sql != null) {
+        if (!sql.equals("")) {
             sql = FIND_ALL_SQL + sql.replaceFirst("AND", " WHERE");
         }
 
