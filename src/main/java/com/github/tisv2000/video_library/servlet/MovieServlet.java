@@ -3,7 +3,6 @@ package com.github.tisv2000.video_library.servlet;
 import com.github.tisv2000.video_library.dto.MovieCreateDto;
 import com.github.tisv2000.video_library.dto.MovieDto;
 import com.github.tisv2000.video_library.dto.MovieFilterDto;
-import com.github.tisv2000.video_library.entity.Genre;
 import com.github.tisv2000.video_library.exception.ValidationException;
 import com.github.tisv2000.video_library.service.GenreService;
 import com.github.tisv2000.video_library.service.ImageService;
@@ -43,9 +42,9 @@ public class MovieServlet extends HttpServlet {
     private void filterMovie(HttpServletRequest req, HttpServletResponse resp) {
         MovieFilterDto movieFilterDto = MovieFilterDto.builder()
                 .title(req.getParameter("title"))
-                .year(Integer.valueOf(req.getParameter("year")))
+                .year(req.getParameter("year"))
                 .country(req.getParameter("country"))
-                .genre(Integer.valueOf(req.getParameter("genre")))
+                .genre(req.getParameter("genre"))
                 .build();
         var validationResult = movieFilterValidator.isValid(movieFilterDto);
         if (!validationResult.isValid()) {
@@ -56,6 +55,7 @@ public class MovieServlet extends HttpServlet {
         List<MovieDto> movies = movieService.findAllByFilters(movieFilterDto);
 
         req.setAttribute("movies", movies);
+        req.setAttribute("genres", genreService.findAll());
         req.getRequestDispatcher(JspHelper.getPath("movies")).forward(req, resp);
     }
 

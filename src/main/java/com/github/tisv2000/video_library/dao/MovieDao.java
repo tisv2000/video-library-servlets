@@ -132,37 +132,43 @@ public class MovieDao implements Dao<Integer, Movie> {
 
 
     @SneakyThrows
-//    public List<Movie> findAllByFilters(HashMap<String, String> movieFilterParams) {
     public List<Movie> findAllByFilters(MovieFilterDto movieFilterDto) {
-//        StringBuilder updatedSqlForFiltering = new StringBuilder();
-//        int arrayLength = 0;
-//        movieFilterParams.entrySet()
-//                .stream().filter(entry -> !entry.getValue().isEmpty()).peek(arrayLength = arrayLength+1)
-//                .forEach(e -> {
-//                    updatedSqlForFiltering.append(e.getKey()).append("=? AND");
-//                });
-//        if (updatedSqlForFiltering.length() != 0) {
-//            updatedSqlForFiltering.insert(0, " WHERE ");
-//        }
-//        FIND_ALL_FILTERED_SQL += updatedSqlForFiltering.toString();
 
-        Map<String, Object> movieFilterParams = readDtoFields(movieFilterDto);
+        List<Object> list = new ArrayList<>();
+        int counter = 0;
+        String sql = "";
 
-        String sql = FIND_ALL_SQL;
+        if (movieFilterDto.getTitle() != null && !movieFilterDto.getTitle().isEmpty()) {
+            sql += "AND title=? ";
+            list.add(movieFilterDto.getTitle());
+            counter++;
+        }
+        if (movieFilterDto.getCountry() != null && !movieFilterDto.getCountry().isEmpty()) {
+            sql += "AND country=? ";
+            list.add(movieFilterDto.getCountry());
+            counter++;
+        }
+        if (movieFilterDto.getYear() != null && !movieFilterDto.getYear().isEmpty()) {
+            sql += "AND year=? ";
+            list.add(Integer.valueOf(movieFilterDto.getYear()));
+            counter++;
+        }
+        if (movieFilterDto.getGenre() != null && !movieFilterDto.getGenre().isEmpty()) {
+            sql += "AND genre_id=? ";
+            list.add(Integer.valueOf(movieFilterDto.getGenre()));
+            counter++;
+        }
 
-        String where = movieFilterParams.entrySet().stream()
-                .filter(entry -> entry.getValue() != null)
-                .map(entry -> entry.getKey() + "=?")
-                .collect(Collectors.joining(" AND "));
-
-        if (!where.isEmpty()) {
-            sql = sql + " WHERE " + where;
+        if (sql != null) {
+            sql = FIND_ALL_SQL + sql.replaceFirst("AND", " WHERE");
         }
 
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(sql);) {
 
-            prepareStatement(preparedStatement, movieFilterParams);
+            for (int i = 0; i < counter; i++) {
+                preparedStatement.setObject(i+1, list.get(i));
+            }
 
             var resultSet = preparedStatement.executeQuery();
             List<Movie> movies = new ArrayList<>();
@@ -172,39 +178,6 @@ public class MovieDao implements Dao<Integer, Movie> {
             return movies;
         }
     }
-
-    @SneakyThrows
-    private void prepareStatement(PreparedStatement preparedStatement, Map<String, Object> movieFilterParams) {
-        AtomicInteger count = new AtomicInteger(1);
-        movieFilterParams.values().stream()
-                .forEach(value ->
-                {
-                    try {
-                        preparedStatement.setObject(count.getAndIncrement(), value);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                });
-    }
-
-    // TODO extract
-    @SneakyThrows
-    private Map<String, Object> readDtoFields(Object dto) {
-        Map<String, Object> movieFilterParams = new HashMap<>();
-        Field[] declaredFields = movieFilterParams.getClass().getDeclaredFields();
-        Arrays.stream(declaredFields).forEach(field -> addFieldEntry(field, dto, movieFilterParams));
-        return movieFilterParams;
-    }
-
-    @SneakyThrows
-    private void addFieldEntry(Field field, Object dto, Map<String, Object> map) {
-        field.setAccessible(true);
-        String key = field.getName();
-        // TODO повторить рефлексию, ресивер
-        Object value = field.get(dto);
-        map.put(key, value);
-    }
-
 
     @Override
     @SneakyThrows
