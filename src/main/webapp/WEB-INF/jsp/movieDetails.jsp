@@ -13,9 +13,47 @@
     <span><b>Title:</b> ${requestScope.movie.title}</span> <br>
     <span><b>Release year:</b> ${requestScope.movie.year}</span> <br>
     <span><b>Country:</b> ${requestScope.movie.country}</span> <br><br>
-    <span><b>Description:</b> ${requestScope.movie.description}</span> <br>
+    <span><b>Description:</b> ${requestScope.movie.description}</span> <br><br>
+    <table style="width: 50%"><b>Movie Persons:</b>
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+        </tr>
+
+        <c:forEach var="moviePerson" items="${requestScope.moviePersons}">
+            <tr>
+                <td>${moviePerson.name}</td>
+                <td>${moviePerson.role}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <br>
 </div>
 
+<c:if test="${sessionScope.user.role == 'ADMIN'}">
+    <h3 style="color: blueviolet">Add movie person</h3>
+    <form action="${pageContext.request.contextPath}/movies/${requestScope.movie.id}" method="post">
+        <label for="personId" style="margin-left: 10px">Person:
+            <select name="person" id="personId">
+                <option value="" disabled selected>Select person</option>
+                <c:forEach var="person" items="${requestScope.persons}">
+                    <option value="${person.id}">${person.name}</option>
+                </c:forEach>
+            </select>
+        </label>
+        <label for="roleId" style="margin-left: 10px">Role:
+            <select name="role" id="roleId">
+                <option value="" disabled selected>Select role</option>
+                <c:forEach var="role" items="${requestScope.roles}">
+                    <option value="${role.id}">${role.title}</option>
+                </c:forEach>
+            </select>
+        </label>
+        <input hidden name="movieId" value="${requestScope.movie.id}">
+        <button type="submit" style="margin-left: 10px">Add person</button>
+        <br>
+    </form>
+</c:if>
 <h3 style="color: blueviolet">Add review</h3>
 <form action="${pageContext.request.contextPath}/movies/${requestScope.movie.id}" method="post">
     <label for="textId">Text:

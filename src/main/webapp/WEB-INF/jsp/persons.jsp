@@ -19,26 +19,27 @@
     <br>
 </form>
 
-<h3 style="color: blue">Add a new person</h3>
-<form action="/persons" method="post">
-    <label for="addNameId">Name:
-        <input type="text" name="title" id="addNameId">
-    </label><br>
-    <label for="addBirthdayId">Birthday:
-        <input type="date" name="birthday" id="addBirthdayId">
-    </label><br>
-    <button type="submit">Add Person</button>
-    <br>
-    <c:if test="${not empty requestScope.errors}">
-        <div style="color: red">
-            <c:forEach var="error" items="${requestScope.errors}">
-                <span>${error.message}</span><br>
-            </c:forEach>
-        </div>
-    </c:if>
-    <br>
-</form>
-
+<c:if test="${sessionScope.user.role == 'ADMIN'}">
+    <h3 style="color: blue">Add a new person</h3>
+    <form action="/persons" method="post">
+        <label for="addNameId">Name:
+            <input type="text" name="title" id="addNameId">
+        </label><br>
+        <label for="addBirthdayId">Birthday:
+            <input type="date" name="birthday" id="addBirthdayId">
+        </label><br>
+        <button type="submit">Add Person</button>
+        <br>
+        <c:if test="${not empty requestScope.errors}">
+            <div style="color: red">
+                <c:forEach var="error" items="${requestScope.errors}">
+                    <span>${error.message}</span><br>
+                </c:forEach>
+            </div>
+        </c:if>
+        <br>
+    </form>
+</c:if>
 <h3 style="color: blue">List of all persons</h3>
 <table style="width: 60%">
     <tr>

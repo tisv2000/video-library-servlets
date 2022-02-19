@@ -26,36 +26,40 @@
             </c:forEach>
         </select>
     </label>
-    <button type="submit" style="margin-left: 10px">Filter</button><br>
+    <button type="submit" style="margin-left: 10px">Filter</button>
+    <br>
 </form>
 
-<h3 style="color: blueviolet">Add a new movie</h3>
-<form action="${pageContext.request.contextPath}/movies" method="post" enctype="multipart/form-data">
-    <label for="addTitleId">Title:
-        <input type="text" name="title" id="addTitleId">
-    </label><br>
-    <label for="addCountryId">Country:
-        <input type="text" name="country" id="addCountryId">
-    </label><br>
-    <label for="addYearId">Release year:
-        <input type="text" name="year" id="addYearId">
-    </label><br>
-    <label for="addGenreId">Genre:
-        <select name="genre" id="addGenreId">
-            <option value="" disabled selected>Select your option</option>
-            <c:forEach var="genre" items="${requestScope.genres}">
-                <option value="${genre.id}">${genre.title}</option>
-            </c:forEach>
-        </select>
-    </label><br>
-    <label for="addDescriptionId">Description:
-        <input type="text" name="description" id="addDescriptionId">
-    </label><br>
-    <label for="imageId">Image:
-        <input type="file" name="image" id="imageId">
-    </label><br>
-    <button type="submit">Add movie</button><br><br>
-</form>
+<c:if test="${sessionScope.user.role == 'ADMIN'}">
+    <h3 style="color: blueviolet">Add a new movie</h3>
+    <form action="${pageContext.request.contextPath}/movies" method="post" enctype="multipart/form-data">
+        <label for="addTitleId">Title:
+            <input type="text" name="title" id="addTitleId">
+        </label><br>
+        <label for="addCountryId">Country:
+            <input type="text" name="country" id="addCountryId">
+        </label><br>
+        <label for="addYearId">Release year:
+            <input type="text" name="year" id="addYearId">
+        </label><br>
+        <label for="addGenreId">Genre:
+            <select name="genre" id="addGenreId">
+                <option value="" disabled selected>Select your option</option>
+                <c:forEach var="genre" items="${requestScope.genres}">
+                    <option value="${genre.id}">${genre.title}</option>
+                </c:forEach>
+            </select>
+        </label><br>
+        <label for="addDescriptionId">Description:
+            <input type="text" name="description" id="addDescriptionId">
+        </label><br>
+        <label for="imageId">Image:
+            <input type="file" name="image" id="imageId">
+        </label><br>
+        <button type="submit">Add movie</button>
+        <br><br>
+    </form>
+</c:if>
 <h3 style="color: blueviolet">List of all movies</h3>
 <table style="width: 60%">
     <tr>
