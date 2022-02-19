@@ -54,12 +54,12 @@ public class PersonServlet extends HttpServlet {
         } else {
             req.setAttribute("persons", persons);
         }
-        req.getRequestDispatcher(JspHelper.getPath("persons")).forward(req, resp);
+        req.getRequestDispatcher(JspHelper.getPath("/persons")).forward(req, resp);
     }
 
     private void getPersonsList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("persons", personService.findAll());
-        req.getRequestDispatcher(JspHelper.getPath("persons")).forward(req, resp);
+        req.getRequestDispatcher(JspHelper.getPath("/persons")).forward(req, resp);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class PersonServlet extends HttpServlet {
         if (!result.isValid()) {
             req.setAttribute("errors", result.getErrors());
             req.setAttribute("persons", personService.findAll());
-            req.getRequestDispatcher(JspHelper.getPath("persons")).forward(req, resp);
+            req.getRequestDispatcher(JspHelper.getPath("/persons")).forward(req, resp);
         } else {
             var personId = personService.createPerson(personCreatedDto);
             resp.sendRedirect(PERSONS + "/" + personId);

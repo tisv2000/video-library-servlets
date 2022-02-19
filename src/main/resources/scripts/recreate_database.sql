@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS users
     birthday DATE NOT NULL,
     password VARCHAR(256) NOT NULL,
     email    VARCHAR(256) NOT NULL UNIQUE,
-    image   VARCHAR(124) NOT NULL,
+    image   VARCHAR(124),
     role     VARCHAR(32)  NOT NULL,
     gender    VARCHAR(32)  NOT NULL
 );
@@ -66,14 +66,3 @@ CREATE TABLE IF NOT EXISTS review
     text     VARCHAR(256),
     rate     INT
 );
-
-
-SELECT  r.id AS resultId, r.rate as resultRate, r.text as resultText,
-        u.id AS userId, u.name AS userName, u.birthday AS userBirthday, u.email AS userEmail, u.role AS userRole, u.gender AS userGender,
-        m.id AS movieId, m.title AS movieTitle, m.year AS movieYear, m.country AS movieCountry, m.description AS movieDescription,
-        g.id AS genreId, g.title AS genreTitle
-FROM review r
-         INNER JOIN users u ON u.id = r.user_id
-         INNER JOIN movie m ON m.id = r.movie_id
-         INNER JOIN genre g ON g.id = m.genre_id
-WHERE r.movie_id = 3

@@ -23,8 +23,13 @@ public class UserDao implements Dao<Integer, User> {
             INSERT INTO users (name, birthday, password, email, image, role, gender)
             VALUES (?, ?, ?, ?, ?, ?, ?)
             """;
+
     private static final String FIND_BY_EMAIL_AND_PASSWORD_SQL = """
             SELECT * FROM users WHERE email=? AND password=?
+            """;
+
+    private static final String FIND_BY_EMAIL_SQL = """
+            SELECT * FROM users WHERE email=?
             """;
 
     @Override
@@ -59,6 +64,23 @@ public class UserDao implements Dao<Integer, User> {
             // object or string?
             preparedStatement.setObject(1, email);
             preparedStatement.setObject(2, password);
+
+            var resultSet = preparedStatement.executeQuery();
+            User user = null;
+            if (resultSet.next()) {
+                user = buildUserDao(resultSet);
+            }
+            return Optional.ofNullable(user);
+
+        }
+    }
+
+    @SneakyThrows
+    public Optional<User> findByEmail(String email) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(FIND_BY_EMAIL_SQL);) {
+            // object or string?
+            preparedStatement.setObject(1, email);
 
             var resultSet = preparedStatement.executeQuery();
             User user = null;

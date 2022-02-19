@@ -59,7 +59,7 @@ public class ReviewDao implements Dao<Integer, Review> {
 
     @SneakyThrows
     public List<Review> findAllWithUserId(int userId) {
-        var sql = FIND_ALL_SQL + " WHERE u.user_id = ?";
+        var sql = FIND_ALL_SQL + " WHERE r.user_id = ?";
 
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(sql);) {

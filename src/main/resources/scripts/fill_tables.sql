@@ -15,8 +15,6 @@ VALUES ('Producer'),
        ('Actor'),
        ('Composer');
 
-
-
 INSERT INTO person (name, birth_date)
 VALUES ('Emma Watson', '1990-04-25'),
        ('Brad Pitt', '1963-12-18'),
@@ -107,4 +105,16 @@ VALUEs (1, 10, 4),
        (16, 3, 3),
        (16, 4, 3);
 
+INSERT INTO users (name, birthday, password, email, role, gender)
+VALUES ('user1', '2000-01-01', 'user1', 'user1', 'USER', 'MALE'),
+       ('user2', '1999-01-01', 'user2', 'user2', 'USER', 'FEMALE'),
+       ('user3', '1995-01-01', 'user3', 'user3', 'USER', 'MALE'),
+       ('admin', '1990-01-01', 'admin', 'admin', 'ADMIN', 'MALE');
 
+INSERT INTO review (user_id, movie_id, text, rate)
+VALUES (1, 1, 'Nice movie', 9),
+       (1, 3, 'One of my favorite movies. Watched it many times, definitely recommend!', 10),
+       (2, 1, 'Such a lovely story, absolutely love it!', 10),
+       (2, 3, 'First 3 seasons are the best, but the last few are not that great anymore...', 7),
+       (3, 1, 'Good one', 8),
+       (3, 3, 'Cool movie', 9);

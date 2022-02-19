@@ -7,7 +7,16 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: darkgreen">All my reviews</h3>
+<h3 style="color: blue">Filter reviews</h3>
+<form action="/reviews" method="get">
+    <label for="emailId">User email:
+        <input type="text" name="email" id="emailId">
+    </label>
+    <button type="submit" style="margin-left: 10px">Find</button>
+    <br>
+</form>
+
+<h3 style="color: darkgreen">All reviews</h3>
 <table style="width: 60%">
     <tr>
         <th>Movie</th>

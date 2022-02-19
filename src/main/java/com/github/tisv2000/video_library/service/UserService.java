@@ -38,6 +38,11 @@ public class UserService {
                 .map(getUserMapper::mapFrom);
     }
 
+    public Optional<UserReceiveDto> findByEmail(String email) {
+        return userDao.findByEmail(email)
+                .map(getUserMapper::mapFrom);
+    }
+
     public static UserService getInstance() {
         return INSTANCE;
     }

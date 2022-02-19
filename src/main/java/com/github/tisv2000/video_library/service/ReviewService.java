@@ -28,8 +28,14 @@ public class ReviewService {
         return entity.getId();
     }
 
-    public List<ReviewReceiveDto> findAllForMovieWithId(int movieId) {
+    public List<ReviewReceiveDto> findAllWithMovieId(int movieId) {
         return reviewDao.findAllWithMovieId(movieId).stream()
+                .map(entity -> reviewMapper.mapFromEntityToReviewReceiveDto(entity))
+                .collect(toList());
+    }
+
+    public List<ReviewReceiveDto> findAllWithUserId(int userId) {
+        return reviewDao.findAllWithUserId(userId).stream()
                 .map(entity -> reviewMapper.mapFromEntityToReviewReceiveDto(entity))
                 .collect(toList());
     }

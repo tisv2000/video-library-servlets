@@ -50,7 +50,7 @@ public class MovieDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var movieId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/")+1));
         var movie = movieService.findById(movieId);
-        List<ReviewReceiveDto> reviews = reviewService.findAllForMovieWithId(movieId);
+        List<ReviewReceiveDto> reviews = reviewService.findAllWithMovieId(movieId);
 
         req.setAttribute("reviews", reviews);
         req.setAttribute("movie", movie);

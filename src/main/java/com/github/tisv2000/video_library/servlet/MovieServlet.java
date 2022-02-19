@@ -60,7 +60,7 @@ public class MovieServlet extends HttpServlet {
 
         req.setAttribute("movies", movies);
         req.setAttribute("genres", genreService.findAll());
-        req.getRequestDispatcher(JspHelper.getPath("movies")).forward(req, resp);
+        req.getRequestDispatcher(JspHelper.getPath("/movies")).forward(req, resp);
     }
 
     private void getMovieList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

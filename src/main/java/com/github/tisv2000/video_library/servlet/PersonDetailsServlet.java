@@ -25,7 +25,7 @@ public class PersonDetailsServlet extends HttpServlet {
             resp.sendError(404);
         } else {
             req.setAttribute("person", maybePerson.get());
-            req.getRequestDispatcher(JspHelper.getPath("personDetails")).forward(req, resp);
+            req.getRequestDispatcher(JspHelper.getPath("/personDetails")).forward(req, resp);
         }
     }
 }
