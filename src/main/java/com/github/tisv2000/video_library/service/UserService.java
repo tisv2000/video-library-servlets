@@ -2,7 +2,7 @@ package com.github.tisv2000.video_library.service;
 
 import com.github.tisv2000.video_library.dao.UserDao;
 import com.github.tisv2000.video_library.dto.CreateUserDto;
-import com.github.tisv2000.video_library.dto.UserInfoDto;
+import com.github.tisv2000.video_library.dto.UserReceiveDto;
 import com.github.tisv2000.video_library.exception.ValidationException;
 import com.github.tisv2000.video_library.mapper.CreateUserMapper;
 import com.github.tisv2000.video_library.mapper.GetUserMapper;
@@ -32,7 +32,7 @@ public class UserService {
         return userEntity.getId();
     }
 
-    public Optional<UserInfoDto> login(String email, String password) {
+    public Optional<UserReceiveDto> login(String email, String password) {
         // почему мы не проверяем на уровне сервиса на наличие ошибок?
         return userDao.findByEmailAndPassword(email, password)
                 .map(getUserMapper::mapFrom);

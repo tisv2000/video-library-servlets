@@ -29,12 +29,12 @@ public class PersonDao implements Dao<Integer, Person>{
             FROM person
             """;
 
-    private static final String FIND_BY_ID_SQL = """
+    private static final String SAVE_SQL = """
             INSERT INTO person (name, birth_date)
             VALUES (?, ?)
             """;
 
-    private static final String SAVE_SQL = """
+    private static final String FIND_BY_ID_SQL = """
             SELECT id, name, birth_date
             FROM person
             WHERE id=?
@@ -46,6 +46,8 @@ public class PersonDao implements Dao<Integer, Person>{
         try(var connection = ConnectionManager.get();
             var preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS);) {
 
+            preparedStatement.setObject(1, entity.getName());
+            preparedStatement.setObject(2, entity.getBirthday());
             preparedStatement.executeUpdate();
 
             // TODO помедитировать над этим
@@ -111,7 +113,7 @@ public class PersonDao implements Dao<Integer, Person>{
 
         if (personFilterDto.getName() != null && !personFilterDto.getName().isEmpty()) {
             sql += "AND name=? ";
-            list.add(personFilterDto.getName());
+            list.add(personFilterDto.getName().trim());
             counter++;
         }
         if (personFilterDto.getBirthday() != null && !personFilterDto.getBirthday().isEmpty()) {
@@ -122,6 +124,8 @@ public class PersonDao implements Dao<Integer, Person>{
 
         if (!sql.equals("")) {
             sql = FIND_ALL_SQL + sql.replaceFirst("AND", " WHERE");
+        } else {
+            sql = FIND_ALL_SQL;
         }
 
         try (var connection = ConnectionManager.get();

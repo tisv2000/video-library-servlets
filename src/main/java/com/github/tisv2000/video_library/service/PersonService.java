@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -25,25 +26,25 @@ public class PersonService {
 
     public List<PersonDto> findAll() {
         return personDao.findAll().stream()
-                .map(entity -> personMapper.mapToPersonInfoDto(entity))
+                .map(entity -> personMapper.mapToPersonDto(entity))
                 .collect(toList());
     }
 
-    public PersonDto findById(int personId) {
+    // Optional<PersonDto>
+    public Optional<PersonDto> findById(int personId) {
         var maybePerson = personDao.findById(personId);
-        return maybePerson.map(person -> personMapper.mapToPersonInfoDto(person)).orElse(null);
-        // TODO ???
+        return maybePerson.map(person -> personMapper.mapToPersonDto(person)); // заворачивает в Optional
     }
 
     public Integer createPerson(PersonCreateDto personCreatedDto) {
         var personEntity = personMapper.mapToEntity(personCreatedDto);
-        personDao.save(personMapper.mapToEntity(personCreatedDto));
+        personDao.save(personEntity);
         return personEntity.getId();
     }
 
     public List<PersonDto> findAllByFilter(PersonFilterDto personFilterDto) {
         return personDao.findAllByFilter(personFilterDto).stream()
-                .map(entity -> personMapper.mapToPersonInfoDto(entity))
+                .map(entity -> personMapper.mapToPersonDto(entity))
                 .collect(toList());
     }
 }

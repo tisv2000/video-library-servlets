@@ -8,7 +8,7 @@
 <body>
 <%@include file="header.jsp" %>
 <h3 style="color: blueviolet">Filter</h3>
-<form action="/movies" method="get">
+<form action="${pageContext.request.contextPath}/movies" method="get">
     <label for="titleId">Title:
         <input type="text" name="title" id="titleId">
     </label>
@@ -28,8 +28,9 @@
     </label>
     <button type="submit" style="margin-left: 10px">Filter</button><br>
 </form>
+
 <h3 style="color: blueviolet">Add a new movie</h3>
-<form action="/movies" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/movies" method="post" enctype="multipart/form-data">
     <label for="addTitleId">Title:
         <input type="text" name="title" id="addTitleId">
     </label><br>

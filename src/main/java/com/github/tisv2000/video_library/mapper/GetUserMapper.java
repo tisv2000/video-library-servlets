@@ -1,18 +1,19 @@
 package com.github.tisv2000.video_library.mapper;
 
-import com.github.tisv2000.video_library.dto.UserInfoDto;
+import com.github.tisv2000.video_library.dto.UserReceiveDto;
 import com.github.tisv2000.video_library.entity.User;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetUserMapper implements Mapper<User, UserInfoDto>{
+public class GetUserMapper implements Mapper<User, UserReceiveDto>{
 
     private static final GetUserMapper INSTANCE = new GetUserMapper();
     @Override
-    public UserInfoDto mapFrom(User object) {
+    public UserReceiveDto mapFrom(User object) {
         // MapStruct
-        return UserInfoDto.builder()
+        return UserReceiveDto.builder()
+                .id(object.getId())
                 .name(object.getName())
                 .birthday(object.getBirthday())
                 .email(object.getEmail())

@@ -4,8 +4,8 @@ import com.github.tisv2000.video_library.entity.Genre;
 import lombok.*;
 
 @Value
-@AllArgsConstructor
-public class MovieDto {
+@Builder
+public class MovieReceiveDto {
     Integer id;
     String title;
     Integer year;

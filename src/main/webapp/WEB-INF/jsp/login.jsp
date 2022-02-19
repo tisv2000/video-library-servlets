@@ -19,7 +19,7 @@
     <label for="passwordId">Password:
         <input type="password" name="password" id="passwordId">
     </label><br>
-    <button type="submit">Send</button>
+    <button type="submit">Login</button>
     <br>
     <a href="/registration">
         <button type="button">Register</button>

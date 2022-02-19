@@ -1,7 +1,7 @@
 package com.github.tisv2000.video_library.servlet;
 
 import com.github.tisv2000.video_library.dto.MovieCreateDto;
-import com.github.tisv2000.video_library.dto.MovieDto;
+import com.github.tisv2000.video_library.dto.MovieReceiveDto;
 import com.github.tisv2000.video_library.dto.MovieFilterDto;
 import com.github.tisv2000.video_library.exception.ValidationException;
 import com.github.tisv2000.video_library.service.GenreService;
@@ -11,6 +11,7 @@ import com.github.tisv2000.video_library.util.JspHelper;
 import com.github.tisv2000.video_library.validator.CreateMovieFilterValidator;
 import com.github.tisv2000.video_library.validator.MovieFilterValidator;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +21,10 @@ import lombok.SneakyThrows;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/movies")
+import static com.github.tisv2000.video_library.util.UrlPath.MOVIES;
+
+@MultipartConfig(fileSizeThreshold = 1024*1024)
+@WebServlet(MOVIES)
 public class MovieServlet extends HttpServlet {
 
     private final MovieService movieService = MovieService.getInstance();
@@ -52,7 +56,7 @@ public class MovieServlet extends HttpServlet {
             throw new ValidationException(validationResult.getErrors());
         }
 
-        List<MovieDto> movies = movieService.findAllByFilters(movieFilterDto);
+        List<MovieReceiveDto> movies = movieService.findAllByFilters(movieFilterDto);
 
         req.setAttribute("movies", movies);
         req.setAttribute("genres", genreService.findAll());
@@ -60,10 +64,10 @@ public class MovieServlet extends HttpServlet {
     }
 
     private void getMovieList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<MovieDto> movies = movieService.findAll();
+        List<MovieReceiveDto> movies = movieService.findAll();
         req.setAttribute("movies", movies);
         req.setAttribute("genres", genreService.findAll());
-        req.getRequestDispatcher(JspHelper.getPath("movies")).forward(req, resp);
+        req.getRequestDispatcher(JspHelper.getPath(MOVIES)).forward(req, resp);
     }
 
     @Override
@@ -72,21 +76,20 @@ public class MovieServlet extends HttpServlet {
         var movieCreateDto = MovieCreateDto.builder()
                 .title(req.getParameter("title"))
                 .year(req.getParameter("year"))
-//                .image(req.getPart("image").getSubmittedFileName())
+                .image(req.getPart("image").getSubmittedFileName())
                 .country(req.getParameter("country"))
                 .genre(req.getParameter("genre"))
                 .description(req.getParameter("description"))
                 .build();
         var validationResult = createMovieFilterValidator.isValid(movieCreateDto);
         if (!validationResult.isValid()) {
-            // throw exception?
+            req.setAttribute("errors", validationResult.getErrors());
         }
         var movieId = movieService.createMovie(movieCreateDto);
 
         // TODO improve logic to save pictures - make unique names, so that they are not get overwritten
-        imageService.upload("movies/" + movieCreateDto.getImage() + ".jpeg", req.getPart("image").getInputStream());
-//        imageService.upload("/users/user" + userDto.getId() + ".jpeg", req.getPart("image").getInputStream());
+        imageService.upload("/movies/" + movieCreateDto.getImage() + ".jpeg", req.getPart("image").getInputStream());
 
-        resp.sendRedirect("movies/" + movieId);
+        resp.sendRedirect(MOVIES + "/" + movieId);
     }
 }

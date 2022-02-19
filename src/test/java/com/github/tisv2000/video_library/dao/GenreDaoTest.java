@@ -1,4 +1,4 @@
-package dao;
+package com.github.tisv2000.video_library.dao;
 
 import com.github.tisv2000.video_library.dao.GenreDao;
 import com.github.tisv2000.video_library.entity.Genre;

@@ -1,6 +1,7 @@
 package com.github.tisv2000.video_library.servlet;
 
 import com.github.tisv2000.video_library.dto.PersonCreateDto;
+import com.github.tisv2000.video_library.dto.PersonDto;
 import com.github.tisv2000.video_library.dto.PersonFilterDto;
 import com.github.tisv2000.video_library.service.PersonService;
 import com.github.tisv2000.video_library.util.JspHelper;
@@ -11,13 +12,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/persons")
+import static com.github.tisv2000.video_library.util.UrlPath.PERSONS;
+
+@WebServlet(PERSONS)
 public class PersonServlet extends HttpServlet {
 
     private static PersonService personService = PersonService.getInstance();
@@ -36,17 +38,23 @@ public class PersonServlet extends HttpServlet {
     @SneakyThrows
     private void filterPersons(HttpServletRequest req, HttpServletResponse resp) {
         var personFilterDto = PersonFilterDto.builder()
-                .name(req.getParameter("name").trim())
-                .birthday(req.getParameter("birthday").trim())
+                .name(req.getParameter("name"))
+                .birthday(req.getParameter("birthday"))
                 .build();
         ValidationResult result = createPersonValidator.isValid(personFilterDto);
+        List<PersonDto> persons = null;
         if (!result.isValid()) {
             req.setAttribute("errors", result.getErrors());
         } else {
-            var persons = personService.findAllByFilter(personFilterDto);
-            req.setAttribute("persons", persons);
-            req.getRequestDispatcher(JspHelper.getPath("persons")).forward(req, resp);
+            persons = personService.findAllByFilter(personFilterDto);
         }
+        // TODO проверить с папой
+        if (persons == null) {
+            req.setAttribute("persons", personService.findAll());
+        } else {
+            req.setAttribute("persons", persons);
+        }
+        req.getRequestDispatcher(JspHelper.getPath("persons")).forward(req, resp);
     }
 
     private void getPersonsList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -63,9 +71,11 @@ public class PersonServlet extends HttpServlet {
         ValidationResult result = createPersonValidator.isValid(personCreatedDto);
         if (!result.isValid()) {
             req.setAttribute("errors", result.getErrors());
+            req.setAttribute("persons", personService.findAll());
+            req.getRequestDispatcher(JspHelper.getPath("persons")).forward(req, resp);
         } else {
             var personId = personService.createPerson(personCreatedDto);
-            resp.sendRedirect("persons/" + personId);
+            resp.sendRedirect(PERSONS + "/" + personId);
         }
     }
 }

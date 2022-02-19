@@ -1,6 +1,7 @@
 package com.github.tisv2000.video_library.servlet;
 
 import com.github.tisv2000.video_library.service.ImageService;
+import com.github.tisv2000.video_library.util.UrlPath;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +14,9 @@ import lombok.SneakyThrows;
 import java.io.IOException;
 import java.io.InputStream;
 
-@WebServlet("/images/*")
+import static com.github.tisv2000.video_library.util.UrlPath.IMAGES;
+
+@WebServlet(IMAGES + "/*")
 public class ImageServlet extends HttpServlet {
 
     private final ImageService imageService = ImageService.getInstance();
@@ -21,7 +24,7 @@ public class ImageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var requestUri = req.getRequestURI();
-        var imagePath = requestUri.replace("/images", "");
+        var imagePath = requestUri.replace(IMAGES, "");
 
         imageService.get(imagePath).ifPresentOrElse(
                 image -> {

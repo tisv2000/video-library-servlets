@@ -3,9 +3,8 @@ package com.github.tisv2000.video_library.service;
 
 import com.github.tisv2000.video_library.dao.MovieDao;
 import com.github.tisv2000.video_library.dto.MovieCreateDto;
-import com.github.tisv2000.video_library.dto.MovieDto;
+import com.github.tisv2000.video_library.dto.MovieReceiveDto;
 import com.github.tisv2000.video_library.dto.MovieFilterDto;
-import com.github.tisv2000.video_library.entity.Movie;
 import com.github.tisv2000.video_library.mapper.MovieMapper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -22,52 +21,28 @@ public class MovieService {
     private final ImageService imageService = ImageService.getInstance();
     private final MovieMapper movieMapper = MovieMapper.getInstance();
 
-    public List<MovieDto> findAll() {
+    public List<MovieReceiveDto> findAll() {
 
         return movieDao.findAll().stream()
-                .map(movie -> new MovieDto(
-                        movie.getId(),
-                        movie.getTitle(),
-                        movie.getYear(),
-                        movie.getCountry(),
-                        movie.getGenre(),
-                        movie.getImage(),
-                        movie.getDescription()
-                ))
+                .map(movieMapper::mapMovieEntityToMovieReceiveDto)
                 .collect(toList());
     }
 
-    public MovieDto findById(Integer id) {
+    public MovieReceiveDto findById(Integer id) {
         var maybeMovie = movieDao.findById(id);
         if (maybeMovie.isPresent()) {
             var movie = maybeMovie.get();
-            return new MovieDto(
-                    movie.getId(),
-                    movie.getTitle(),
-                    movie.getYear(),
-                    movie.getCountry(),
-                    movie.getGenre(),
-                    movie.getImage(),
-                    movie.getDescription()
-            );
+            return movieMapper.mapMovieEntityToMovieReceiveDto(movie);
         } else {
             // TODO throw exception?
             return null;
         }
     }
 
-    public List<MovieDto> findAllByFilters(MovieFilterDto movieFilterDto) {
+    public List<MovieReceiveDto> findAllByFilters(MovieFilterDto movieFilterDto) {
         return movieDao.findAllByFilters(movieFilterDto).stream().map(
-                movie -> new MovieDto(
-                        movie.getId(),
-                        movie.getTitle(),
-                        movie.getYear(),
-                        movie.getCountry(),
-                        movie.getGenre(),
-                        movie.getImage(),
-                        movie.getDescription()
-                )
-        ).collect(toList());
+                        movieMapper::mapMovieEntityToMovieReceiveDto)
+                .collect(toList());
     }
 
     public Integer createMovie(MovieCreateDto movieCreateDto) {

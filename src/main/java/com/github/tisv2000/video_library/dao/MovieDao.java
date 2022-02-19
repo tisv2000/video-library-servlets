@@ -43,8 +43,8 @@ public class MovieDao implements Dao<Integer, Movie> {
 //            """;
 
     private static final String SAVE_SQL = """
-            INSERT INTO movie (title, year, country, genre_id, description)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO movie (title, year, country, genre_id, description, image)
+            VALUES (?, ?, ?, ?, ?, ?)
             """;
 
     private static final String UPDATE_SQL = """
@@ -72,6 +72,7 @@ public class MovieDao implements Dao<Integer, Movie> {
             preparedStatement.setString(3, entity.getCountry());
             preparedStatement.setInt(4, entity.getGenre().getId());
             preparedStatement.setString(5, entity.getDescription());
+            preparedStatement.setString(6, entity.getImage());
 
             preparedStatement.executeUpdate();
 
@@ -134,40 +135,37 @@ public class MovieDao implements Dao<Integer, Movie> {
     @SneakyThrows
     public List<Movie> findAllByFilters(MovieFilterDto movieFilterDto) {
 
-        List<Object> list = new ArrayList<>();
-        int counter = 0;
+        List<Object> predicateValues = new ArrayList<>();
         String sql = "";
 
         if (movieFilterDto.getTitle() != null && !movieFilterDto.getTitle().isEmpty()) {
             sql += "AND title=? ";
-            list.add(movieFilterDto.getTitle());
-            counter++;
+            predicateValues.add(movieFilterDto.getTitle());
         }
         if (movieFilterDto.getCountry() != null && !movieFilterDto.getCountry().isEmpty()) {
             sql += "AND country=? ";
-            list.add(movieFilterDto.getCountry());
-            counter++;
+            predicateValues.add(movieFilterDto.getCountry());
         }
         if (movieFilterDto.getYear() != null && !movieFilterDto.getYear().isEmpty()) {
             sql += "AND year=? ";
-            list.add(Integer.valueOf(movieFilterDto.getYear()));
-            counter++;
+            predicateValues.add(Integer.valueOf(movieFilterDto.getYear()));
         }
         if (movieFilterDto.getGenre() != null && !movieFilterDto.getGenre().isEmpty()) {
             sql += "AND genre_id=? ";
-            list.add(Integer.valueOf(movieFilterDto.getGenre()));
-            counter++;
+            predicateValues.add(Integer.valueOf(movieFilterDto.getGenre()));
         }
 
-        if (!sql.equals("")) {
-            sql = FIND_ALL_SQL + sql.replaceFirst("AND", " WHERE");
+        if (!sql.isEmpty()) {
+            sql = FIND_ALL_SQL + sql.replaceFirst("AND ", " WHERE ");
+        } else {
+            sql = FIND_ALL_SQL;
         }
 
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(sql);) {
 
-            for (int i = 0; i < counter; i++) {
-                preparedStatement.setObject(i+1, list.get(i));
+            for (int i = 0; i < predicateValues.size(); i++) {
+                preparedStatement.setObject(i + 1, predicateValues.get(i));
             }
 
             var resultSet = preparedStatement.executeQuery();

@@ -15,8 +15,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import static com.github.tisv2000.video_library.util.UrlPath.LOGIN;
+import static com.github.tisv2000.video_library.util.UrlPath.REGISTRATION;
+
 @MultipartConfig(fileSizeThreshold = 1024*1024)
-@WebServlet("/registration")
+@WebServlet(REGISTRATION)
 public class RegistrationServlet extends HttpServlet {
 
     private final UserService userService = UserService.getInstance();
@@ -26,7 +29,7 @@ public class RegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("roles", Role.values());
         req.setAttribute("genders", Gender.values());
-        req.getRequestDispatcher(JspHelper.getPath("registration")).forward(req, resp);
+        req.getRequestDispatcher(JspHelper.getPath(REGISTRATION)).forward(req, resp);
     }
 
     @Override
@@ -42,6 +45,6 @@ public class RegistrationServlet extends HttpServlet {
                 .build();
         userService.create(userDto);
         imageService.upload("/users/user" + userDto.getId() + ".jpeg", req.getPart("image").getInputStream());
-        resp.sendRedirect("/login");
+        resp.sendRedirect(LOGIN);
     }
 }

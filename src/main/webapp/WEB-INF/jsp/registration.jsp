@@ -7,7 +7,7 @@
 </head>
 <body>
 <%--url to servlet--%>
-<form action="/registration" method="post" enctype="multipart/form-data">
+<form action="${pageContext.request.contextPath}/registration" method="post" enctype="multipart/form-data">
 
     <label for="nameId">Name:
         <input type="text" name="name" id="nameId" required>

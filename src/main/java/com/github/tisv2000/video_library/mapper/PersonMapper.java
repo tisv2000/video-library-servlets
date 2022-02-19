@@ -1,9 +1,7 @@
 package com.github.tisv2000.video_library.mapper;
 
-import com.github.tisv2000.video_library.dto.CreateUserDto;
 import com.github.tisv2000.video_library.dto.PersonCreateDto;
 import com.github.tisv2000.video_library.dto.PersonDto;
-import com.github.tisv2000.video_library.dto.PersonFilterDto;
 import com.github.tisv2000.video_library.entity.Person;
 import com.github.tisv2000.video_library.util.LocalDateFormatter;
 import lombok.AccessLevel;
@@ -18,8 +16,7 @@ public class PersonMapper {
         return INSTANCE;
     }
 
-    // dao -> service
-    public PersonDto mapToPersonInfoDto(Person entity) {
+    public PersonDto mapToPersonDto(Person entity) {
         return PersonDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -27,7 +24,6 @@ public class PersonMapper {
                 .build();
     }
 
-    // service - dao
     public Person mapToEntity(PersonCreateDto personCreateDto) {
         return Person.builder()
                 .name(personCreateDto.getName())
