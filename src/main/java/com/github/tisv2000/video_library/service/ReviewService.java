@@ -29,13 +29,13 @@ public class ReviewService {
     }
 
     public List<ReviewReceiveDto> findAllWithMovieId(int movieId) {
-        return reviewDao.findAllWithMovieId(movieId).stream()
+        return reviewDao.findAllByMovieId(movieId).stream()
                 .map(entity -> reviewMapper.mapFromEntityToReviewReceiveDto(entity))
                 .collect(toList());
     }
 
     public List<ReviewReceiveDto> findAllWithUserId(int userId) {
-        return reviewDao.findAllWithUserId(userId).stream()
+        return reviewDao.findAllByUserId(userId).stream()
                 .map(entity -> reviewMapper.mapFromEntityToReviewReceiveDto(entity))
                 .collect(toList());
     }

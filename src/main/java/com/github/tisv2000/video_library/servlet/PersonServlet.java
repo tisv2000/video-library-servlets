@@ -22,8 +22,8 @@ import static com.github.tisv2000.video_library.util.UrlPath.PERSONS;
 @WebServlet(PERSONS)
 public class PersonServlet extends HttpServlet {
 
-    private static PersonService personService = PersonService.getInstance();
-    private static CreatePersonValidator createPersonValidator = CreatePersonValidator.getInstance();
+    private static final PersonService personService = PersonService.getInstance();
+    private static final CreatePersonValidator createPersonValidator = CreatePersonValidator.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,7 +39,6 @@ public class PersonServlet extends HttpServlet {
     private void filterPersons(HttpServletRequest req, HttpServletResponse resp) {
         var personFilterDto = PersonFilterDto.builder()
                 .name(req.getParameter("name"))
-                .birthday(req.getParameter("birthday"))
                 .build();
         ValidationResult result = createPersonValidator.isValid(personFilterDto);
         List<PersonDto> persons = null;

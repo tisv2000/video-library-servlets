@@ -9,5 +9,4 @@ import java.time.LocalDate;
 @Builder
 public class PersonFilterDto {
     String name;
-    String birthday;
 }

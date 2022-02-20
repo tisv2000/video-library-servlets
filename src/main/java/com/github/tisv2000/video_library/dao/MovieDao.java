@@ -7,14 +7,12 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
-import java.lang.reflect.Field;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MovieDao implements Dao<Integer, Movie> {
@@ -36,11 +34,6 @@ public class MovieDao implements Dao<Integer, Movie> {
             SELECT id, title, year, country, genre_id, image, description
             FROM movie
             """;
-//
-//    private static final String FIND_ALL_FILTERED_SQL = """
-//            SELECT id, title, year, country, genre_id, image, description
-//            FROM movie
-//            """;
 
     private static final String SAVE_SQL = """
             INSERT INTO movie (title, year, country, genre_id, description, image)
@@ -53,7 +46,8 @@ public class MovieDao implements Dao<Integer, Movie> {
                 year = ?,
                 country = ?,
                 genre_id = ?,
-                description = ?
+                description = ?,
+                image = ?
             WHERE id = ?
             """;
 
@@ -92,8 +86,9 @@ public class MovieDao implements Dao<Integer, Movie> {
             preparedStatement.setInt(2, entity.getYear());
             preparedStatement.setString(3, entity.getCountry());
             preparedStatement.setInt(4, entity.getGenre().getId());
-            preparedStatement.setString(4, entity.getDescription());
-            preparedStatement.setInt(5, entity.getId());
+            preparedStatement.setString(5, entity.getDescription());
+            preparedStatement.setString(6, entity.getImage());
+            preparedStatement.setInt(7, entity.getId());
 
             return preparedStatement.executeUpdate() == 1;
         }
@@ -108,6 +103,7 @@ public class MovieDao implements Dao<Integer, Movie> {
             preparedStatement.setInt(1, id);
             var resultSet = preparedStatement.executeQuery();
 
+            // TODO можно это заменить на Optional.ofNullable()?
             if (resultSet.next()) {
                 return Optional.of(build(resultSet));
             } else {

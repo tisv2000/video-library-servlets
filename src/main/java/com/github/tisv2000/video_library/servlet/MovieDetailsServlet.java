@@ -1,7 +1,6 @@
 package com.github.tisv2000.video_library.servlet;
 
 import com.github.tisv2000.video_library.dto.*;
-import com.github.tisv2000.video_library.entity.Role;
 import com.github.tisv2000.video_library.service.*;
 import com.github.tisv2000.video_library.util.JspHelper;
 import com.github.tisv2000.video_library.validator.ReviewValidator;
@@ -76,16 +75,20 @@ public class MovieDetailsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var movieId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/") + 1));
         var movie = movieService.findById(movieId);
-        List<ReviewReceiveDto> reviews = reviewService.findAllWithMovieId(movieId);
-        var moviePersons = moviePersonService.findMoviePersonsForMovie(movieId);
-        var persons = personService.findAll();
-        var roles = personRoleService.findAll();
+        if (movie.isEmpty()) {
+            resp.sendError(404);
+        } else {
+            var reviews = reviewService.findAllWithMovieId(movieId);
+            var moviePersons = moviePersonService.findAllMoviePersonsByMovieId(movieId);
+            var persons = personService.findAll();
+            var roles = personRoleService.findAll();
 
-        req.setAttribute("reviews", reviews);
-        req.setAttribute("movie", movie);
-        req.setAttribute("moviePersons", moviePersons);
-        req.setAttribute("persons", persons);
-        req.setAttribute("roles", roles);
-        req.getRequestDispatcher(JspHelper.getPath("/movieDetails")).forward(req, resp);
+            req.setAttribute("reviews", reviews);
+            req.setAttribute("movie", movie);
+            req.setAttribute("moviePersons", moviePersons);
+            req.setAttribute("persons", persons);
+            req.setAttribute("roles", roles);
+            req.getRequestDispatcher(JspHelper.getPath("/movieDetails")).forward(req, resp);
+        }
     }
 }

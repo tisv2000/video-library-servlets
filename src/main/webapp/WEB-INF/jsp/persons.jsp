@@ -12,9 +12,6 @@
     <label for="nameId">Name:
         <input type="text" name="name" id="nameId">
     </label>
-    <label for="birthdayId" style="margin-left: 10px">Birthday:
-        <input type="date" name="birthday" id="birthdayId">
-    </label>
     <button type="submit" style="margin-left: 10px">Filter</button>
     <br>
 </form>
@@ -23,7 +20,7 @@
     <h3 style="color: blue">Add a new person</h3>
     <form action="/persons" method="post">
         <label for="addNameId">Name:
-            <input type="text" name="title" id="addNameId">
+            <input type="text" name="name" id="addNameId">
         </label><br>
         <label for="addBirthdayId">Birthday:
             <input type="date" name="birthday" id="addBirthdayId">

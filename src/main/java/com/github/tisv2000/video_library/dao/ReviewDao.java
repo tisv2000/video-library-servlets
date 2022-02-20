@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +22,7 @@ public class ReviewDao implements Dao<Integer, Review> {
     public static ReviewDao getInstance() {
         return INSTANCE;
     }
-//
-//    private static final String FIND_ALL_SQL = """
-//            SELECT id, user_id, movie_id, text, rate
-//            FROM review
-//            """;
 
-    // user: id, name, birthday, password, email, image, role, gender
-    // movie: id, title, year, country, genre_id, image, description
     private static final String FIND_ALL_SQL = """
             SELECT  r.id AS reviewId, r.rate as reviewRate, r.text as reviewText,
                     u.id AS userId, u.name AS userName, u.birthday AS userBirthday, u.email AS userEmail, u.role AS userRole, u.gender AS userGender,
@@ -45,32 +39,24 @@ public class ReviewDao implements Dao<Integer, Review> {
             VALUES (?, ?, ?, ?)
             """;
 
-
     @SneakyThrows
-    public List<Review> findAllWithMovieId(int movieId) {
+    public List<Review> findAllByMovieId(int movieId) {
         var sql = FIND_ALL_SQL + " WHERE r.movie_id = ?";
-
-        try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(sql);) {
-            preparedStatement.setObject(1, movieId);
-            return findAllWith(preparedStatement);
-        }
+        return findByCustomId(sql, movieId);
     }
 
     @SneakyThrows
-    public List<Review> findAllWithUserId(int userId) {
+    public List<Review> findAllByUserId(int userId) {
         var sql = FIND_ALL_SQL + " WHERE r.user_id = ?";
-
-        try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(sql);) {
-            preparedStatement.setObject(1, userId);
-            return findAllWith(preparedStatement);
-        }
+        return findByCustomId(sql, userId);
     }
 
-    @Override
-    public Optional<Review> findById(Integer id) {
-        return Optional.empty();
+    private List<Review> findByCustomId(String sql, int customId) throws SQLException {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setObject(1, customId);
+            return findAllByPreparedStatement(preparedStatement);
+        }
     }
 
     @SneakyThrows
@@ -78,12 +64,12 @@ public class ReviewDao implements Dao<Integer, Review> {
     public List<Review> findAll() {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_ALL_SQL);) {
-            return findAllWith(preparedStatement);
+            return findAllByPreparedStatement(preparedStatement);
         }
     }
 
     @SneakyThrows
-    public List<Review> findAllWith(PreparedStatement preparedStatement) {
+    private List<Review> findAllByPreparedStatement(PreparedStatement preparedStatement) {
         var resultSet = preparedStatement.executeQuery();
         List<Review> reviews = new ArrayList<>();
         while (resultSet.next()) {
@@ -130,6 +116,11 @@ public class ReviewDao implements Dao<Integer, Review> {
         }
     }
 
+
+    @Override
+    public Optional<Review> findById(Integer id) {
+        return Optional.empty();
+    }
 
     @Override
     public boolean update(Review entity) {

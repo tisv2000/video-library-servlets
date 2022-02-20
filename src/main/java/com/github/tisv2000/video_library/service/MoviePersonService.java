@@ -15,8 +15,8 @@ import static java.util.stream.Collectors.toList;
 public class MoviePersonService {
 
     private static final MoviePersonService INSTANCE = new MoviePersonService();
-    private MoviePersonDao moviePersonDao = MoviePersonDao.getInstance();
-    private MoviePersonMapper moviePersonMapper = MoviePersonMapper.getInstance();
+    private final MoviePersonDao moviePersonDao = MoviePersonDao.getInstance();
+    private final MoviePersonMapper moviePersonMapper = MoviePersonMapper.getInstance();
 
     public static MoviePersonService getInstance() {
         return INSTANCE;
@@ -28,8 +28,8 @@ public class MoviePersonService {
         return entity.getId();
     }
 
-    public List<MoviePersonReceiveDto> findMoviePersonsForMovie(int movieId) {
-        return moviePersonDao.findAllForMovie(movieId).stream()
+    public List<MoviePersonReceiveDto> findAllMoviePersonsByMovieId(int movieId) {
+        return moviePersonDao.findAllByMovieId(movieId).stream()
                 .map(entity -> moviePersonMapper.mapEntityToMoviePersonReceiveDto(entity))
                 .collect(toList());
     }

@@ -1,6 +1,5 @@
 package com.github.tisv2000.video_library.dao;
 
-import com.github.tisv2000.video_library.entity.Person;
 import com.github.tisv2000.video_library.entity.PersonRole;
 import com.github.tisv2000.video_library.util.ConnectionManager;
 import lombok.AccessLevel;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PersonRoleDao implements Dao<Integer, PersonRole>{
+public class PersonRoleDao implements Dao<Integer, PersonRole> {
 
     private static final PersonRoleDao INSTANCE = new PersonRoleDao();
 
@@ -27,10 +26,22 @@ public class PersonRoleDao implements Dao<Integer, PersonRole>{
             FROM person_role
             """;
 
+    @SneakyThrows
     @Override
-    public void save(PersonRole entity) {
-
+    public List<PersonRole> findAll() {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(FIND_ALL_SQL);) {
+            var resultSet = preparedStatement.executeQuery();
+            List<PersonRole> persons = new ArrayList<>();
+            while (resultSet.next()) {
+                persons.add(buildPerson(resultSet));
+            }
+            return persons;
+        }
     }
+
+    @Override
+    public void save(PersonRole entity) {}
 
     @Override
     public boolean update(PersonRole entity) {
@@ -42,18 +53,9 @@ public class PersonRoleDao implements Dao<Integer, PersonRole>{
         return Optional.empty();
     }
 
-    @SneakyThrows
     @Override
-    public List<PersonRole> findAll() {
-        try(var connection = ConnectionManager.get();
-            var preparedStatement = connection.prepareStatement(FIND_ALL_SQL);) {
-            var resultSet = preparedStatement.executeQuery();
-            List<PersonRole> persons = new ArrayList<>();
-            while (resultSet.next()) {
-                persons.add(buildPerson(resultSet));
-            }
-            return persons;
-        }
+    public boolean delete(Integer id) {
+        return false;
     }
 
     private PersonRole buildPerson(ResultSet resultSet) throws SQLException {
@@ -63,8 +65,4 @@ public class PersonRoleDao implements Dao<Integer, PersonRole>{
                 .build();
     }
 
-    @Override
-    public boolean delete(Integer id) {
-        return false;
-    }
 }

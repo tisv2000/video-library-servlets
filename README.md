@@ -9,3 +9,9 @@ On you machine you should have:
 - Java 14 or higher
 - PostgreSQL server - for executing SQL scripts and working with DB
 - Tomcat server - for manual deployment of the application
+
+
+## Future improvements
+
+- Use H2 DB for tests, so that real (production) DB is not affected
+- 

@@ -21,13 +21,6 @@ public class GenreDao implements Dao<Integer, Genre> {
 
     private static Map<Integer, Genre> cache = new HashMap<>();
 
-    // we don't need this anymore?
-    private static final String FIND_BY_ID_SQL = """
-            SELECT id, title
-            FROM genre
-            WHERE id = ?
-            """;
-
     private static final String FIND_ALL_SQL = """
             SELECT id, title
             FROM genre

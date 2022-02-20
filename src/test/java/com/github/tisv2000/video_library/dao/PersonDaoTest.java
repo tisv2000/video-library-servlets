@@ -1,46 +1,66 @@
 package com.github.tisv2000.video_library.dao;
 
+import com.github.tisv2000.video_library.dto.PersonFilterDto;
 import com.github.tisv2000.video_library.entity.Person;
 import com.github.tisv2000.video_library.util.LocalDateFormatter;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.time.LocalDate;
 
 import static org.testng.Assert.*;
 
 public class PersonDaoTest {
 
-    private PersonDao personDao = PersonDao.getInstance();
-
+    private final PersonDao underTest = PersonDao.getInstance();
 
     @Test
-    public void testSave() {
+    public void testFindAll() {
+        var persons = underTest.findAll();
+        assertTrue(persons.size() > 18);
+    }
+
+    @Test
+    public void findByIdPositiveTest() {
+        var maybeResult = underTest.findById(1);
+        assertTrue(maybeResult.isPresent());
+        assertEquals(maybeResult.get().getName(), "Emma Watson", "Wrong name!");
+    }
+
+    @Test
+    public void findByIdNegativeTest() {
+        var maybeResult = underTest.findById(10000);
+        assertTrue(maybeResult.isEmpty());
+    }
+
+    @Test(dataProvider = "personFilterDataProvider")
+    public void findAllByNameTest(PersonFilterDto personFilterDto, int expectedPersonsAmount) {
+        var persons = underTest.findAllByName(personFilterDto);
+        assertEquals(persons.size(), expectedPersonsAmount);
+    }
+
+    @Test(dependsOnMethods = {"findAllByNameTest"})
+    public void saveTest() {
         Person person = Person.builder()
                 .name("Test")
                 .birthday(LocalDateFormatter.format("1990-03-03"))
                 .build();
-        personDao.save(person);
+        underTest.save(person);
         Assert.assertNotNull(person.getId());
     }
 
-    @Test
-    public void testUpdate() {
+    // TODO Нужно ли null и "" делать?
+    @DataProvider(name = "personFilterDataProvider")
+    public static Object[][] personFilterDataProvider() {
+        return new Object[][]{
+                {buildPersonFilterDto("Emma Watson"), 1},
+                {buildPersonFilterDto(""), 0},
+                {buildPersonFilterDto(null), 0},
+        };
     }
 
-    @Test
-    public void testFindById() {
-    }
-
-    @Test
-    public void testFindAll() {
-    }
-
-    @Test
-    public void testDelete() {
-    }
-
-    @Test
-    public void testFindAllByFilter() {
+    private static PersonFilterDto buildPersonFilterDto(String name) {
+        return PersonFilterDto.builder()
+                .name(name)
+                .build();
     }
 }

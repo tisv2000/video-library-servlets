@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -28,15 +29,16 @@ public class MovieService {
                 .collect(toList());
     }
 
-    public MovieReceiveDto findById(Integer id) {
+    public Optional<MovieReceiveDto> findById(Integer id) {
         var maybeMovie = movieDao.findById(id);
-        if (maybeMovie.isPresent()) {
-            var movie = maybeMovie.get();
-            return movieMapper.mapMovieEntityToMovieReceiveDto(movie);
-        } else {
-            // TODO throw exception?
-            return null;
-        }
+
+//        TODO проанализировать
+//        if (maybeMovie.isPresent()) {
+//            return Optional.of(movieMapper.mapMovieEntityToMovieReceiveDto(maybeMovie.get()));
+//        } else {
+//            return Optional.empty();
+//        }
+        return maybeMovie.map(movieMapper::mapMovieEntityToMovieReceiveDto);
     }
 
     public List<MovieReceiveDto> findAllByFilters(MovieFilterDto movieFilterDto) {

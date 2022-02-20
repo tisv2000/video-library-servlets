@@ -17,8 +17,8 @@ import static java.util.stream.Collectors.toList;
 public class PersonService {
 
     private static final PersonService INSTANCE = new PersonService();
-    private static PersonDao personDao = PersonDao.getInstance();
-    private static PersonMapper personMapper = PersonMapper.getInstance();
+    private static final PersonDao personDao = PersonDao.getInstance();
+    private static final PersonMapper personMapper = PersonMapper.getInstance();
 
     public static PersonService getInstance() {
         return INSTANCE;
@@ -43,7 +43,7 @@ public class PersonService {
     }
 
     public List<PersonDto> findAllByFilter(PersonFilterDto personFilterDto) {
-        return personDao.findAllByFilter(personFilterDto).stream()
+        return personDao.findAllByName(personFilterDto).stream()
                 .map(entity -> personMapper.mapToPersonDto(entity))
                 .collect(toList());
     }

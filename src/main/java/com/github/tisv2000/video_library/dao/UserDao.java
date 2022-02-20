@@ -17,7 +17,7 @@ import java.util.Optional;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserDao implements Dao<Integer, User> {
 
-    public static final UserDao INSTANCE = new UserDao();
+    private static final UserDao INSTANCE = new UserDao();
 
     private static final String SAVE_SQL = """
             INSERT INTO users (name, birthday, password, email, image, role, gender)
@@ -52,9 +52,21 @@ public class UserDao implements Dao<Integer, User> {
         }
     }
 
-    @Override
-    public boolean update(User entity) {
-        return false;
+    @SneakyThrows
+    public Optional<User> findByEmail(String email) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(FIND_BY_EMAIL_SQL);) {
+            // object or string?
+            preparedStatement.setObject(1, email);
+
+            var resultSet = preparedStatement.executeQuery();
+            User user = null;
+            if (resultSet.next()) {
+                user = buildUserDao(resultSet);
+            }
+            return Optional.ofNullable(user);
+
+        }
     }
 
     @SneakyThrows
@@ -75,32 +87,9 @@ public class UserDao implements Dao<Integer, User> {
         }
     }
 
-    @SneakyThrows
-    public Optional<User> findByEmail(String email) {
-        try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(FIND_BY_EMAIL_SQL);) {
-            // object or string?
-            preparedStatement.setObject(1, email);
-
-            var resultSet = preparedStatement.executeQuery();
-            User user = null;
-            if (resultSet.next()) {
-                user = buildUserDao(resultSet);
-            }
-            return Optional.ofNullable(user);
-
-        }
-    }
-
-    private User buildUserDao(ResultSet resultSet) throws SQLException {
-        return User.builder()
-                .id(resultSet.getInt("id"))
-                .name(resultSet.getString("name"))
-                .birthday(resultSet.getDate("birthday").toLocalDate())
-                .email(resultSet.getString("email"))
-                .role(Role.valueOf(resultSet.getString("role")))
-                .gender(Gender.valueOf(resultSet.getString("gender")))
-                .build();
+    @Override
+    public boolean update(User entity) {
+        return false;
     }
 
     @Override
@@ -121,4 +110,19 @@ public class UserDao implements Dao<Integer, User> {
     public static UserDao getInstance() {
         return INSTANCE;
     }
+
+
+    // TODO правильно, что мы не возвращаем тут пароль?
+    private User buildUserDao(ResultSet resultSet) throws SQLException {
+        return User.builder()
+                .id(resultSet.getInt("id"))
+                .name(resultSet.getString("name"))
+                .birthday(resultSet.getDate("birthday").toLocalDate())
+                .email(resultSet.getString("email"))
+                .role(Role.valueOf(resultSet.getString("role")))
+                .image(resultSet.getString("image"))
+                .gender(Gender.valueOf(resultSet.getString("gender")))
+                .build();
+    }
+
 }

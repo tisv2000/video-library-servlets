@@ -53,6 +53,33 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
         }
     }
 
+    @SneakyThrows
+    public List<MoviePerson> findAllByMovieId(int movieId) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(FIND_ALL_FOR_MOVIE_SQL);) {
+
+            preparedStatement.setObject(1, movieId);
+
+            // TODO Question to Denis:
+            //  Do we need a fully built Person and Role objects if eventually we only care about 'name' and 'title' fields - MoviePersonReceiveDto?
+            var resultSet = preparedStatement.executeQuery();
+            List<MoviePerson> moviePersons = new ArrayList<>();
+            while (resultSet.next()) {
+                moviePersons.add(MoviePerson.builder()
+                        .person(Person
+                                .builder()
+                                .name(resultSet.getString("name"))
+                                .build())
+                        .role(PersonRole
+                                .builder()
+                                .title(resultSet.getString("title"))
+                                .build())
+                        .build());
+            }
+            return moviePersons;
+        }
+    }
+
     @Override
     public boolean update(MoviePerson entity) {
         return false;
@@ -73,28 +100,4 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
         return false;
     }
 
-    @SneakyThrows
-    public List<MoviePerson> findAllForMovie(int movieId) {
-        try (var connection = ConnectionManager.get();
-             var preparedStatement = connection.prepareStatement(FIND_ALL_FOR_MOVIE_SQL);) {
-
-            preparedStatement.setObject(1, movieId);
-
-            var resultSet = preparedStatement.executeQuery();
-            List<MoviePerson> moviePersons = new ArrayList<>();
-            while (resultSet.next()) {
-                moviePersons.add(MoviePerson.builder()
-                        .person(Person
-                                .builder()
-                                .name(resultSet.getString("name"))
-                                .build())
-                        .role(PersonRole
-                                .builder()
-                                .title(resultSet.getString("title"))
-                                .build())
-                        .build());
-            }
-            return moviePersons;
-        }
-    }
 }
