@@ -20,10 +20,6 @@ public class MovieDao implements Dao<Integer, Movie> {
     private static final MovieDao INSTANCE = new MovieDao();
     public static final GenreDao GENRE = GenreDao.getInstance();
 
-    public static MovieDao getInstance() {
-        return INSTANCE;
-    }
-
     private static final String FIND_BY_ID_SQL = """
             SELECT id, title, year, country, genre_id, image, description
             FROM movie
@@ -192,5 +188,9 @@ public class MovieDao implements Dao<Integer, Movie> {
                 .image(resultSet.getString("image"))
                 .description(resultSet.getString("description"))
                 .build();
+    }
+
+    public static MovieDao getInstance() {
+        return INSTANCE;
     }
 }

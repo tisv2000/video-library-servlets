@@ -18,10 +18,6 @@ public class MoviePersonService {
     private final MoviePersonDao moviePersonDao = MoviePersonDao.getInstance();
     private final MoviePersonMapper moviePersonMapper = MoviePersonMapper.getInstance();
 
-    public static MoviePersonService getInstance() {
-        return INSTANCE;
-    }
-
     public Integer addMoviePerson(MoviePersonCreatedDto moviePersonCreatedDto) {
         var entity = moviePersonMapper.mapMoviePersonCreateDtoToEntity(moviePersonCreatedDto);
         moviePersonDao.save(entity);
@@ -32,5 +28,9 @@ public class MoviePersonService {
         return moviePersonDao.findAllByMovieId(movieId).stream()
                 .map(entity -> moviePersonMapper.mapEntityToMoviePersonReceiveDto(entity))
                 .collect(toList());
+    }
+
+    public static MoviePersonService getInstance() {
+        return INSTANCE;
     }
 }

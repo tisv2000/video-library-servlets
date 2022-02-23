@@ -5,7 +5,8 @@ import com.github.tisv2000.video_library.entity.Review;
 import com.github.tisv2000.video_library.entity.User;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 public class ReviewDaoTest {
 
@@ -61,5 +62,4 @@ public class ReviewDaoTest {
         // THEN
         assertTrue(reviews.size() > 0);
     }
-
 }

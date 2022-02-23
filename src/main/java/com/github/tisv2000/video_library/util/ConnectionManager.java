@@ -30,5 +30,4 @@ public class ConnectionManager {
                 PropertiesUtils.get(PASSWORD_KEY)
         );
     }
-
 }

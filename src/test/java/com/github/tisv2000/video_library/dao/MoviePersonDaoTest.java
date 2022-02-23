@@ -6,7 +6,8 @@ import com.github.tisv2000.video_library.entity.Person;
 import com.github.tisv2000.video_library.entity.PersonRole;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 public class MoviePersonDaoTest {
 
@@ -43,5 +44,4 @@ public class MoviePersonDaoTest {
         // THEN
         assertEquals(moviePersons.size(), 3, "MoviePersons amount is incorrect!");
     }
-
 }

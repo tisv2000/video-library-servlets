@@ -1,28 +1,24 @@
 package com.github.tisv2000.video_library.mapper;
 
+import com.github.tisv2000.video_library.dao.GenreDao;
 import com.github.tisv2000.video_library.dto.MovieCreatedDto;
 import com.github.tisv2000.video_library.dto.MovieReceivedDto;
-import com.github.tisv2000.video_library.entity.Genre;
 import com.github.tisv2000.video_library.entity.Movie;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MovieMapper {
+
     private static final MovieMapper INSTANCE = new MovieMapper();
+    private static final GenreDao genreDao = GenreDao.getInstance();
 
-    public static MovieMapper getInstance() {
-        return INSTANCE;
-    }
-
-    // Service -> DAO
     public Movie mapMovieCreateDtoToMovieEntity(MovieCreatedDto movieCreatedDto) {
         return Movie.builder()
                 .title(movieCreatedDto.getTitle())
                 .year(Integer.valueOf(movieCreatedDto.getYear()))
                 .country(movieCreatedDto.getCountry())
-                // TODO GenreDao - findById
-                .genre(new Genre(Integer.valueOf(movieCreatedDto.getGenre()), ""))
+                .genre(genreDao.findById(Integer.valueOf(movieCreatedDto.getGenre())).get())
                 .image(movieCreatedDto.getImage())
                 .description(movieCreatedDto.getDescription())
                 .build();
@@ -40,4 +36,7 @@ public class MovieMapper {
                 .build();
     }
 
+    public static MovieMapper getInstance() {
+        return INSTANCE;
+    }
 }

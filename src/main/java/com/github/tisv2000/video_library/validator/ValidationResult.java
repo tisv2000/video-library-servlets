@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ValidationResult {
-    // list<string> не подойдет для интернализации, поэтому Error
+
     @Getter
     private final List<Error> errors = new ArrayList<>();
 
@@ -17,5 +17,4 @@ public class ValidationResult {
     public boolean isValid() {
         return errors.isEmpty();
     }
-
 }

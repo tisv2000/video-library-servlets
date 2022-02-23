@@ -19,10 +19,6 @@ public class PersonDao implements Dao<Integer, Person> {
 
     private static final PersonDao INSTANCE = new PersonDao();
 
-    public static PersonDao getInstance() {
-        return INSTANCE;
-    }
-
     private static final String FIND_ALL_SQL = """
             SELECT id, name, birth_date
             FROM person
@@ -127,5 +123,9 @@ public class PersonDao implements Dao<Integer, Person> {
                 .name(resultSet.getString("name"))
                 .birthday(resultSet.getDate("birth_date").toLocalDate())
                 .build();
+    }
+
+    public static PersonDao getInstance() {
+        return INSTANCE;
     }
 }

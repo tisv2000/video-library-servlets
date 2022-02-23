@@ -1,9 +1,12 @@
 package com.github.tisv2000.video_library.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.util.Properties;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PropertiesUtils {
 
     private static final Properties PROPERTIES = new Properties();
@@ -15,13 +18,9 @@ public class PropertiesUtils {
     @SneakyThrows
     private static void loadProperties() {
         try (var inputStream =
-                      PropertiesUtils.class.getClassLoader().getResourceAsStream("application.properties");) {
+                     PropertiesUtils.class.getClassLoader().getResourceAsStream("application.properties");) {
             PROPERTIES.load(inputStream);
         }
-    }
-
-    private PropertiesUtils() {
-
     }
 
     public static String get(String key) {

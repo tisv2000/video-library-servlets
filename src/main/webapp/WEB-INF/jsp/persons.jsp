@@ -5,28 +5,35 @@
 <body>
 <%@include file="header.jsp" %>
 <h3 style="color: blue;margin-left:20px;margin-right:20px">Filter</h3>
-<form action="/persons" method="get">
-    <label for="nameId" style="margin-left:20px">Name:
-        <input type="text" name="name" id="nameId">
+<form action="/persons" method="get" style="margin-left: 20px">
+    <label for="nameId">Name:
+        <input type="text" name="name" value="${param.name}" id="nameId">
     </label>
     <button type="submit" style="margin-left: 10px;color: blue">Filter</button>
     <br>
+    <c:if test="${not empty requestScope.filterPersonErrors}">
+        <div style="color: red">
+            <c:forEach var="error" items="${requestScope.filterPersonErrors}">
+                <span>${error.message}</span><br>
+            </c:forEach>
+        </div>
+    </c:if>
 </form>
 
 <c:if test="${sessionScope.user.role == 'ADMIN'}">
     <h3 style="color: blue;margin-left:20px">Add a new person</h3>
     <form action="/persons" method="post" style="margin-left: 20px">
         <label for="addNameId">Name:
-            <input type="text" name="name" id="addNameId">
+            <input type="text" name="name" value="${param.name}" id="addNameId">
         </label><br>
         <label for="addBirthdayId">Birthday:
-            <input type="date" name="birthday" id="addBirthdayId">
+            <input type="date" name="birthday" value="${param.birthday}" id="addBirthdayId">
         </label><br>
         <button type="submit" style="color: blue">Add Person</button>
         <br>
-        <c:if test="${not empty requestScope.errors}">
+        <c:if test="${not empty requestScope.addPersonErrors}">
             <div style="color: red">
-                <c:forEach var="error" items="${requestScope.errors}">
+                <c:forEach var="error" items="${requestScope.addPersonErrors}">
                     <span>${error.message}</span><br>
                 </c:forEach>
             </div>

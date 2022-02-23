@@ -19,7 +19,7 @@ import java.io.IOException;
 import static com.github.tisv2000.video_library.util.UrlPath.LOGIN;
 import static com.github.tisv2000.video_library.util.UrlPath.REGISTRATION;
 
-@MultipartConfig(fileSizeThreshold = 1024*1024)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024)
 @WebServlet(REGISTRATION)
 public class RegistrationServlet extends HttpServlet {
 
@@ -29,9 +29,7 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("roles", Role.values());
-        req.setAttribute("genders", Gender.values());
-        req.getRequestDispatcher(JspHelper.getPath(REGISTRATION)).forward(req, resp);
+        redirectToRegistrationPage(req, resp);
     }
 
     @Override
@@ -46,18 +44,20 @@ public class RegistrationServlet extends HttpServlet {
                 .gender(req.getParameter("gender"))
                 .build();
         var validationResult = createUserValidator.isValid(userDto);
+
         if (!validationResult.isValid()) {
             req.setAttribute("errors", validationResult.getErrors());
-
-            // TODO can i just call doGet here instead?
-            req.setAttribute("roles", Role.values());
-            req.setAttribute("genders", Gender.values());
-            req.getRequestDispatcher(JspHelper.getPath(REGISTRATION)).forward(req, resp);
+            redirectToRegistrationPage(req, resp);
         } else {
             userService.create(userDto);
             imageService.upload("/users/user" + userDto.getId() + ".jpeg", req.getPart("image").getInputStream());
             resp.sendRedirect(LOGIN);
         }
+    }
 
+    private void redirectToRegistrationPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("roles", Role.values());
+        req.setAttribute("genders", Gender.values());
+        req.getRequestDispatcher(JspHelper.getPath("registration")).forward(req, resp);
     }
 }

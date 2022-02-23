@@ -55,7 +55,6 @@ public class UserDaoTest {
         assertTrue(user.isPresent());
         assertEquals(user.get().getName(), USER_NAME);
         assertEquals(user.get().getBirthday(), BIRTHDAY);
-//        assertEquals(user.get().getPassword(), PASSWORD);
         assertEquals(user.get().getEmail(), EMAIL);
         assertEquals(user.get().getImage(), IMAGE);
         assertEquals(user.get().getRole(), ROLE);
@@ -82,7 +81,6 @@ public class UserDaoTest {
         assertTrue(user.isPresent());
         assertEquals(user.get().getName(), USER_NAME);
         assertEquals(user.get().getBirthday(), BIRTHDAY);
-//        assertEquals(user.get().getPassword(), PASSWORD);
         assertEquals(user.get().getEmail(), EMAIL);
         assertEquals(user.get().getImage(), IMAGE);
         assertEquals(user.get().getRole(), ROLE);
@@ -99,7 +97,6 @@ public class UserDaoTest {
         assertTrue(user.isEmpty());
     }
 
-    // TODO Нужно ли null и "" делать?
     @DataProvider(name = "findByEmailAndPasswordNegativeDataProvider")
     public static Object[][] findByEmailAndPasswordNegativeDataProvider() {
         return new Object[][]{
@@ -107,5 +104,4 @@ public class UserDaoTest {
                 {"wrong@test.test", PASSWORD}
         };
     }
-
 }

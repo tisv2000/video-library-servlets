@@ -1,11 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: svetlanatimofeeva
-  Date: 12.02.22
-  Time: 13:25
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <body>
@@ -17,10 +10,10 @@
     <label for="passwordId">Password:
         <input type="password" name="password" id="passwordId">
     </label><br>
-    <button type="submit">Login</button>
+    <button type="submit" style="color: darkblue">Login</button>
     <br>
     <a href="/registration">
-        <button type="button">Register</button>
+        <button type="button" style="color: darkcyan">Register</button>
     </a>
     <c:if test="${not empty requestScope.errors}">
         <div style="color: red">

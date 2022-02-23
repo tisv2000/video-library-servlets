@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(JspHelper.getPath(LOGIN)).forward(req, resp);
+        req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
         var validationResult = loginValidator.isValid(loginDto);
         if (!validationResult.isValid()) {
             req.setAttribute("errors", validationResult.getErrors());
-            req.getRequestDispatcher(JspHelper.getPath(LOGIN)).forward(req, resp);
+            req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
         } else {
             userService.login(loginDto)
                     .ifPresentOrElse(
@@ -50,12 +50,10 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    // TODO зачем этот ?error&email
-    // TODO почему не отображается ошибка??
     @SneakyThrows
     private void onLoginFailure(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute("errors", List.of(Error.of("login.unsuccessful", "Login information is not correct")));
-        resp.sendRedirect(LOGIN + "?error&email=" + req.getParameter("email"));
+        req.setAttribute("errors", List.of(Error.of("login.unsuccessful", "Login information is incorrect")));
+        req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
     }
 
     @SneakyThrows
@@ -63,6 +61,4 @@ public class LoginServlet extends HttpServlet {
         req.getSession().setAttribute("user", user);
         resp.sendRedirect(MOVIES);
     }
-
-
 }

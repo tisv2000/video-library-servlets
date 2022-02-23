@@ -1,6 +1,9 @@
 package com.github.tisv2000.video_library.servlet;
 
-import com.github.tisv2000.video_library.dto.*;
+import com.github.tisv2000.video_library.dto.MoviePersonCreatedDto;
+import com.github.tisv2000.video_library.dto.MovieReceivedDto;
+import com.github.tisv2000.video_library.dto.ReviewCreatedDto;
+import com.github.tisv2000.video_library.dto.UserReceivedDto;
 import com.github.tisv2000.video_library.service.*;
 import com.github.tisv2000.video_library.util.JspHelper;
 import com.github.tisv2000.video_library.validator.CreateMoviePersonValidator;
@@ -13,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import static com.github.tisv2000.video_library.util.UrlPath.MOVIES;
 
@@ -20,22 +24,21 @@ import static com.github.tisv2000.video_library.util.UrlPath.MOVIES;
 public class MovieDetailsServlet extends HttpServlet {
 
     private final MovieService movieService = MovieService.getInstance();
-    private ReviewValidator reviewValidator = ReviewValidator.getInstance();
-    private ReviewService reviewService = ReviewService.getInstance();
-    private PersonService personService = PersonService.getInstance();
-    private MoviePersonService moviePersonService = MoviePersonService.getInstance();
-    private PersonRoleService personRoleService = PersonRoleService.getInstance();
-    private CreateMoviePersonValidator createMoviePersonValidator = CreateMoviePersonValidator.getInstance();
+    private final ReviewService reviewService = ReviewService.getInstance();
+    private final PersonService personService = PersonService.getInstance();
+    private final ReviewValidator reviewValidator = ReviewValidator.getInstance();
+    private final PersonRoleService personRoleService = PersonRoleService.getInstance();
+    private final MoviePersonService moviePersonService = MoviePersonService.getInstance();
+    private final CreateMoviePersonValidator createMoviePersonValidator = CreateMoviePersonValidator.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (req.getParameter("personFlag") != null) {
+        if (req.getParameter("addMoviePersonMode") != null) {
             addMoviePerson(req, resp);
         } else {
             addReview(req, resp);
         }
-
     }
 
     @SneakyThrows
@@ -49,20 +52,13 @@ public class MovieDetailsServlet extends HttpServlet {
         var validationResult = createMoviePersonValidator.isValid(moviePersonDto);
 
         if (!validationResult.isValid()) {
-            req.setAttribute("errors", validationResult.getErrors());
+            req.setAttribute("addMoviePersonErrors", validationResult.getErrors());
         } else {
             moviePersonService.addMoviePerson(moviePersonDto);
         }
 
-
         var movie = movieService.findById(Integer.parseInt(movieId));
-        if (movie.isEmpty()) {
-            resp.sendError(404);
-        } else {
-            setMovieDetailsAttributes(req, movie.get());
-            req.getRequestDispatcher(JspHelper.getPath("/movieDetails")).forward(req, resp);
-//        resp.sendRedirect(MOVIES + "/" + movieId);
-        }
+        checkAndRedirectToMovieDetails(movie, resp, req);
     }
 
     @SneakyThrows
@@ -78,43 +74,33 @@ public class MovieDetailsServlet extends HttpServlet {
         var validationResult = reviewValidator.isValid(reviewCreateDto);
 
         if (!validationResult.isValid()) {
-            req.setAttribute("errors", validationResult.getErrors());
+            req.setAttribute("addReviewErrors", validationResult.getErrors());
         } else {
             reviewService.createReview(reviewCreateDto);
         }
 
         var movie = movieService.findById(Integer.parseInt(movieId));
-        if (movie.isEmpty()) {
-            resp.sendError(404);
-        } else {
-            setMovieDetailsAttributes(req, movie.get());
-            req.getRequestDispatcher(JspHelper.getPath("/movieDetails")).forward(req, resp);
-//        resp.sendRedirect(MOVIES + "/" + movieId);
-        }
+        checkAndRedirectToMovieDetails(movie, resp, req);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var movieId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/") + 1));
         var movie = movieService.findById(movieId);
+        checkAndRedirectToMovieDetails(movie, resp, req);
+    }
+
+
+    private void checkAndRedirectToMovieDetails(Optional<MovieReceivedDto> movie, HttpServletResponse resp, HttpServletRequest req) throws IOException {
         if (movie.isEmpty()) {
             resp.sendError(404);
         } else {
-            var reviews = reviewService.findAllWithMovieId(movieId);
-            var moviePersons = moviePersonService.findAllMoviePersonsByMovieId(movieId);
-            var persons = personService.findAll();
-            var roles = personRoleService.findAll();
-
-            req.setAttribute("reviews", reviews);
-            req.setAttribute("movie", movie.get());
-            req.setAttribute("moviePersons", moviePersons);
-            req.setAttribute("persons", persons);
-            req.setAttribute("roles", roles);
-            req.getRequestDispatcher(JspHelper.getPath("/movieDetails")).forward(req, resp);
+            redirectToMovieDetailsWithAllAttributes(req, resp, movie.get());
         }
     }
 
-    private void setMovieDetailsAttributes(HttpServletRequest req, MovieReceivedDto movie) {
+    @SneakyThrows
+    private void redirectToMovieDetailsWithAllAttributes(HttpServletRequest req, HttpServletResponse resp, MovieReceivedDto movie) {
         var reviews = reviewService.findAllWithMovieId(movie.getId());
         var moviePersons = moviePersonService.findAllMoviePersonsByMovieId(movie.getId());
         var persons = personService.findAll();
@@ -125,5 +111,7 @@ public class MovieDetailsServlet extends HttpServlet {
         req.setAttribute("moviePersons", moviePersons);
         req.setAttribute("persons", persons);
         req.setAttribute("roles", roles);
+
+        req.getRequestDispatcher(JspHelper.getPath("movieDetails")).forward(req, resp);
     }
 }

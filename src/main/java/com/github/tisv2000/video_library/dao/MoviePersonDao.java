@@ -20,10 +20,6 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
 
     private static final MoviePersonDao INSTANCE = new MoviePersonDao();
 
-    public static MoviePersonDao getInstance() {
-        return INSTANCE;
-    }
-
     private static final String SAVE_MOVIE_PERSON_SQL = """
             INSERT INTO movie_person (movie_id, person_id, role_id)
             VALUES (?, ?, ?)
@@ -107,4 +103,7 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
                 .build();
     }
 
+    public static MoviePersonDao getInstance() {
+        return INSTANCE;
+    }
 }

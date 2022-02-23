@@ -14,8 +14,6 @@ import static com.github.tisv2000.video_library.util.UrlPath.REGISTRATION;
 @WebFilter("/*")
 public class AuthorizationFilter implements Filter {
 
-    // TODO Проанализировать
-
     private static final Set<String> PUBLIC_PATH = Set.of(LOGIN, REGISTRATION);
 
     @Override
@@ -37,6 +35,4 @@ public class AuthorizationFilter implements Filter {
     private boolean isUserLoggedIn(HttpServletRequest request) {
         return request.getSession().getAttribute("user") != null;
     }
-
-
 }

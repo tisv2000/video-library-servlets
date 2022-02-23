@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class LoginValidator extends BaseValidator implements Validator<LoginDto>{
+public class LoginValidator extends BaseValidator implements Validator<LoginDto> {
 
     public static final LoginValidator INSTANCE = new LoginValidator();
 

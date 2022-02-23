@@ -10,10 +10,17 @@
 <h3 style="color: darkgreen;margin-left: 20px">Filter reviews</h3>
 <form action="/reviews" method="get" style="margin-left:20px">
     <label for="emailId">User email:
-        <input type="text" name="email" id="emailId">
+        <input type="text" name="email" value="${param.email}" id="emailId">
     </label>
     <button type="submit" style="margin-left: 10px">Find</button>
     <br>
+    <c:if test="${not empty requestScope.errors}">
+        <div style="color: red">
+            <c:forEach var="error" items="${requestScope.errors}">
+                <span>${error.message}</span><br>
+            </c:forEach>
+        </div>
+    </c:if>
 </form>
 
 <h3 style="color: darkgreen;margin-left:20px">All reviews</h3>

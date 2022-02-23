@@ -13,12 +13,7 @@ import static java.util.stream.Collectors.toList;
 public class PersonRoleService {
 
     private static final PersonRoleService INSTANCE = new PersonRoleService();
-    private PersonRoleDao personRoleDao = PersonRoleDao.getInstance();
-
-    public static PersonRoleService getInstance() {
-        return INSTANCE;
-    }
-
+    private final PersonRoleDao personRoleDao = PersonRoleDao.getInstance();
 
     public List<PersonRoleReceivedDao> findAll() {
         return personRoleDao.findAll().stream()
@@ -27,5 +22,9 @@ public class PersonRoleService {
                         .id(entity.getId())
                         .title(entity.getTitle())
                         .build()).collect(toList());
+    }
+
+    public static PersonRoleService getInstance() {
+        return INSTANCE;
     }
 }

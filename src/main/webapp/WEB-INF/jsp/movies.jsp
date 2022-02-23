@@ -7,13 +7,13 @@
 <h3 style="color:blueviolet;margin-left:20px;margin-right:20px">Filter</h3>
 <form action="${pageContext.request.contextPath}/movies" method="get">
     <label for="titleId" style="margin-left:20px">Title:
-        <input type="text" name="title" id="titleId">
+        <input type="text" name="title" value="${param.name}" id="titleId">
     </label>
     <label for="countryId" style="margin-left: 10px">Country:
-        <input type="text" name="country" id="countryId">
+        <input type="text" name="country" value="${param.country}" id="countryId">
     </label>
     <label for="yearId" style="margin-left: 10px">Release year:
-        <input type="text" name="year" id="yearId">
+        <input type="text" name="year" value="${param.year}" id="yearId">
     </label>
     <label for="genreId" style="margin-left: 10px">Genre:
         <select name="genre" id="genreId">
@@ -25,9 +25,9 @@
     </label>
     <button type="submit" style="margin-left: 10px;color: blueviolet">Filter</button>
     <br>
-    <c:if test="${not empty requestScope.errors}">
+    <c:if test="${not empty requestScope.filterMovieErrors}">
         <div style="color: red;margin-left: 20px">
-            <c:forEach var="error" items="${requestScope.errors}">
+            <c:forEach var="error" items="${requestScope.filterMovieErrors}">
                 <span>${error.message}</span><br>
             </c:forEach>
         </div>
@@ -38,13 +38,13 @@
     <h3 style="color: blueviolet;margin-left:20px">Add a new movie</h3>
     <form action="${pageContext.request.contextPath}/movies" method="post" enctype="multipart/form-data" style="margin-left: 20px">
         <label for="addTitleId">Title:
-            <input type="text" name="title" id="addTitleId">
+            <input type="text" name="title" value="${param.title}" id="addTitleId">
         </label><br>
         <label for="addCountryId">Country:
-            <input type="text" name="country" id="addCountryId">
+            <input type="text" name="country" value="${param.country}" id="addCountryId">
         </label><br>
         <label for="addYearId">Release year:
-            <input type="text" name="year" id="addYearId">
+            <input type="text" name="year" value="${param.year}" id="addYearId">
         </label><br>
         <label for="addGenreId">Genre:
             <select name="genre" id="addGenreId">
@@ -55,16 +55,16 @@
             </select>
         </label><br>
         <label for="addDescriptionId">Description:
-            <input type="text" name="description" id="addDescriptionId">
+            <input type="text" name="description" value="${param.description}" id="addDescriptionId">
         </label><br>
         <label for="imageId">Image:
-            <input type="file" name="image" id="imageId">
+            <input type="file" name="image" value="${param.image}" id="imageId">
         </label><br>
         <button type="submit" style="color: blueviolet">Add movie</button>
         <br>
-        <c:if test="${not empty requestScope.errors}">
+        <c:if test="${not empty requestScope.addMovieErrors}">
             <div style="color: red">
-                <c:forEach var="error" items="${requestScope.errors}">
+                <c:forEach var="error" items="${requestScope.addMovieErrors}">
                     <span>${error.message}</span><br>
                 </c:forEach>
             </div>

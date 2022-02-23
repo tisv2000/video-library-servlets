@@ -14,18 +14,18 @@ import java.io.IOException;
 @WebServlet(UrlPath.PERSONS + "/*")
 public class PersonDetailsServlet extends HttpServlet {
 
-    private static PersonService personService = PersonService.getInstance();
+    private static final PersonService personService = PersonService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        var personId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/")+1));
+        var personId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/") + 1));
         var maybePerson = personService.findById(personId);
 
-        if(maybePerson.isEmpty()) {
+        if (maybePerson.isEmpty()) {
             resp.sendError(404);
         } else {
             req.setAttribute("person", maybePerson.get());
-            req.getRequestDispatcher(JspHelper.getPath("/personDetails")).forward(req, resp);
+            req.getRequestDispatcher(JspHelper.getPath("personDetails")).forward(req, resp);
         }
     }
 }

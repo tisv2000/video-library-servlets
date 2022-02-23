@@ -13,11 +13,6 @@ import lombok.NoArgsConstructor;
 public class ReviewMapper {
 
     private static final ReviewMapper INSTANCE = new ReviewMapper();
-    private static ReviewDao reviewDao = ReviewDao.getInstance();
-
-    public static ReviewMapper getInstance() {
-        return INSTANCE;
-    }
 
     public Review mapFromReviewCreateDtoToEntity(ReviewCreatedDto reviewCreatedDto) {
         return Review.builder()
@@ -51,5 +46,9 @@ public class ReviewMapper {
                 .text(entity.getText())
                 .rate(entity.getRate())
                 .build();
+    }
+
+    public static ReviewMapper getInstance() {
+        return INSTANCE;
     }
 }

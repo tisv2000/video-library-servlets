@@ -28,9 +28,9 @@ public class MovieServlet extends HttpServlet {
 
     private final MovieService movieService = MovieService.getInstance();
     private final GenreService genreService = GenreService.getInstance();
+    private final ImageService imageService = ImageService.getInstance();
     private final MovieFilterValidator movieFilterValidator = MovieFilterValidator.getInstance();
     private final CreateMovieValidator createMovieValidator = CreateMovieValidator.getInstance();
-    private final ImageService imageService = ImageService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,21 +50,17 @@ public class MovieServlet extends HttpServlet {
                 .genre(req.getParameter("genre"))
                 .build();
         var validationResult = movieFilterValidator.isValid(movieFilterDto);
+
         if (!validationResult.isValid()) {
-            req.setAttribute("errors", validationResult.getErrors());
-            req.setAttribute("movies", movieService.findAll());
+            req.setAttribute("filterMovieErrors", validationResult.getErrors());
+            redirectToAllFoundMovies(req, resp);
         } else {
-            req.setAttribute("movies", movieService.findAllByFilters(movieFilterDto));
+            redirectToAllFilteredMovies(req, resp, movieFilterDto);
         }
-        req.setAttribute("genres", genreService.findAll());
-        req.getRequestDispatcher(JspHelper.getPath("/movies")).forward(req, resp);
     }
 
     private void getMovieList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<MovieReceivedDto> movies = movieService.findAll();
-        req.setAttribute("movies", movies);
-        req.setAttribute("genres", genreService.findAll());
-        req.getRequestDispatcher(JspHelper.getPath(MOVIES)).forward(req, resp);
+        redirectToAllFoundMovies(req, resp);
     }
 
     @Override
@@ -78,18 +74,28 @@ public class MovieServlet extends HttpServlet {
                 .description(req.getParameter("description"))
                 .build();
         var validationResult = createMovieValidator.isValid(movieCreateDto);
+
         if (!validationResult.isValid()) {
-            req.setAttribute("errors", validationResult.getErrors());
-            List<MovieReceivedDto> movies = movieService.findAll();
-            req.setAttribute("movies", movies);
-            req.setAttribute("genres", genreService.findAll());
-            req.getRequestDispatcher(JspHelper.getPath(MOVIES)).forward(req, resp);
+            req.setAttribute("addMovieErrors", validationResult.getErrors());
+            redirectToAllFoundMovies(req, resp);
         } else {
             var movieId = movieService.createMovie(movieCreateDto);
-            // TODO improve logic to save pictures - make unique names, so that they are not get overwritten
+            // TODO improve logic to save pictures - make unique names, so that they do not get overwritten
             imageService.upload("/movies/" + movieCreateDto.getImage() + ".jpeg", req.getPart("image").getInputStream());
             resp.sendRedirect(MOVIES + "/" + movieId);
         }
 
+    }
+
+    private void redirectToAllFilteredMovies(HttpServletRequest req, HttpServletResponse resp, MovieFilterDto movieFilterDto) throws ServletException, IOException {
+        req.setAttribute("movies", movieService.findAllByFilters(movieFilterDto));
+        req.getRequestDispatcher(JspHelper.getPath("movies")).forward(req, resp);
+    }
+
+    private void redirectToAllFoundMovies(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<MovieReceivedDto> movies = movieService.findAll();
+        req.setAttribute("movies", movies);
+        req.setAttribute("genres", genreService.findAll());
+        req.getRequestDispatcher(JspHelper.getPath("movies")).forward(req, resp);
     }
 }

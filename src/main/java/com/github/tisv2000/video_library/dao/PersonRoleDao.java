@@ -17,10 +17,6 @@ public class PersonRoleDao implements Dao<Integer, PersonRole> {
 
     private static final PersonRoleDao INSTANCE = new PersonRoleDao();
 
-    public static PersonRoleDao getInstance() {
-        return INSTANCE;
-    }
-
     private static final String FIND_ALL_SQL = """
             SELECT id, title
             FROM person_role
@@ -69,4 +65,7 @@ public class PersonRoleDao implements Dao<Integer, PersonRole> {
                 .build();
     }
 
+    public static PersonRoleDao getInstance() {
+        return INSTANCE;
+    }
 }

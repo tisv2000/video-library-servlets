@@ -1,7 +1,8 @@
 package com.github.tisv2000.video_library.dto;
 
 import com.github.tisv2000.video_library.entity.Genre;
-import lombok.*;
+import lombok.Builder;
+import lombok.Value;
 
 @Value
 @Builder

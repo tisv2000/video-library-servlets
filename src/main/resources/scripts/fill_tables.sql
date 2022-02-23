@@ -117,4 +117,6 @@ VALUES (1, 1, 'Nice movie', 9),
        (2, 1, 'Such a lovely story, absolutely love it!', 10),
        (2, 3, 'First 3 seasons are the best, but the last few are not that great anymore...', 7),
        (3, 1, 'Good one', 8),
-       (3, 3, 'Cool movie', 9);
+       (3, 3, 'Cool movie', 9),
+       (4, 1, 'Great movie', 10),
+       (4, 3, 'I really like this movie', 9);

@@ -19,10 +19,6 @@ public class ReviewDao implements Dao<Integer, Review> {
 
     private static final ReviewDao INSTANCE = new ReviewDao();
 
-    public static ReviewDao getInstance() {
-        return INSTANCE;
-    }
-
     private static final String FIND_ALL_SQL = """
             SELECT  r.id AS reviewId, r.rate as reviewRate, r.text as reviewText,
                     u.id AS userId, u.name AS userName, u.birthday AS userBirthday, u.email AS userEmail, u.role AS userRole, u.gender AS userGender,
@@ -141,4 +137,7 @@ public class ReviewDao implements Dao<Integer, Review> {
                 .build();
     }
 
+    public static ReviewDao getInstance() {
+        return INSTANCE;
+    }
 }

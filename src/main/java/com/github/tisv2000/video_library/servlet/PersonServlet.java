@@ -1,7 +1,6 @@
 package com.github.tisv2000.video_library.servlet;
 
 import com.github.tisv2000.video_library.dto.PersonCreatedDto;
-import com.github.tisv2000.video_library.dto.PersonDto;
 import com.github.tisv2000.video_library.dto.PersonFilterDto;
 import com.github.tisv2000.video_library.service.PersonService;
 import com.github.tisv2000.video_library.util.JspHelper;
@@ -16,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
-import java.util.List;
 
 import static com.github.tisv2000.video_library.util.UrlPath.PERSONS;
 
@@ -43,19 +41,19 @@ public class PersonServlet extends HttpServlet {
                 .name(req.getParameter("name"))
                 .build();
         ValidationResult result = personFilterValidator.isValid(personFilterDto);
+
         if (!result.isValid()) {
-            req.setAttribute("errors", result.getErrors());
+            req.setAttribute("filterPersonErrors", result.getErrors());
             req.setAttribute("persons", personService.findAll());
         } else {
             req.setAttribute("persons", personService.findAllByFilter(personFilterDto));
         }
 
-        req.getRequestDispatcher(JspHelper.getPath("/persons")).forward(req, resp);
+        req.getRequestDispatcher(JspHelper.getPath("persons")).forward(req, resp);
     }
 
     private void getPersonsList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("persons", personService.findAll());
-        req.getRequestDispatcher(JspHelper.getPath("/persons")).forward(req, resp);
+        redirectToPersonsWithAllAttributes(req, resp);
     }
 
     @Override
@@ -65,13 +63,18 @@ public class PersonServlet extends HttpServlet {
                 .birthday(req.getParameter("birthday"))
                 .build();
         ValidationResult result = createPersonValidator.isValid(personCreatedDto);
+
         if (!result.isValid()) {
-            req.setAttribute("errors", result.getErrors());
-            req.setAttribute("persons", personService.findAll());
-            req.getRequestDispatcher(JspHelper.getPath("/persons")).forward(req, resp);
+            req.setAttribute("addPersonErrors", result.getErrors());
+            redirectToPersonsWithAllAttributes(req, resp);
         } else {
             var personId = personService.createPerson(personCreatedDto);
             resp.sendRedirect(PERSONS + "/" + personId);
         }
+    }
+
+    private void redirectToPersonsWithAllAttributes(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("persons", personService.findAll());
+        req.getRequestDispatcher(JspHelper.getPath("persons")).forward(req, resp);
     }
 }

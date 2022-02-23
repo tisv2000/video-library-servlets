@@ -3,21 +3,19 @@
     <title>Video Library</title>
 </head>
 <div style="float:left;margin-left:20px">
-    <a href="/movies">|  Movies  |</a>
+    <a href="/movies">| Movies |</a>
 
-    <a href="/persons">|  Persons  |</a>
+    <a href="/persons">| Persons |</a>
 
-    <c:if test="${sessionScope.user.role == 'USER'}">
-        <a href="/myReviews">|  My reviews  |</a>
-    </c:if>
+    <a href="/myReviews">| My reviews |</a>
 
     <c:if test="${sessionScope.user.role == 'ADMIN'}">
-        <a href="/reviews">|   Reviews   |</a>
+        <a href="/reviews">| Reviews |</a>
     </c:if>
 </div>
 
 <div style="float:right">
-    ${sessionScope.user.name}
+    <b>${sessionScope.user.name}</b>
 
     <a href="/logout" style="margin-left: 20px;margin-right: 20px">Log out</a>
 </div>

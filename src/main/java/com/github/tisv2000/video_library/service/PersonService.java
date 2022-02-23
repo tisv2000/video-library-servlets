@@ -20,10 +20,6 @@ public class PersonService {
     private static final PersonDao personDao = PersonDao.getInstance();
     private static final PersonMapper personMapper = PersonMapper.getInstance();
 
-    public static PersonService getInstance() {
-        return INSTANCE;
-    }
-
     public List<PersonDto> findAll() {
         return personDao.findAll().stream()
                 .map(entity -> personMapper.mapToPersonDto(entity))
@@ -32,7 +28,7 @@ public class PersonService {
 
     public Optional<PersonDto> findById(int personId) {
         var maybePerson = personDao.findById(personId);
-        return maybePerson.map(person -> personMapper.mapToPersonDto(person)); // заворачивает в Optional
+        return maybePerson.map(person -> personMapper.mapToPersonDto(person));
     }
 
     public Integer createPerson(PersonCreatedDto personCreatedDto) {
@@ -45,5 +41,9 @@ public class PersonService {
         return personDao.findAllByName(personFilterDto).stream()
                 .map(entity -> personMapper.mapToPersonDto(entity))
                 .collect(toList());
+    }
+
+    public static PersonService getInstance() {
+        return INSTANCE;
     }
 }

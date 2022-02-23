@@ -5,14 +5,11 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ReviewValidator extends BaseValidator {
+public class ReviewValidator extends BaseValidator implements Validator<ReviewCreatedDto> {
 
     private static final ReviewValidator INSTANCE = new ReviewValidator();
 
-    public static ReviewValidator getInstance() {
-        return INSTANCE;
-    }
-
+    @Override
     public ValidationResult isValid(ReviewCreatedDto review) {
         var validationResult = new ValidationResult();
 
@@ -23,4 +20,7 @@ public class ReviewValidator extends BaseValidator {
         return validationResult;
     }
 
+    public static ReviewValidator getInstance() {
+        return INSTANCE;
+    }
 }

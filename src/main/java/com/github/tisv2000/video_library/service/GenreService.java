@@ -16,10 +16,11 @@ public class GenreService {
 
     public List<GenreDto> findAll() {
         return genreDao.findAll().stream()
-                .map(genre -> new GenreDto(
-                        genre.getId().toString(),
-                        genre.getTitle()
-                )).collect(Collectors.toList());
+                .map(genre -> GenreDto.builder()
+                        .id(genre.getId().toString())
+                        .title(genre.getTitle())
+                        .build()
+                ).collect(Collectors.toList());
     }
 
     public static GenreService getInstance() {

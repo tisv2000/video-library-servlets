@@ -12,10 +12,6 @@ public class PersonMapper {
 
     private static final PersonMapper INSTANCE = new PersonMapper();
 
-    public static PersonMapper getInstance() {
-        return INSTANCE;
-    }
-
     public PersonDto mapToPersonDto(Person entity) {
         return PersonDto.builder()
                 .id(entity.getId())
@@ -29,5 +25,9 @@ public class PersonMapper {
                 .name(personCreatedDto.getName())
                 .birthday(LocalDateFormatter.format(personCreatedDto.getBirthday()))
                 .build();
+    }
+
+    public static PersonMapper getInstance() {
+        return INSTANCE;
     }
 }

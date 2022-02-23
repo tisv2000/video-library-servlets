@@ -9,9 +9,8 @@ import java.util.regex.Pattern;
 public class EmailValidator {
 
     public boolean isValid(String email) {
-        // TODO почему не работает???
-        Pattern pattern = Pattern.compile("[\\w]]@[a-zA-Z]\\.[a-zA-Z]");
+        Pattern pattern = Pattern.compile("[\\w\\+]+@\\w+\\.[a-zA-Z]+");
         Matcher matcher = pattern.matcher(email);
-        return matcher.find();
+        return matcher.matches();
     }
 }

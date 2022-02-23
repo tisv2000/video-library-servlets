@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CreateMovieValidator extends BaseValidator  implements Validator<MovieCreatedDto> {
+public class CreateMovieValidator extends BaseValidator implements Validator<MovieCreatedDto> {
 
     private static final CreateMovieValidator INSTANCE = new CreateMovieValidator();
 
@@ -17,8 +17,9 @@ public class CreateMovieValidator extends BaseValidator  implements Validator<Mo
 
         validateNotNull(movie.getCountry(), validationResult, "Country");
 
-        validateNotNull(movie.getYear(), validationResult, "Year");
-        validateYear(movie.getYear(), validationResult);
+        if (validateNotNull(movie.getYear(), validationResult, "Year")) {
+            validateYear(movie.getYear(), validationResult);
+        }
 
         validateNotNull(movie.getGenre(), validationResult, "Genre");
 

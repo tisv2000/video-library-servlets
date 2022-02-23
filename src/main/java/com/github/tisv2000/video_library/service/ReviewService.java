@@ -15,12 +15,8 @@ import static java.util.stream.Collectors.toList;
 public class ReviewService {
 
     private static final ReviewService INSTANCE = new ReviewService();
-    private static ReviewMapper reviewMapper = ReviewMapper.getInstance();
-    private static ReviewDao reviewDao = ReviewDao.getInstance();
-
-    public static ReviewService getInstance() {
-        return INSTANCE;
-    }
+    private static final ReviewDao reviewDao = ReviewDao.getInstance();
+    private static final ReviewMapper reviewMapper = ReviewMapper.getInstance();
 
     public Integer createReview(ReviewCreatedDto reviewCreatedDto) {
         var entity = reviewMapper.mapFromReviewCreateDtoToEntity(reviewCreatedDto);
@@ -38,5 +34,9 @@ public class ReviewService {
         return reviewDao.findAllByUserId(userId).stream()
                 .map(entity -> reviewMapper.mapFromEntityToReviewReceiveDto(entity))
                 .collect(toList());
+    }
+
+    public static ReviewService getInstance() {
+        return INSTANCE;
     }
 }

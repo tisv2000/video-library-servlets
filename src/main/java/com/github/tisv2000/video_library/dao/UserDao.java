@@ -107,11 +107,6 @@ public class UserDao implements Dao<Integer, User> {
         return false;
     }
 
-    public static UserDao getInstance() {
-        return INSTANCE;
-    }
-
-
     private User build(ResultSet resultSet) throws SQLException {
         return User.builder()
                 .id(resultSet.getInt("id"))
@@ -124,4 +119,7 @@ public class UserDao implements Dao<Integer, User> {
                 .build();
     }
 
+    public static UserDao getInstance() {
+        return INSTANCE;
+    }
 }

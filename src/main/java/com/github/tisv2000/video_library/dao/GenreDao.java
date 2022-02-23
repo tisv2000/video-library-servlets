@@ -15,10 +15,6 @@ import java.util.*;
 public class GenreDao implements Dao<Integer, Genre> {
     private static final GenreDao INSTANCE = new GenreDao();
 
-    public static GenreDao getInstance() {
-        return INSTANCE;
-    }
-
     private static final Map<Integer, Genre> cache = new HashMap<>();
 
     private static final String FIND_ALL_SQL = """
@@ -84,5 +80,9 @@ public class GenreDao implements Dao<Integer, Genre> {
                 .id(resultSet.getInt("id"))
                 .title(resultSet.getString("title"))
                 .build();
+    }
+
+    public static GenreDao getInstance() {
+        return INSTANCE;
     }
 }
