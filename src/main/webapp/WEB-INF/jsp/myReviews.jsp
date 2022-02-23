@@ -7,9 +7,9 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: darkgreen">All my reviews</h3>
-<table style="width: 60%">
-    <tr>
+<h3 style="color: darkgreen;margin-left:20px">All my reviews</h3>
+<table style="width: 100%;margin-left:20px">
+    <tr style="text-align: left">
         <th>Movie</th>
         <th>Rate</th>
         <th>Review</th>

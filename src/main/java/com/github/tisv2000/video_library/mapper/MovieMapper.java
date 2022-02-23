@@ -1,7 +1,7 @@
 package com.github.tisv2000.video_library.mapper;
 
-import com.github.tisv2000.video_library.dto.MovieCreateDto;
-import com.github.tisv2000.video_library.dto.MovieReceiveDto;
+import com.github.tisv2000.video_library.dto.MovieCreatedDto;
+import com.github.tisv2000.video_library.dto.MovieReceivedDto;
 import com.github.tisv2000.video_library.entity.Genre;
 import com.github.tisv2000.video_library.entity.Movie;
 import lombok.AccessLevel;
@@ -16,20 +16,20 @@ public class MovieMapper {
     }
 
     // Service -> DAO
-    public Movie mapMovieCreateDtoToMovieEntity(MovieCreateDto movieCreateDto) {
+    public Movie mapMovieCreateDtoToMovieEntity(MovieCreatedDto movieCreatedDto) {
         return Movie.builder()
-                .title(movieCreateDto.getTitle())
-                .year(Integer.valueOf(movieCreateDto.getYear()))
-                .country(movieCreateDto.getCountry())
-                // TODO что-то тут не так, зачем туда сюда преобразовывать?
-                .genre(new Genre(Integer.valueOf(movieCreateDto.getGenre()), ""))
-                .image(movieCreateDto.getImage())
-                .description(movieCreateDto.getDescription())
+                .title(movieCreatedDto.getTitle())
+                .year(Integer.valueOf(movieCreatedDto.getYear()))
+                .country(movieCreatedDto.getCountry())
+                // TODO GenreDao - findById
+                .genre(new Genre(Integer.valueOf(movieCreatedDto.getGenre()), ""))
+                .image(movieCreatedDto.getImage())
+                .description(movieCreatedDto.getDescription())
                 .build();
     }
 
-    public MovieReceiveDto mapMovieEntityToMovieReceiveDto(Movie movie) {
-        return MovieReceiveDto.builder()
+    public MovieReceivedDto mapMovieEntityToMovieReceiveDto(Movie movie) {
+        return MovieReceivedDto.builder()
                 .id(movie.getId())
                 .title(movie.getTitle())
                 .year(movie.getYear())

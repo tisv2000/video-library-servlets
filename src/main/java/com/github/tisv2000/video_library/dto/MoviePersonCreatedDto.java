@@ -5,9 +5,8 @@ import lombok.Value;
 
 @Value
 @Builder
-public class ReviewCreateDto {
-    String userId;
+public class MoviePersonCreatedDto {
     String movieId;
-    String text;
-    String rate;
+    String personId;
+    String roleId;
 }

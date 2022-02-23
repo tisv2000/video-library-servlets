@@ -46,6 +46,7 @@ public class UserDao implements Dao<Integer, User> {
             preparedStatement.setObject(7, entity.getGender().name());
 
             preparedStatement.executeUpdate();
+
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             generatedKeys.next();
             entity.setId(generatedKeys.getObject("id", Integer.class));
@@ -56,16 +57,15 @@ public class UserDao implements Dao<Integer, User> {
     public Optional<User> findByEmail(String email) {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_BY_EMAIL_SQL);) {
-            // object or string?
             preparedStatement.setObject(1, email);
 
             var resultSet = preparedStatement.executeQuery();
-            User user = null;
-            if (resultSet.next()) {
-                user = buildUserDao(resultSet);
-            }
-            return Optional.ofNullable(user);
 
+            if (resultSet.next()) {
+                return Optional.of(build(resultSet));
+            } else {
+                return Optional.empty();
+            }
         }
     }
 
@@ -73,16 +73,16 @@ public class UserDao implements Dao<Integer, User> {
     public Optional<User> findByEmailAndPassword(String email, String password) {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_BY_EMAIL_AND_PASSWORD_SQL);) {
-            // object or string?
             preparedStatement.setObject(1, email);
             preparedStatement.setObject(2, password);
 
             var resultSet = preparedStatement.executeQuery();
-            User user = null;
+
             if (resultSet.next()) {
-                user = buildUserDao(resultSet);
+                return Optional.of(build(resultSet));
+            } else {
+                return Optional.empty();
             }
-            return Optional.ofNullable(user);
 
         }
     }
@@ -112,8 +112,7 @@ public class UserDao implements Dao<Integer, User> {
     }
 
 
-    // TODO правильно, что мы не возвращаем тут пароль?
-    private User buildUserDao(ResultSet resultSet) throws SQLException {
+    private User build(ResultSet resultSet) throws SQLException {
         return User.builder()
                 .id(resultSet.getInt("id"))
                 .name(resultSet.getString("name"))

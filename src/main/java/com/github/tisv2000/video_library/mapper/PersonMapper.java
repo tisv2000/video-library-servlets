@@ -1,6 +1,6 @@
 package com.github.tisv2000.video_library.mapper;
 
-import com.github.tisv2000.video_library.dto.PersonCreateDto;
+import com.github.tisv2000.video_library.dto.PersonCreatedDto;
 import com.github.tisv2000.video_library.dto.PersonDto;
 import com.github.tisv2000.video_library.entity.Person;
 import com.github.tisv2000.video_library.util.LocalDateFormatter;
@@ -24,10 +24,10 @@ public class PersonMapper {
                 .build();
     }
 
-    public Person mapToEntity(PersonCreateDto personCreateDto) {
+    public Person mapToEntity(PersonCreatedDto personCreatedDto) {
         return Person.builder()
-                .name(personCreateDto.getName())
-                .birthday(LocalDateFormatter.format(personCreateDto.getBirthday()))
+                .name(personCreatedDto.getName())
+                .birthday(LocalDateFormatter.format(personCreatedDto.getBirthday()))
                 .build();
     }
 }

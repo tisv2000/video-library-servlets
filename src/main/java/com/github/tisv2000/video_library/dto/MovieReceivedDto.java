@@ -5,7 +5,7 @@ import lombok.*;
 
 @Value
 @Builder
-public class MovieReceiveDto {
+public class MovieReceivedDto {
     Integer id;
     String title;
     Integer year;

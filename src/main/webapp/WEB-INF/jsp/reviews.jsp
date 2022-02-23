@@ -7,8 +7,8 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: blue">Filter reviews</h3>
-<form action="/reviews" method="get">
+<h3 style="color: darkgreen;margin-left: 20px">Filter reviews</h3>
+<form action="/reviews" method="get" style="margin-left:20px">
     <label for="emailId">User email:
         <input type="text" name="email" id="emailId">
     </label>
@@ -16,9 +16,9 @@
     <br>
 </form>
 
-<h3 style="color: darkgreen">All reviews</h3>
-<table style="width: 60%">
-    <tr>
+<h3 style="color: darkgreen;margin-left:20px">All reviews</h3>
+<table style="width: 100%;margin-left:20px">
+    <tr style="text-align: left">
         <th>Movie</th>
         <th>Rate</th>
         <th>Review</th>

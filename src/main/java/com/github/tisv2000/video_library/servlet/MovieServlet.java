@@ -1,14 +1,13 @@
 package com.github.tisv2000.video_library.servlet;
 
-import com.github.tisv2000.video_library.dto.MovieCreateDto;
-import com.github.tisv2000.video_library.dto.MovieReceiveDto;
+import com.github.tisv2000.video_library.dto.MovieCreatedDto;
+import com.github.tisv2000.video_library.dto.MovieReceivedDto;
 import com.github.tisv2000.video_library.dto.MovieFilterDto;
-import com.github.tisv2000.video_library.exception.ValidationException;
 import com.github.tisv2000.video_library.service.GenreService;
 import com.github.tisv2000.video_library.service.ImageService;
 import com.github.tisv2000.video_library.service.MovieService;
 import com.github.tisv2000.video_library.util.JspHelper;
-import com.github.tisv2000.video_library.validator.CreateMovieFilterValidator;
+import com.github.tisv2000.video_library.validator.CreateMovieValidator;
 import com.github.tisv2000.video_library.validator.MovieFilterValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -30,7 +29,7 @@ public class MovieServlet extends HttpServlet {
     private final MovieService movieService = MovieService.getInstance();
     private final GenreService genreService = GenreService.getInstance();
     private final MovieFilterValidator movieFilterValidator = MovieFilterValidator.getInstance();
-    private final CreateMovieFilterValidator createMovieFilterValidator = CreateMovieFilterValidator.getInstance();
+    private final CreateMovieValidator createMovieValidator = CreateMovieValidator.getInstance();
     private final ImageService imageService = ImageService.getInstance();
 
     @Override
@@ -52,19 +51,17 @@ public class MovieServlet extends HttpServlet {
                 .build();
         var validationResult = movieFilterValidator.isValid(movieFilterDto);
         if (!validationResult.isValid()) {
-            // не нужно бросать тут исключение?
-            throw new ValidationException(validationResult.getErrors());
+            req.setAttribute("errors", validationResult.getErrors());
+            req.setAttribute("movies", movieService.findAll());
+        } else {
+            req.setAttribute("movies", movieService.findAllByFilters(movieFilterDto));
         }
-
-        List<MovieReceiveDto> movies = movieService.findAllByFilters(movieFilterDto);
-
-        req.setAttribute("movies", movies);
         req.setAttribute("genres", genreService.findAll());
         req.getRequestDispatcher(JspHelper.getPath("/movies")).forward(req, resp);
     }
 
     private void getMovieList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<MovieReceiveDto> movies = movieService.findAll();
+        List<MovieReceivedDto> movies = movieService.findAll();
         req.setAttribute("movies", movies);
         req.setAttribute("genres", genreService.findAll());
         req.getRequestDispatcher(JspHelper.getPath(MOVIES)).forward(req, resp);
@@ -72,8 +69,7 @@ public class MovieServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // разница между getAttribute и getParams
-        var movieCreateDto = MovieCreateDto.builder()
+        var movieCreateDto = MovieCreatedDto.builder()
                 .title(req.getParameter("title"))
                 .year(req.getParameter("year"))
                 .image(req.getPart("image").getSubmittedFileName())
@@ -81,15 +77,19 @@ public class MovieServlet extends HttpServlet {
                 .genre(req.getParameter("genre"))
                 .description(req.getParameter("description"))
                 .build();
-        var validationResult = createMovieFilterValidator.isValid(movieCreateDto);
+        var validationResult = createMovieValidator.isValid(movieCreateDto);
         if (!validationResult.isValid()) {
             req.setAttribute("errors", validationResult.getErrors());
+            List<MovieReceivedDto> movies = movieService.findAll();
+            req.setAttribute("movies", movies);
+            req.setAttribute("genres", genreService.findAll());
+            req.getRequestDispatcher(JspHelper.getPath(MOVIES)).forward(req, resp);
+        } else {
+            var movieId = movieService.createMovie(movieCreateDto);
+            // TODO improve logic to save pictures - make unique names, so that they are not get overwritten
+            imageService.upload("/movies/" + movieCreateDto.getImage() + ".jpeg", req.getPart("image").getInputStream());
+            resp.sendRedirect(MOVIES + "/" + movieId);
         }
-        var movieId = movieService.createMovie(movieCreateDto);
 
-        // TODO improve logic to save pictures - make unique names, so that they are not get overwritten
-        imageService.upload("/movies/" + movieCreateDto.getImage() + ".jpeg", req.getPart("image").getInputStream());
-
-        resp.sendRedirect(MOVIES + "/" + movieId);
     }
 }

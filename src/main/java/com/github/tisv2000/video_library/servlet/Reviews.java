@@ -1,6 +1,5 @@
 package com.github.tisv2000.video_library.servlet;
 
-import com.github.tisv2000.video_library.dto.UserReceiveDto;
 import com.github.tisv2000.video_library.service.ReviewService;
 import com.github.tisv2000.video_library.service.UserService;
 import com.github.tisv2000.video_library.util.JspHelper;

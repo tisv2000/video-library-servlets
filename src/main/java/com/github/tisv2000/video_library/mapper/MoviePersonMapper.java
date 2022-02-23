@@ -1,7 +1,8 @@
 package com.github.tisv2000.video_library.mapper;
 
-import com.github.tisv2000.video_library.dto.MoviePersonCreateDto;
-import com.github.tisv2000.video_library.dto.MoviePersonReceiveDto;
+import com.github.tisv2000.video_library.dto.MoviePersonCreatedDto;
+import com.github.tisv2000.video_library.dto.MoviePersonReceivedDto;
+import com.github.tisv2000.video_library.dto.PersonRoleDto;
 import com.github.tisv2000.video_library.entity.Movie;
 import com.github.tisv2000.video_library.entity.MoviePerson;
 import com.github.tisv2000.video_library.entity.Person;
@@ -18,27 +19,31 @@ public class MoviePersonMapper {
         return INSTANCE;
     }
 
-    public MoviePerson mapMoviePersonCreateDtoToEntity(MoviePersonCreateDto moviePersonCreateDto) {
+    // TODO Вопрос к Денису: Можно ли создавать не полноценный объект?
+    public MoviePerson mapMoviePersonCreateDtoToEntity(MoviePersonCreatedDto moviePersonCreatedDto) {
         return MoviePerson.builder()
                 .movie(Movie
                         .builder()
-                        .id(Integer.valueOf(moviePersonCreateDto.getMovieId()))
+                        .id(Integer.valueOf(moviePersonCreatedDto.getMovieId()))
                         .build())
                 .person(Person
                         .builder()
-                        .id(Integer.valueOf(moviePersonCreateDto.getPersonId()))
+                        .id(Integer.valueOf(moviePersonCreatedDto.getPersonId()))
                         .build())
                 .role(PersonRole
                         .builder()
-                        .id(Integer.valueOf(moviePersonCreateDto.getRoleId()))
+                        .id(Integer.valueOf(moviePersonCreatedDto.getRoleId()))
                         .build())
                 .build();
     }
 
-    public MoviePersonReceiveDto mapEntityToMoviePersonReceiveDto(MoviePerson entity) {
-        return MoviePersonReceiveDto.builder()
+    public MoviePersonReceivedDto mapEntityToMoviePersonReceiveDto(MoviePerson entity) {
+        return MoviePersonReceivedDto.builder()
                 .name(entity.getPerson().getName())
-                .role(entity.getRole().getTitle())
+                .role(PersonRoleDto.builder()
+                        .id(entity.getRole().getId())
+                        .title(entity.getRole().getTitle())
+                        .build())
                 .build();
     }
 }

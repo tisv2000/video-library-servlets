@@ -2,14 +2,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
-<head>
-    <title>Title 1</title>
-</head>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: blueviolet">Filter</h3>
+<h3 style="color:blueviolet;margin-left:20px;margin-right:20px">Filter</h3>
 <form action="${pageContext.request.contextPath}/movies" method="get">
-    <label for="titleId">Title:
+    <label for="titleId" style="margin-left:20px">Title:
         <input type="text" name="title" id="titleId">
     </label>
     <label for="countryId" style="margin-left: 10px">Country:
@@ -26,13 +23,20 @@
             </c:forEach>
         </select>
     </label>
-    <button type="submit" style="margin-left: 10px">Filter</button>
+    <button type="submit" style="margin-left: 10px;color: blueviolet">Filter</button>
     <br>
+    <c:if test="${not empty requestScope.errors}">
+        <div style="color: red;margin-left: 20px">
+            <c:forEach var="error" items="${requestScope.errors}">
+                <span>${error.message}</span><br>
+            </c:forEach>
+        </div>
+    </c:if>
 </form>
 
 <c:if test="${sessionScope.user.role == 'ADMIN'}">
-    <h3 style="color: blueviolet">Add a new movie</h3>
-    <form action="${pageContext.request.contextPath}/movies" method="post" enctype="multipart/form-data">
+    <h3 style="color: blueviolet;margin-left:20px">Add a new movie</h3>
+    <form action="${pageContext.request.contextPath}/movies" method="post" enctype="multipart/form-data" style="margin-left: 20px">
         <label for="addTitleId">Title:
             <input type="text" name="title" id="addTitleId">
         </label><br>
@@ -56,13 +60,20 @@
         <label for="imageId">Image:
             <input type="file" name="image" id="imageId">
         </label><br>
-        <button type="submit">Add movie</button>
-        <br><br>
+        <button type="submit" style="color: blueviolet">Add movie</button>
+        <br>
+        <c:if test="${not empty requestScope.errors}">
+            <div style="color: red">
+                <c:forEach var="error" items="${requestScope.errors}">
+                    <span>${error.message}</span><br>
+                </c:forEach>
+            </div>
+        </c:if>
     </form>
 </c:if>
-<h3 style="color: blueviolet">List of all movies</h3>
-<table style="width: 60%">
-    <tr>
+<h3 style="color: blueviolet;float:left;margin-left:20px;margin-right:20px">List of all movies</h3>
+<table style="width: 100%;margin-left:20px">
+    <tr style="text-align: left">
         <th>Title</th>
         <th>Year</th>
         <th>Country</th>

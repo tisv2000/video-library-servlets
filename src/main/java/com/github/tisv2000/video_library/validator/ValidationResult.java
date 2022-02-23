@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ValidationResult {
     // list<string> не подойдет для интернализации, поэтому Error
-    @Getter // зачем @Getter и делать его final?
+    @Getter
     private final List<Error> errors = new ArrayList<>();
 
     public void add(Error error) {

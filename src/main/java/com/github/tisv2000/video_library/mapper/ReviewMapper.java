@@ -1,15 +1,13 @@
 package com.github.tisv2000.video_library.mapper;
 
 import com.github.tisv2000.video_library.dao.ReviewDao;
-import com.github.tisv2000.video_library.dto.MovieReceiveDto;
-import com.github.tisv2000.video_library.dto.ReviewCreateDto;
+import com.github.tisv2000.video_library.dto.MovieReceivedDto;
+import com.github.tisv2000.video_library.dto.ReviewCreatedDto;
 import com.github.tisv2000.video_library.dto.ReviewReceiveDto;
-import com.github.tisv2000.video_library.dto.UserReceiveDto;
+import com.github.tisv2000.video_library.dto.UserReceivedDto;
 import com.github.tisv2000.video_library.entity.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ReviewMapper {
@@ -21,21 +19,21 @@ public class ReviewMapper {
         return INSTANCE;
     }
 
-    public Review mapFromReviewCreateDtoToEntity(ReviewCreateDto reviewCreateDto) {
+    public Review mapFromReviewCreateDtoToEntity(ReviewCreatedDto reviewCreatedDto) {
         return Review.builder()
                 .user(User.builder()
-                        .id(Integer.valueOf(reviewCreateDto.getUserId()))
+                        .id(Integer.valueOf(reviewCreatedDto.getUserId()))
                         .build())
-                .movie(Movie.builder().id(Integer.valueOf(reviewCreateDto.getMovieId())).build())
-                .text(reviewCreateDto.getText())
-                .rate(Integer.valueOf(reviewCreateDto.getRate()))
+                .movie(Movie.builder().id(Integer.valueOf(reviewCreatedDto.getMovieId())).build())
+                .text(reviewCreatedDto.getText())
+                .rate(Integer.valueOf(reviewCreatedDto.getRate()))
                 .build();
     }
 
     public ReviewReceiveDto mapFromEntityToReviewReceiveDto(Review entity) {
         return ReviewReceiveDto.builder()
                 .id(entity.getId())
-                .user(UserReceiveDto.builder()
+                .user(UserReceivedDto.builder()
                         .id(entity.getUser().getId())
                         .name(entity.getUser().getName())
                         .birthday(entity.getUser().getBirthday())
@@ -43,7 +41,7 @@ public class ReviewMapper {
                         .role(entity.getUser().getRole())
                         .gender(entity.getUser().getGender())
                         .build())
-                .movie(MovieReceiveDto.builder()
+                .movie(MovieReceivedDto.builder()
                         .id(entity.getMovie().getId())
                         .title(entity.getMovie().getTitle())
                         .year(entity.getMovie().getYear())

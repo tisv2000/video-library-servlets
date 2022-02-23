@@ -1,14 +1,11 @@
 package com.github.tisv2000.video_library.servlet;
 
 import com.github.tisv2000.video_library.service.ImageService;
-import com.github.tisv2000.video_library.util.UrlPath;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
@@ -33,7 +30,6 @@ public class ImageServlet extends HttpServlet {
                 }, () -> resp.setStatus(404)
         );
     }
-
 
     @SneakyThrows
     private void writeImage(InputStream image, HttpServletResponse resp) {

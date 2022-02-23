@@ -3,9 +3,9 @@ package com.github.tisv2000.video_library.dto;
 import lombok.Builder;
 import lombok.Value;
 
-@Value // immutable - lombok подставит private final
+@Value
 @Builder
-public class PersonCreateDto {
+public class MoviePersonReceivedDto {
     String name;
-    String birthday;
+    PersonRoleDto role;
 }

@@ -31,17 +31,20 @@ public class PersonRoleDao implements Dao<Integer, PersonRole> {
     public List<PersonRole> findAll() {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_ALL_SQL);) {
+
             var resultSet = preparedStatement.executeQuery();
+
             List<PersonRole> persons = new ArrayList<>();
             while (resultSet.next()) {
-                persons.add(buildPerson(resultSet));
+                persons.add(build(resultSet));
             }
             return persons;
         }
     }
 
     @Override
-    public void save(PersonRole entity) {}
+    public void save(PersonRole entity) {
+    }
 
     @Override
     public boolean update(PersonRole entity) {
@@ -58,7 +61,8 @@ public class PersonRoleDao implements Dao<Integer, PersonRole> {
         return false;
     }
 
-    private PersonRole buildPerson(ResultSet resultSet) throws SQLException {
+
+    private PersonRole build(ResultSet resultSet) throws SQLException {
         return PersonRole.builder()
                 .id(resultSet.getInt("id"))
                 .title(resultSet.getString("title"))

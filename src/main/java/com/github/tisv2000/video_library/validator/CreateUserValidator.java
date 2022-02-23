@@ -1,28 +1,31 @@
 package com.github.tisv2000.video_library.validator;
 
-import com.github.tisv2000.video_library.dto.CreateUserDto;
-import com.github.tisv2000.video_library.entity.Gender;
-import com.github.tisv2000.video_library.util.LocalDateFormatter;
+import com.github.tisv2000.video_library.dto.UserCreatedDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CreateUserValidator implements Validator<CreateUserDto> {
+public class CreateUserValidator extends BaseValidator {
 
-    // зачем его делать singleton? - могут быть зависимости на другие классы, например на dao (проверить email на уникальность)
     private static final CreateUserValidator INSTANCE = new CreateUserValidator();
 
-    // TODO дописать
-    @Override
-    public ValidationResult isValid(CreateUserDto object) {
+    public ValidationResult isValid(UserCreatedDto user) {
         var validationResult = new ValidationResult();
-        if (!LocalDateFormatter.isValid(object.getBirthday())) {
-            validationResult.add(Error.of("invalid.birthday", "Birthday is invalid"));
-        }
-        if(Gender.valueOf(object.getGender()) == null) {
-            validationResult.add(Error.of("invalid.gender", "Gender is invalid"));
-        }
-        // regex - email, password
+
+        validateNotNull(user.getName(), validationResult, "Name");
+
+        validateNotNull(user.getBirthday(), validationResult, "Birthday");
+
+        validateNotNull(user.getEmail(), validationResult, "Email");
+        validateEmail(user.getEmail(), validationResult);
+
+        validateNotNull(user.getGender(), validationResult, "Password");
+        validatePassword(user.getPassword(), validationResult);
+
+        validateNotNull(user.getGender(), validationResult, "Gender");
+
+        validateNotNull(user.getImage(), validationResult, "Image");
+
         return validationResult;
     }
 

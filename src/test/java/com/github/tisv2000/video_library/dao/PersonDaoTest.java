@@ -48,7 +48,6 @@ public class PersonDaoTest {
         Assert.assertNotNull(person.getId());
     }
 
-    // TODO Нужно ли null и "" делать?
     @DataProvider(name = "personFilterDataProvider")
     public static Object[][] personFilterDataProvider() {
         return new Object[][]{

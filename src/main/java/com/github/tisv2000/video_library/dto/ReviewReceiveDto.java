@@ -7,8 +7,8 @@ import lombok.Value;
 @Builder
 public class ReviewReceiveDto {
     Integer id;
-    UserReceiveDto user;
-    MovieReceiveDto movie;
+    UserReceivedDto user;
+    MovieReceivedDto movie;
     String text;
     Integer rate;
 }

@@ -5,8 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class MoviePersonReceiveDto {
-    String name;
-    // TODO можно String тут?
-    String role;
+public class LoginDto {
+    String email;
+    String password;
 }

@@ -1,11 +1,11 @@
 package com.github.tisv2000.video_library.validator;
 
-import com.github.tisv2000.video_library.dto.ReviewCreateDto;
+import com.github.tisv2000.video_library.dto.ReviewCreatedDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ReviewValidator {
+public class ReviewValidator extends BaseValidator {
 
     private static final ReviewValidator INSTANCE = new ReviewValidator();
 
@@ -13,17 +13,13 @@ public class ReviewValidator {
         return INSTANCE;
     }
 
-    public ValidationResult isValid(ReviewCreateDto reviewCreateDto) {
+    public ValidationResult isValid(ReviewCreatedDto review) {
         var validationResult = new ValidationResult();
-        if (reviewCreateDto.getText().isEmpty()) {
-            validationResult.add(Error.of("text.empty", "Text must not be empty"));
-        }
-//        try {
-            int rate = Integer.parseInt(reviewCreateDto.getRate());
-        if (rate < 1 || rate > 11) {
-            validationResult.add(Error.of("rate.wrong.range", "Rate should be between 1 and 10"));
-        }
-//        }
+
+        validateNotNull(review.getText(), validationResult, "Review");
+
+        validateNotNull(review.getRate(), validationResult, "Rate");
+
         return validationResult;
     }
 

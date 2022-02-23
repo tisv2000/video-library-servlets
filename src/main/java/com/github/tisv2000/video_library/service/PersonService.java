@@ -1,7 +1,7 @@
 package com.github.tisv2000.video_library.service;
 
 import com.github.tisv2000.video_library.dao.PersonDao;
-import com.github.tisv2000.video_library.dto.PersonCreateDto;
+import com.github.tisv2000.video_library.dto.PersonCreatedDto;
 import com.github.tisv2000.video_library.dto.PersonDto;
 import com.github.tisv2000.video_library.dto.PersonFilterDto;
 import com.github.tisv2000.video_library.mapper.PersonMapper;
@@ -30,13 +30,12 @@ public class PersonService {
                 .collect(toList());
     }
 
-    // Optional<PersonDto>
     public Optional<PersonDto> findById(int personId) {
         var maybePerson = personDao.findById(personId);
         return maybePerson.map(person -> personMapper.mapToPersonDto(person)); // заворачивает в Optional
     }
 
-    public Integer createPerson(PersonCreateDto personCreatedDto) {
+    public Integer createPerson(PersonCreatedDto personCreatedDto) {
         var personEntity = personMapper.mapToEntity(personCreatedDto);
         personDao.save(personEntity);
         return personEntity.getId();

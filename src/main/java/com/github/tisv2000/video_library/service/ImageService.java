@@ -35,7 +35,6 @@ public class ImageService {
                 : Optional.empty();
     }
 
-    // не ленивый singletone
     public static ImageService getInstance() {
         return INSTANCE;
     }

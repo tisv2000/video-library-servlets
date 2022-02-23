@@ -1,7 +1,7 @@
 package com.github.tisv2000.video_library.service;
 
 import com.github.tisv2000.video_library.dao.ReviewDao;
-import com.github.tisv2000.video_library.dto.ReviewCreateDto;
+import com.github.tisv2000.video_library.dto.ReviewCreatedDto;
 import com.github.tisv2000.video_library.dto.ReviewReceiveDto;
 import com.github.tisv2000.video_library.mapper.ReviewMapper;
 import lombok.AccessLevel;
@@ -22,8 +22,8 @@ public class ReviewService {
         return INSTANCE;
     }
 
-    public Integer createReview(ReviewCreateDto reviewCreateDto) {
-        var entity = reviewMapper.mapFromReviewCreateDtoToEntity(reviewCreateDto);
+    public Integer createReview(ReviewCreatedDto reviewCreatedDto) {
+        var entity = reviewMapper.mapFromReviewCreateDtoToEntity(reviewCreatedDto);
         reviewDao.save(entity);
         return entity.getId();
     }

@@ -19,22 +19,12 @@ public class GenreDao implements Dao<Integer, Genre> {
         return INSTANCE;
     }
 
-    private static Map<Integer, Genre> cache = new HashMap<>();
+    private static final Map<Integer, Genre> cache = new HashMap<>();
 
     private static final String FIND_ALL_SQL = """
             SELECT id, title
             FROM genre
             """;
-
-    @Override
-    public void save(Genre entity) {
-        throw new DaoException("This function should not be called for predefined table");
-    }
-
-    @Override
-    public boolean update(Genre entity) {
-        throw new DaoException("This function should not be called for predefined table");
-    }
 
     @Override
     @SneakyThrows
@@ -74,9 +64,20 @@ public class GenreDao implements Dao<Integer, Genre> {
     }
 
     @Override
+    public void save(Genre entity) {
+        throw new DaoException("This function should not be called for predefined table");
+    }
+
+    @Override
+    public boolean update(Genre entity) {
+        throw new DaoException("This function should not be called for predefined table");
+    }
+
+    @Override
     public boolean delete(Integer id) {
         throw new DaoException("This function should not be called for predefined table");
     }
+
 
     private Genre build(ResultSet resultSet) throws SQLException {
         return Genre.builder()

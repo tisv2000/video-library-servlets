@@ -5,11 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class MovieCreateDto {
+public class PersonRoleDto {
+    Integer id;
     String title;
-    String year;
-    String country;
-    String image;
-    String genre;
-    String description;
 }

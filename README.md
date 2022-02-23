@@ -14,4 +14,8 @@ On you machine you should have:
 ## Future improvements
 
 - Use H2 DB for tests, so that real (production) DB is not affected
-- 
+- More unit tests - for service and util classes
+- Интернационализация
+- Прятать пароль
+- Ограничить возможность добавлять ревью для юзера к фильму до одного, + добавить возможность удалять ревью
+- Добавить тесты с Selenium Web Driver

@@ -1,6 +1,7 @@
 package com.github.tisv2000.video_library.mapper;
 
-import com.github.tisv2000.video_library.dto.CreateUserDto;
+import com.github.tisv2000.video_library.dto.UserCreatedDto;
+import com.github.tisv2000.video_library.dto.UserReceivedDto;
 import com.github.tisv2000.video_library.entity.Gender;
 import com.github.tisv2000.video_library.entity.Role;
 import com.github.tisv2000.video_library.entity.User;
@@ -9,12 +10,23 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CreateUserMapper implements Mapper<CreateUserDto, User>{
+public class UserMapper {
 
-    private static final CreateUserMapper INSTANCE = new CreateUserMapper();
+    private static final UserMapper INSTANCE = new UserMapper();
 
-    @Override
-    public User mapFrom(CreateUserDto object) {
+    public UserReceivedDto mapFrom(User object) {
+        return UserReceivedDto.builder()
+                .id(object.getId())
+                .name(object.getName())
+                .birthday(object.getBirthday())
+                .email(object.getEmail())
+                .image(object.getImage())
+                .gender(object.getGender())
+                .role(object.getRole())
+                .build();
+    }
+
+    public User mapFromUserCreatedDtoToEntity(UserCreatedDto object) {
         return User.builder()
                 .name(object.getName())
                 .birthday(LocalDateFormatter.format(object.getBirthday()))
@@ -26,7 +38,7 @@ public class CreateUserMapper implements Mapper<CreateUserDto, User>{
                 .build();
     }
 
-    public static CreateUserMapper getInstance() {
+    public static UserMapper getInstance() {
         return INSTANCE;
     }
 }

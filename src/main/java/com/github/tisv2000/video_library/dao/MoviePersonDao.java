@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,21 +61,13 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
 
             preparedStatement.setObject(1, movieId);
 
-            // TODO Question to Denis:
-            //  Do we need a fully built Person and Role objects if eventually we only care about 'name' and 'title' fields - MoviePersonReceiveDto?
             var resultSet = preparedStatement.executeQuery();
+
+            // TODO Question to Denis:
+            //  Do we need a fully built Person and Role objects if eventually we only care about 'name' and 'title' fields - MoviePersonReceivedDto?
             List<MoviePerson> moviePersons = new ArrayList<>();
             while (resultSet.next()) {
-                moviePersons.add(MoviePerson.builder()
-                        .person(Person
-                                .builder()
-                                .name(resultSet.getString("name"))
-                                .build())
-                        .role(PersonRole
-                                .builder()
-                                .title(resultSet.getString("title"))
-                                .build())
-                        .build());
+                moviePersons.add(build(resultSet));
             }
             return moviePersons;
         }
@@ -98,6 +91,20 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
     @Override
     public boolean delete(Integer id) {
         return false;
+    }
+
+
+    private MoviePerson build(ResultSet resultSet) throws SQLException {
+        return MoviePerson.builder()
+                .person(Person
+                        .builder()
+                        .name(resultSet.getString("name"))
+                        .build())
+                .role(PersonRole
+                        .builder()
+                        .title(resultSet.getString("title"))
+                        .build())
+                .build();
     }
 
 }

@@ -99,17 +99,15 @@ public class MovieDao implements Dao<Integer, Movie> {
     public Optional<Movie> findById(Integer id) {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL);) {
-
             preparedStatement.setInt(1, id);
+
             var resultSet = preparedStatement.executeQuery();
 
-            // TODO можно это заменить на Optional.ofNullable()?
             if (resultSet.next()) {
                 return Optional.of(build(resultSet));
             } else {
                 return Optional.empty();
             }
-
         }
     }
 
@@ -126,7 +124,6 @@ public class MovieDao implements Dao<Integer, Movie> {
             return movies;
         }
     }
-
 
     @SneakyThrows
     public List<Movie> findAllByFilters(MovieFilterDto movieFilterDto) {
@@ -165,6 +162,7 @@ public class MovieDao implements Dao<Integer, Movie> {
             }
 
             var resultSet = preparedStatement.executeQuery();
+
             List<Movie> movies = new ArrayList<>();
             while (resultSet.next()) {
                 movies.add(build(resultSet));
@@ -182,6 +180,7 @@ public class MovieDao implements Dao<Integer, Movie> {
             return preparedStatement.executeUpdate() == 1;
         }
     }
+
 
     private Movie build(ResultSet resultSet) throws SQLException {
         return Movie.builder()

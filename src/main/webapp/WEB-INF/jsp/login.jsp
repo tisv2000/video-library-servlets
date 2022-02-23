@@ -8,11 +8,9 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>Login</title>
-</head>
 <body>
-<form action="/login" method="post">
+<h3 style="color: darkblue;margin-left: 20px">Login</h3>
+<form action="/login" method="post" style="margin-left: 20px">
     <label for="emailId">Email:
         <input type="text" name="email" value="${param.email}" id="emailId">
     </label><br>
@@ -24,9 +22,11 @@
     <a href="/registration">
         <button type="button">Register</button>
     </a>
-    <c:if test="${param.error != null}">
+    <c:if test="${not empty requestScope.errors}">
         <div style="color: red">
-            <span>Login information is not correct!</span>
+            <c:forEach var="error" items="${requestScope.errors}">
+                <span>${error.message}</span><br>
+            </c:forEach>
         </div>
     </c:if>
 </form>

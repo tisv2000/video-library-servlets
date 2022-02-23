@@ -50,12 +50,11 @@ public class PersonDao implements Dao<Integer, Person> {
     public void save(Person entity) {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS);) {
-
             preparedStatement.setObject(1, entity.getName());
             preparedStatement.setObject(2, entity.getBirthday());
+
             preparedStatement.executeUpdate();
 
-            // TODO помедитировать над этим
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             generatedKeys.next();
             entity.setId(generatedKeys.getObject("id", Integer.class));
@@ -67,7 +66,9 @@ public class PersonDao implements Dao<Integer, Person> {
     public List<Person> findAll() {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_ALL_SQL);) {
+
             var resultSet = preparedStatement.executeQuery();
+
             List<Person> persons = new ArrayList<>();
             while (resultSet.next()) {
                 persons.add(build(resultSet));
@@ -82,12 +83,14 @@ public class PersonDao implements Dao<Integer, Person> {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_BY_ID_SQL);) {
             preparedStatement.setInt(1, id);
+
             var resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
-                // TODO тут optional только из-за второго return?
                 return Optional.of(build(resultSet));
+            } else {
+                return Optional.empty();
             }
-            return Optional.empty();
         }
     }
 
@@ -95,10 +98,10 @@ public class PersonDao implements Dao<Integer, Person> {
     public List<Person> findAllByName(PersonFilterDto personFilterDto) {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_BY_NAME_SQL);) {
-
             preparedStatement.setObject(1, personFilterDto.getName());
 
             var resultSet = preparedStatement.executeQuery();
+
             List<Person> movies = new ArrayList<>();
             while (resultSet.next()) {
                 movies.add(build(resultSet));

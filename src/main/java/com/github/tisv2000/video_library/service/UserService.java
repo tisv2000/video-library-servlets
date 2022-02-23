@@ -1,11 +1,11 @@
 package com.github.tisv2000.video_library.service;
 
 import com.github.tisv2000.video_library.dao.UserDao;
-import com.github.tisv2000.video_library.dto.CreateUserDto;
-import com.github.tisv2000.video_library.dto.UserReceiveDto;
+import com.github.tisv2000.video_library.dto.LoginDto;
+import com.github.tisv2000.video_library.dto.UserCreatedDto;
+import com.github.tisv2000.video_library.dto.UserReceivedDto;
 import com.github.tisv2000.video_library.exception.ValidationException;
-import com.github.tisv2000.video_library.mapper.CreateUserMapper;
-import com.github.tisv2000.video_library.mapper.GetUserMapper;
+import com.github.tisv2000.video_library.mapper.UserMapper;
 import com.github.tisv2000.video_library.validator.CreateUserValidator;
 import lombok.NoArgsConstructor;
 
@@ -18,29 +18,23 @@ public class UserService {
 
     private final CreateUserValidator createUserValidator = CreateUserValidator.getInstance();
     private final UserDao userDao = UserDao.getInstance();
-    private final CreateUserMapper createUserMapper = CreateUserMapper.getInstance();
-    private final GetUserMapper getUserMapper = GetUserMapper.getInstance();
+    private final UserMapper userMapper = UserMapper.getInstance();
 
     // Either object - закончился успешно либо провален
-    public Integer create(CreateUserDto createUserDto) {
-        var validationResult = createUserValidator.isValid(createUserDto);
-        if (!validationResult.isValid()) {
-            throw new ValidationException(validationResult.getErrors());
-        }
-        var userEntity = createUserMapper.mapFrom(createUserDto);
+    public Integer create(UserCreatedDto userCreatedDto) {
+        var userEntity = userMapper.mapFromUserCreatedDtoToEntity(userCreatedDto);
         userDao.save(userEntity);
         return userEntity.getId();
     }
 
-    public Optional<UserReceiveDto> login(String email, String password) {
-        // почему мы не проверяем на уровне сервиса на наличие ошибок?
-        return userDao.findByEmailAndPassword(email, password)
-                .map(getUserMapper::mapFrom);
+    public Optional<UserReceivedDto> login(LoginDto loginDto) {
+        return userDao.findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword())
+                .map(userMapper::mapFrom);
     }
 
-    public Optional<UserReceiveDto> findByEmail(String email) {
+    public Optional<UserReceivedDto> findByEmail(String email) {
         return userDao.findByEmail(email)
-                .map(getUserMapper::mapFrom);
+                .map(userMapper::mapFrom);
     }
 
     public static UserService getInstance() {

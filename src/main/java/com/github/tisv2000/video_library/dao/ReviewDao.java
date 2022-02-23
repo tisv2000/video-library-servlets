@@ -42,12 +42,14 @@ public class ReviewDao implements Dao<Integer, Review> {
     @SneakyThrows
     public List<Review> findAllByMovieId(int movieId) {
         var sql = FIND_ALL_SQL + " WHERE r.movie_id = ?";
+
         return findByCustomId(sql, movieId);
     }
 
     @SneakyThrows
     public List<Review> findAllByUserId(int userId) {
         var sql = FIND_ALL_SQL + " WHERE r.user_id = ?";
+
         return findByCustomId(sql, userId);
     }
 
@@ -55,6 +57,7 @@ public class ReviewDao implements Dao<Integer, Review> {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setObject(1, customId);
+
             return findAllByPreparedStatement(preparedStatement);
         }
     }
@@ -64,36 +67,19 @@ public class ReviewDao implements Dao<Integer, Review> {
     public List<Review> findAll() {
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_ALL_SQL);) {
+
             return findAllByPreparedStatement(preparedStatement);
         }
     }
 
     @SneakyThrows
     private List<Review> findAllByPreparedStatement(PreparedStatement preparedStatement) {
+
         var resultSet = preparedStatement.executeQuery();
+
         List<Review> reviews = new ArrayList<>();
         while (resultSet.next()) {
-            reviews.add(Review.builder()
-                    .id(resultSet.getInt("reviewId"))
-                    // для юзера не все поля возвращаем
-                    .user(User.builder()
-                            .id(resultSet.getInt("userId"))
-                            .name(resultSet.getString("userName"))
-                            .birthday(resultSet.getDate("userBirthday").toLocalDate())
-                            .email(resultSet.getString("userEmail"))
-                            .role(Role.valueOf(resultSet.getString("userRole")))
-                            .gender(Gender.valueOf(resultSet.getString("userGender")))
-                            .build())
-                    .movie(Movie.builder()
-                            .id(resultSet.getInt("movieId"))
-                            .title(resultSet.getString("movieTitle"))
-                            .year(resultSet.getInt("movieYear"))
-                            .country(resultSet.getString("movieCountry"))
-                            .description(resultSet.getString("movieDescription"))
-                            .build())
-                    .text(resultSet.getString("reviewText"))
-                    .rate(resultSet.getInt("reviewRate"))
-                    .build());
+            reviews.add(build(resultSet));
         }
         return reviews;
     }
@@ -116,7 +102,6 @@ public class ReviewDao implements Dao<Integer, Review> {
         }
     }
 
-
     @Override
     public Optional<Review> findById(Integer id) {
         return Optional.empty();
@@ -130,6 +115,30 @@ public class ReviewDao implements Dao<Integer, Review> {
     @Override
     public boolean delete(Integer id) {
         return false;
+    }
+
+
+    private Review build(ResultSet resultSet) throws SQLException {
+        return Review.builder()
+                .id(resultSet.getInt("reviewId"))
+                .user(User.builder()
+                        .id(resultSet.getInt("userId"))
+                        .name(resultSet.getString("userName"))
+                        .birthday(resultSet.getDate("userBirthday").toLocalDate())
+                        .email(resultSet.getString("userEmail"))
+                        .role(Role.valueOf(resultSet.getString("userRole")))
+                        .gender(Gender.valueOf(resultSet.getString("userGender")))
+                        .build())
+                .movie(Movie.builder()
+                        .id(resultSet.getInt("movieId"))
+                        .title(resultSet.getString("movieTitle"))
+                        .year(resultSet.getInt("movieYear"))
+                        .country(resultSet.getString("movieCountry"))
+                        .description(resultSet.getString("movieDescription"))
+                        .build())
+                .text(resultSet.getString("reviewText"))
+                .rate(resultSet.getInt("reviewRate"))
+                .build();
     }
 
 }

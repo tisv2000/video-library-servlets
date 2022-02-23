@@ -5,14 +5,16 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class MovieFilterValidator implements Validator<MovieFilterDto>{
+public class MovieFilterValidator extends BaseValidator implements Validator<MovieFilterDto>{
 
     private static final MovieFilterValidator INSTANCE = new MovieFilterValidator();
 
     @Override
-    public ValidationResult isValid(MovieFilterDto object) {
+    public ValidationResult isValid(MovieFilterDto movieFilterDto) {
         var validationResult = new ValidationResult();
-        // TODO implement
+
+        validateYear(movieFilterDto.getYear(), validationResult);
+
         return validationResult;
     }
 
