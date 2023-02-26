@@ -12,11 +12,11 @@ public class PropertiesUtils {
     private static final Properties PROPERTIES = new Properties();
 
     static {
-        loadProperties();
+        loadPropertiesFromPropertiesFile();
     }
 
     @SneakyThrows
-    private static void loadProperties() {
+    private static void loadPropertiesFromPropertiesFile() {
         try (var inputStream =
                      PropertiesUtils.class.getClassLoader().getResourceAsStream("application.properties");) {
             PROPERTIES.load(inputStream);
@@ -24,6 +24,13 @@ public class PropertiesUtils {
     }
 
     public static String get(String key) {
-        return PROPERTIES.getProperty(key);
+        String property = System.getProperty(key);
+        if (property == null) {
+            property = System.getenv(key);
+            if (property == null) {
+                property = PROPERTIES.getProperty(key);
+            }
+        }
+        return property;
     }
 }

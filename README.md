@@ -1,21 +1,46 @@
 # Video Library
 
-This is a pet project of Lana Timofeeva
+This is a pet project of Lana Timofeeva.
+In this project I wanted to show my work with the following technologies:
+- Java 17
+- Servlets
+- JSP
+- Docker
+- Postgres
+- Migration scripts
 
 ## Prerequisites
 
 On you machine you should have:
 
 - Java 14 or higher
-- PostgreSQL server - for executing SQL scripts and working with DB
-- Tomcat server - for manual deployment of the application
+- Docker - for application start
 
+##Start the server locally:
+For local run, just simple execute the start script. 
+
+To make scripts executable from a command line, run:
+```
+chmod +x start
+chmod +x cleanup
+```
+Run start script to start up docker containers for Postgres and Video Library and set up a network between them:
+```
+./start
+```
+
+To stop docker containers for Postgres and Video Library and remove network between them, run the cleanup script:
+```
+./cleanup
+```
+
+TODO: add maven wrapper
 
 ## Future improvements
 
 - Use H2 DB for tests, so that real (production) DB is not affected
 - More unit tests - for service and util classes
-- Интернационализация
+- Localization
 - Прятать пароль
 - Ограничить возможность добавлять ревью для юзера к фильму до одного, + добавить возможность удалять ревью
 - Добавить тесты с Selenium Web Driver
