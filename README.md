@@ -26,21 +26,19 @@ chmod +x cleanup
 ```
 Run start script to start up docker containers for Postgres and Video Library and set up a network between them:
 ```
-./start
+./script-start
 ```
 
 To stop docker containers for Postgres and Video Library and remove network between them, run the cleanup script:
 ```
-./cleanup
+./script-cleanup
 ```
-
-TODO: add maven wrapper
 
 ## Future improvements
 
 - Use H2 DB for tests, so that real (production) DB is not affected
 - More unit tests - for service and util classes
 - Localization
-- Прятать пароль
-- Ограничить возможность добавлять ревью для юзера к фильму до одного, + добавить возможность удалять ревью
-- Добавить тесты с Selenium Web Driver
+- Hide password
+- Restrict user to only be able to add one review for the movies + add possibility to delete reviews
+- Add tests with Selenium Web Driver
