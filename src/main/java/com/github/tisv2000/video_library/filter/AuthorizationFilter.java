@@ -8,13 +8,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
 
+import static com.github.tisv2000.video_library.util.UrlPath.LOCALE;
 import static com.github.tisv2000.video_library.util.UrlPath.LOGIN;
 import static com.github.tisv2000.video_library.util.UrlPath.REGISTRATION;
 
 @WebFilter("/*")
 public class AuthorizationFilter implements Filter {
 
-    private static final Set<String> PUBLIC_PATH = Set.of(LOGIN, REGISTRATION);
+    private static final Set<String> PUBLIC_PATH = Set.of(LOGIN, REGISTRATION, LOCALE);
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

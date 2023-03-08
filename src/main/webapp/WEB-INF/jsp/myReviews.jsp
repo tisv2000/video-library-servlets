@@ -7,12 +7,12 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: darkgreen;margin-left:20px">All my reviews</h3>
+<h3 style="color: darkgreen;margin-left:20px"><fmt:message key="myReviews.title"/></h3>
 <table style="width: 100%;margin-left:20px">
     <tr style="text-align: left">
-        <th>Movie</th>
-        <th>Rate</th>
-        <th>Review</th>
+        <th><fmt:message key="myReviews.movieTitle"/></th>
+        <th><fmt:message key="myReviews.rate"/></th>
+        <th><fmt:message key="myReviews.review"/></th>
     </tr>
 
     <c:forEach var="review" items="${requestScope.reviews}">

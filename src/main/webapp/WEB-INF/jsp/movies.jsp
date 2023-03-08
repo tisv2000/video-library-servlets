@@ -18,7 +18,7 @@
     </label>
     <label for="genreId" style="margin-left: 10px"><fmt:message key="movie.genre"/>:
         <select name="genre" id="genreId">
-            <option value="" disabled selected>Select your option</option>
+            <option value="" disabled selected><fmt:message key="movie.selectGenreText"/></option>
             <c:forEach var="genre" items="${requestScope.genres}">
                 <option value="${genre.id}">${genre.title}</option>
             </c:forEach>
@@ -49,7 +49,7 @@
         </label><br>
         <label for="addGenreId"><fmt:message key="movie.newMovieGenre"/>:
             <select name="genre" id="addGenreId">
-                <option value="" disabled selected>Select your option</option>
+                <option value="" disabled selected><fmt:message key="movie.selectGenreText"/></option>
                 <c:forEach var="genre" items="${requestScope.genres}">
                     <option value="${genre.id}">${genre.title}</option>
                 </c:forEach>
@@ -75,10 +75,10 @@
 <h3 style="color: blueviolet;float:left;margin-left:20px;margin-right:20px"><fmt:message key="movie.moviesListTitle"/></h3>
 <table style="width: 100%;margin-left:20px">
     <tr style="text-align: left">
-        <th>Title</th>
-        <th>Year</th>
-        <th>Country</th>
-        <th>Genre</th>
+        <th><fmt:message key="movie.title"/></th>
+        <th><fmt:message key="movie.year"/></th>
+        <th><fmt:message key="movie.country"/></th>
+        <th><fmt:message key="movie.genre"/></th>
     </tr>
 
     <c:forEach var="movie" items="${requestScope.movies}">

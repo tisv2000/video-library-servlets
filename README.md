@@ -2,9 +2,10 @@
 
 This is a pet project of Lana Timofeeva.
 In this project I wanted to show my work with the following technologies:
-- Java 17
+- Java 14+
 - Servlets
 - JSP
+- JDBC
 - Docker
 - Postgres
 - Migration scripts
@@ -16,9 +17,12 @@ On you machine you should have:
 - Java 14 or higher
 - Docker - for application start
 
-##Start the server locally:
-For local run, just simple execute the start script. 
-
+##Start the server locally: (how to get and run)
+For local run, just simple execute the start script.
+```
+git clone
+cd repo name
+```
 To make scripts executable from a command line, run:
 ```
 chmod +x start
@@ -33,6 +37,11 @@ To stop docker containers for Postgres and Video Library and remove network betw
 ```
 ./stop-app
 ```
+## Key features
+
+
+## Database scheme
+
 
 ## Future improvements
 

@@ -2,13 +2,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <meta charset="UTF-8">
-</head>
 <body>
 <%@include file="header.jsp" %>
-<%--<fmt:setLocale value="ru_RU"/>--%>
-<%--<fmt:setBundle basename="translations"/>--%>
 <h3 style="color: darkblue;margin-left: 20px"><fmt:message key="login.title"/></h3>
 <form action="/login" method="post" style="margin-left: 20px">
     <label for="emailId"><fmt:message key="login.email"/>:

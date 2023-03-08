@@ -3,34 +3,38 @@
 <head>
     <title>Video Library</title>
 </head>
-<%--<fmt:setLocale value="${sessionScope.lang != null ? sessionScope.lang : (param.lang != null ? param.lang : 'ru_RU')}"/>--%>
-<fmt:setLocale value="en_US"/>
+<fmt:setLocale value="${sessionScope.lang != null ? sessionScope.lang : 'en_US'}"/>
 <fmt:setBundle basename="translations"/>
 <div>
-    <form action="/locale", method="post">
-        <select name="lang" onchange="this.form.submit()">
-            <option value=""></option>
-            <option value="en">EN</option>
-            <option value="ru">RU</option>
-        </select>
+    <form action="${pageContext.request.contextPath}/locale" , method="post">
+        <button type="submit" name="lang" value="en_US">EN</button>
+        <button type="submit" name="lang" value="ru_RU">RU</button>
+<%--                <select name="lang" onchange="this.form.submit()">--%>
+<%--                    <option value="en_US">EN</option>--%>
+<%--                    <option value="ru_RU">RU</option>--%>
+<%--                </select>--%>
     </form>
 </div>
 <div style="float:left;margin-left:20px">
-    <a href="/movies">| Movies |</a>
+    <c:if test="${sessionScope.user != null}">
+        <a href="/movies">| <fmt:message key="header.movies"/> |</a>
 
-    <a href="/persons">| Persons |</a>
+        <a href="/persons">| <fmt:message key="header.persons"/> |</a>
 
-    <a href="/myReviews">| My reviews |</a>
+        <a href="/myReviews">| <fmt:message key="header.myReviews"/> |</a>
+    </c:if>
 
     <c:if test="${sessionScope.user.role == 'ADMIN'}">
-        <a href="/reviews">| Reviews |</a>
+        <a href="/reviews">| <fmt:message key="header.reviews"/> |</a>
     </c:if>
 </div>
 
 <div style="float:right">
     <b>${sessionScope.user.name}</b>
 
-    <a href="/logout" style="margin-left: 20px;margin-right: 20px">Log out</a>
+    <c:if test="${sessionScope.user != null}">
+        <a href="/logout" style="margin-left: 20px;margin-right: 20px"><fmt:message key="header.logout"/></a>
+    </c:if>
 </div>
 <br>
 

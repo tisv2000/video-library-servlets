@@ -3,21 +3,21 @@
 <html>
 <body>
 <%@include file="header.jsp" %>
-<h2 style="margin-left: 20px;color: blueviolet">Movie details</h2>
+<h2 style="margin-left: 20px;color: blueviolet"><fmt:message key="movieDetails.pageTitle"/></h2>
 <div>
     <img src="/images/movies/${requestScope.movie.image}.jpeg" width="auto" height="50%"
          style="float:left;margin-left: 20px;margin-right: 10px"/>
     <div style="align-content:center;margin-right: 50px">
-        <span><b>Title:</b> ${requestScope.movie.title}</span> <br>
-        <span><b>Release year:</b> ${requestScope.movie.year}</span> <br>
-        <span><b>Country:</b> ${requestScope.movie.country}</span> <br><br>
-        <span><b>Description:</b> ${requestScope.movie.description}</span> <br><br>
+        <span><b><fmt:message key="movieDetails.title"/>:</b> ${requestScope.movie.title}</span> <br>
+        <span><b><fmt:message key="movieDetails.year"/>:</b> ${requestScope.movie.year}</span> <br>
+        <span><b><fmt:message key="movieDetails.country"/>:</b> ${requestScope.movie.country}</span> <br><br>
+        <span><b><fmt:message key="movieDetails.description"/>:</b> ${requestScope.movie.description}</span> <br><br>
     </div>
 </div><br>
-<table style="width: 50%;margin-left:20px"><b>Movie Persons:</b><br>
+<table style="width: 50%;margin-left:20px"><b><fmt:message key="movieDetails.moviePersonsTitle"/>:</b><br>
     <tr style="text-align: left">
-        <th>Name</th>
-        <th>Role</th>
+        <th><fmt:message key="movieDetails.moviePerson.name"/></th>
+        <th><fmt:message key="movieDetails.moviePerson.role"/></th>
     </tr>
 
     <c:forEach var="moviePerson" items="${requestScope.moviePersons}">
@@ -30,20 +30,20 @@
 <br>
 
 <c:if test="${sessionScope.user.role == 'ADMIN'}">
-    <h3 style="color: blueviolet;margin-left: 20px">Add movie person</h3>
+    <h3 style="color: blueviolet;margin-left: 20px"><fmt:message key="movieDetails.addMoviePerson.title"/></h3>
     <form action="${pageContext.request.contextPath}/movies/${requestScope.movie.id}" method="post"
           style="margin-left: 20px">
-        <label for="personId">Person:
+        <label for="personId"><fmt:message key="movieDetails.addMoviePerson.person"/>:
             <select name="person" id="personId">
-                <option value="" disabled selected>Select person</option>
+                <option value="" disabled selected><fmt:message key="movieDetails.addMoviePerson.selectPersonText"/></option>
                 <c:forEach var="person" items="${requestScope.persons}">
                     <option value="${person.id}">${person.name}</option>
                 </c:forEach>
             </select>
         </label>
-        <label for="roleId">Role:
+        <label for="roleId"><fmt:message key="movieDetails.addMoviePerson.role"/>:
             <select name="role" id="roleId">
-                <option value="" disabled selected>Select role</option>
+                <option value="" disabled selected><fmt:message key="movieDetails.addMoviePerson.selectRoleText"/></option>
                 <c:forEach var="role" items="${requestScope.roles}">
                     <option value="${role.id}">${role.title}</option>
                 </c:forEach>
@@ -51,7 +51,7 @@
         </label>
         <input hidden name="movieId" value="${requestScope.movie.id}">
         <input hidden name="addMoviePersonMode" value="true">
-        <button type="submit" style="color: blueviolet">Add person</button>
+        <button type="submit" style="color: blueviolet"><fmt:message key="movieDetails.addMoviePerson.addPersonButton"/></button>
         <br>
             <%--        TODO How to do this?--%>
         <c:if test="${not empty requestScope.addMoviePersonErrors}">
@@ -63,17 +63,17 @@
         </c:if>
     </form>
 </c:if>
-<h3 style="color: blueviolet;margin-left: 20px">Add review</h3>
+<h3 style="color: blueviolet;margin-left: 20px"><fmt:message key="movieDetails.addReview.title"/></h3>
 <form action="${pageContext.request.contextPath}/movies/${requestScope.movie.id}" method="post"
       style="margin-left: 20px">
-    <label for="textId">Text:
+    <label for="textId"><fmt:message key="movieDetails.addReview.text"/>:
         <input type="text" name="text" id="textId">
     </label>
-    <label for="rateId">Rate (1-10):
+    <label for="rateId"><fmt:message key="movieDetails.addReview.rate"/> (1-10):
         <input type="range" min="1" max="10" name="rate" id="rateId">
     </label>
     <input hidden name="movieId" value="${requestScope.movie.id}">
-    <button type="submit" style="color:blueviolet">Add review</button>
+    <button type="submit" style="color:blueviolet"><fmt:message key="movieDetails.addReview.addReviewButton"/></button>
     <br>
     <c:if test="${not empty requestScope.addReviewErrors}">
         <div style="color: red;">
@@ -84,13 +84,13 @@
     </c:if>
 </form>
 
-<h3 style="color: blueviolet;margin-left: 20px">All review</h3>
+<h3 style="color: blueviolet;margin-left: 20px"><fmt:message key="movieDetails.allReviews.title"/></h3>
 <div>
     <table style="width: 100%;margin-left:20px">
         <tr style="text-align: left">
-            <th>Rate</th>
-            <th>Review</th>
-            <th>User</th>
+            <th><fmt:message key="movieDetails.allReviews.rate"/></th>
+            <th><fmt:message key="movieDetails.allReviews.review"/></th>
+            <th><fmt:message key="movieDetails.allReviews.user"/></th>
         </tr>
 
         <c:forEach var="review" items="${requestScope.reviews}">

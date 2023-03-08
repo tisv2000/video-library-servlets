@@ -9,7 +9,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/locale")
+import static com.github.tisv2000.video_library.util.UrlPath.LOCALE;
+
+@WebServlet(LOCALE)
 public class LocaleServlet extends HttpServlet {
 
     @Override
@@ -20,7 +22,7 @@ public class LocaleServlet extends HttpServlet {
 
         var prevPage = req.getHeader("referer");
         var page = prevPage != null ? prevPage : UrlPath.LOGIN;
-        resp.sendRedirect(page + "?lang=" + language);
+        resp.sendRedirect(page);
 
     }
 

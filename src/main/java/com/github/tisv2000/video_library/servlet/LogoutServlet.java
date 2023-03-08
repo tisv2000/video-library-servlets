@@ -16,7 +16,9 @@ public class LogoutServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        var language = req.getSession().getAttribute("lang");
         req.getSession().invalidate();
+        req.getSession().setAttribute("lang", language);
         resp.sendRedirect(LOGIN);
     }
 }

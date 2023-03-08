@@ -4,12 +4,12 @@
 <html>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: blue;margin-left:20px;margin-right:20px">Filter</h3>
+<h3 style="color: blue;margin-left:20px;margin-right:20px"><fmt:message key="person.filter.title"/></h3>
 <form action="/persons" method="get" style="margin-left: 20px">
-    <label for="nameId">Name:
+    <label for="nameId"><fmt:message key="person.filter.name"/>:
         <input type="text" name="name" value="${param.name}" id="nameId">
     </label>
-    <button type="submit" style="margin-left: 10px;color: blue">Filter</button>
+    <button type="submit" style="margin-left: 10px;color: blue"><fmt:message key="person.filter.filterButton"/></button>
     <br>
     <c:if test="${not empty requestScope.filterPersonErrors}">
         <div style="color: red">
@@ -21,15 +21,15 @@
 </form>
 
 <c:if test="${sessionScope.user.role == 'ADMIN'}">
-    <h3 style="color: blue;margin-left:20px">Add a new person</h3>
+    <h3 style="color: blue;margin-left:20px"><fmt:message key="person.addPerson.title"/></h3>
     <form action="/persons" method="post" style="margin-left: 20px">
-        <label for="addNameId">Name:
+        <label for="addNameId"><fmt:message key="person.addPerson.name"/>:
             <input type="text" name="name" value="${param.name}" id="addNameId">
         </label><br>
-        <label for="addBirthdayId">Birthday:
+        <label for="addBirthdayId"><fmt:message key="person.addPerson.birthday"/>:
             <input type="date" name="birthday" value="${param.birthday}" id="addBirthdayId">
         </label><br>
-        <button type="submit" style="color: blue">Add Person</button>
+        <button type="submit" style="color: blue"><fmt:message key="person.addPerson.addButton"/></button>
         <br>
         <c:if test="${not empty requestScope.addPersonErrors}">
             <div style="color: red">
@@ -41,11 +41,11 @@
         <br>
     </form>
 </c:if>
-<h3 style="color: blue;margin-left:20px">List of all persons</h3>
+<h3 style="color: blue;margin-left:20px"><fmt:message key="person.allPersons.title"/></h3>
 <table style="width: 100%;margin-left:20px">
     <tr style="text-align: left">
-        <th>Name</th>
-        <th>Birthday</th>
+        <th><fmt:message key="person.allPersons.name"/></th>
+        <th><fmt:message key="person.allPersons.birthday"/></th>
     </tr>
 
     <c:forEach var="person" items="${requestScope.persons}">
