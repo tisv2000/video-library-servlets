@@ -15,7 +15,7 @@ VALUES ('Producer'),
        ('Actor'),
        ('Composer');
 
-INSERT INTO person (name, birth_date)
+INSERT INTO person (name, birthday)
 VALUES ('Emma Watson', '1990-04-25'),
        ('Brad Pitt', '1963-12-18'),
        ('Danial Radcliffe', '1989-07-23'),

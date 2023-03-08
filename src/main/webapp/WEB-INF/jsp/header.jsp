@@ -1,7 +1,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <head>
     <title>Video Library</title>
 </head>
+<%--<fmt:setLocale value="${sessionScope.lang != null ? sessionScope.lang : (param.lang != null ? param.lang : 'ru_RU')}"/>--%>
+<fmt:setLocale value="en_US"/>
+<fmt:setBundle basename="translations"/>
+<div>
+    <form action="/locale", method="post">
+        <select name="lang" onchange="this.form.submit()">
+            <option value=""></option>
+            <option value="en">EN</option>
+            <option value="ru">RU</option>
+        </select>
+    </form>
+</div>
 <div style="float:left;margin-left:20px">
     <a href="/movies">| Movies |</a>
 

@@ -26,12 +26,12 @@ chmod +x cleanup
 ```
 Run start script to start up docker containers for Postgres and Video Library and set up a network between them:
 ```
-./script-start
+./start-app
 ```
 
 To stop docker containers for Postgres and Video Library and remove network between them, run the cleanup script:
 ```
-./script-cleanup
+./stop-app
 ```
 
 ## Future improvements

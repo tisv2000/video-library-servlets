@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS person
 (
     id         SERIAL PRIMARY KEY,
     name       VARCHAR(256) NOT NULL,
-    birth_date DATE
+    birthday   DATE
 );
 
 CREATE TABLE IF NOT EXISTS movie_person
