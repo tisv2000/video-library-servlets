@@ -13,7 +13,7 @@ public class PersonFilterValidator extends BaseValidator implements Validator<Pe
     public ValidationResult isValid(PersonFilterDto person) {
         var validationResult = new ValidationResult();
 
-        validateNotNull(person.getName(), validationResult, "Name");
+        validateNotNull(person.getName(), validationResult, "person.filter.name");
 
         return validationResult;
     }

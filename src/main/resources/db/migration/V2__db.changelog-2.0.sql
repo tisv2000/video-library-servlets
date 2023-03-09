@@ -16,25 +16,29 @@ VALUES (1, 'Producer'),
        (4, 'Composer');
 
 INSERT INTO person (id, name, birthday)
-VALUES (1, 'Emma Watson', '1990-04-25'),
-       (2, 'Brad Pitt', '1963-12-18'),
-       (3, 'Danial Radcliffe', '1989-07-23'),
-       (4, 'Rupert Grint', '1988-08-24'),
-       (5, 'Russel Crowe', '1964-04-07'),
-       (6, 'Angelina Jolie', '1975-06-04'),
-       (7, 'Tom Cruise', '1962-07-03'),
-       (8, 'Peter Jackson', '1961-10-31'),
-       (9, 'Orlando Bloom', '1977-01-13'),
-       (10, 'Hans Zimmer', '1957-09-12'),
-       (11, 'Johnny Depp', '1963-06-09'),
-       (12, 'Cameron Diaz', '1972-08-30'),
-       (13, 'Kate Winslet', '1975-10-05'),
-       (14, 'Nina Dobrev', '1989-01-09'),
-       (15, 'Ian Somerhalder', '1978-12-08'),
-       (16, 'Paul Wesley', '1982-07-23'),
-       (17, 'Zac Efron', '1987-10-18'),
-       (18, 'Zendaya', '1996-09-01'),
-       (19, 'Hugh Jackman', '1968-10-12');
+VALUES (1, 'Emma Watson', '1990-04-25', 'EmmaWatson'),
+       (2, 'Brad Pitt', '1963-12-18', 'BradPitt'),
+       (3, 'Danial Radcliffe', '1989-07-23', 'DanialRadcliffe'),
+       (4, 'Rupert Grint', '1988-08-24', 'RupertGrint'),
+       (5, 'Russel Crowe', '1964-04-07', 'RusselCrowe'),
+       (6, 'Angelina Jolie', '1975-06-04', 'AngelinaJolie'),
+       (7, 'Tom Cruise', '1962-07-03', 'TomCruise'),
+       (8, 'Peter Jackson', '1961-10-31', 'PeterJackson'),
+       (9, 'Orlando Bloom', '1977-01-13', 'OrlandoBloom'),
+       (10, 'Hans Zimmer', '1957-09-12', 'HansZimmer'),
+       (11, 'Johnny Depp', '1963-06-09', 'JohnnyDepp'),
+       (12, 'Cameron Diaz', '1972-08-30', 'CameronDiaz'),
+       (13, 'Kate Winslet', '1975-10-05', 'KateWinslet'),
+       (14, 'Nina Dobrev', '1989-01-09', 'NinaDobrev'),
+       (15, 'Ian Somerhalder', '1978-12-08', 'IanSomerhalder'),
+       (16, 'Paul Wesley', '1982-07-23', 'PaulWesley'),
+       (17, 'Zac Efron', '1987-10-18', 'ZacEfron'),
+       (18, 'Zendaya', '1996-09-01', 'Zendaya'),
+       (19, 'Hugh Jackman', '1968-10-12', 'HughJackman'),
+       (20, 'Leonardo DiCaprio', '1974-11-11', 'LeonardoDiCaprio'),
+       (21, 'Kat Graham', '1989-09-05', 'KatGraham'),
+       (22, 'Candice King', '1987-05-13', 'CandiceKing'),
+       (23, 'Michael Trevino', '1985-01-25', 'MichaelTrevino');
 SELECT SETVAL('person_id_seq', (SELECT MAX(id) FROM person));
 
 INSERT INTO movie (id, title, year, country, genre_id, image, description)
@@ -105,13 +109,15 @@ VALUEs (1, 10, 4),
        (15, 4, 3),
        (16, 1, 3),
        (16, 3, 3),
-       (16, 4, 3);
+       (16, 4, 3),
+       (2, 20, 3),
+       (3, 21, 3),
+       (3, 22, 3),
+       (3, 23, 3);
 
 INSERT INTO users (id, name, birthday, password, email, role, gender)
-VALUES (1, 'user1', '2000-01-01', 'user1', 'user1', 'USER', 'MALE'),
-       (2, 'user2', '1999-01-01', 'user2', 'user2', 'USER', 'FEMALE'),
-       (3, 'user3', '1995-01-01', 'user3', 'user3', 'USER', 'MALE'),
-       (4, 'admin', '1990-01-01', 'admin', 'admin', 'ADMIN', 'MALE');
+VALUES (1, 'user1', '2000-01-01', 'pass12345', 'user1@gmail.com', 'USER', 'MALE'),
+       (2, 'admin', '1990-01-01', 'pass12345', 'admin@gmail.com', 'ADMIN', 'MALE');
 SELECT SETVAL('users_id_seq', (SELECT MAX(id) FROM users));
 
 INSERT INTO review (user_id, movie_id, text, rate)
@@ -124,6 +130,3 @@ VALUES (1, 1, 'Nice movie', 9),
        (4, 1, 'Great movie', 10),
        (4, 3, 'I really like this movie', 9);
 
-
-select m.title
-from movie_person mp inner join movie m on mp.person_id = 1 and mp.movie_id = m.id;

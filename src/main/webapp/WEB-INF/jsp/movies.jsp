@@ -5,24 +5,31 @@
 <html>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color:blueviolet;margin-left:20px;margin-right:20px"><fmt:message key="movie.filterTitle"/></h3>
+<h2 style="color:blueviolet;margin-left:20px"><fmt:message key="movie.filterTitle"/></h2>
 <form action="${pageContext.request.contextPath}/movies" method="get">
     <label for="titleId" style="margin-left:20px"><fmt:message key="movie.title"/>:
-        <input type="text" name="title" value="${param.name}" id="titleId">
+        <input type="text" name="filterTitle" value="${param.name}" id="titleId">
     </label>
     <label for="countryId" style="margin-left: 10px"><fmt:message key="movie.country"/>:
-        <input type="text" name="country" value="${param.country}" id="countryId">
+        <input type="text" name="filterCountry" value="${param.country}" id="countryId">
     </label>
     <label for="yearId" style="margin-left: 10px"><fmt:message key="movie.year"/>:
-        <input type="text" name="year" value="${param.year}" id="yearId">
+        <input type="text" name="filterYear" value="${param.year}" id="yearId">
     </label>
     <label for="genreId" style="margin-left: 10px"><fmt:message key="movie.genre"/>:
-        <select name="genre" id="genreId">
-            <option value="" disabled selected><fmt:message key="movie.selectGenreText"/></option>
+        <select name="filterGenre" id="genreId">
+            <option value="" disabled ${requestScope.filterGenre == null ? 'selected' : ''}><fmt:message key="movie.selectGenreText"/></option>
+<%--            <option value="" disabled ><fmt:message key="movie.selectGenreText"/></option>--%>
             <c:forEach var="genre" items="${requestScope.genres}">
-                <option value="${genre.id}">${genre.title}</option>
+                <option value="${genre.id}" ${genre.id == requestScope.filterGenre ? 'selected' : ''}>${genre.title}</option>
             </c:forEach>
         </select>
+<%--        <select name="filterGenre" id="genreId">--%>
+<%--            <option value="0">All genres</option>--%>
+<%--            <c:forEach var="g" items="${requestScope.genres}">--%>
+<%--                <option value="${g.id}" ${g.id==requestScope.filterGenre ? 'selected' : ''}>${g.title}</option>--%>
+<%--            </c:forEach>--%>
+<%--        </select>--%>
     </label>
     <button type="submit" style="margin-left: 10px;color: blueviolet"><fmt:message key="movie.filterButton"/></button>
     <br>
@@ -36,7 +43,7 @@
 </form>
 
 <c:if test="${sessionScope.user.role == 'ADMIN'}">
-    <h3 style="color: blueviolet;margin-left:20px"><fmt:message key="movie.addNewMovieTitle"/></h3>
+    <h2 style="color: blueviolet;margin-left:20px"><fmt:message key="movie.addNewMovieTitle"/></h2>
     <form action="${pageContext.request.contextPath}/movies" method="post" enctype="multipart/form-data" style="margin-left: 20px">
         <label for="addTitleId"><fmt:message key="movie.newMovieTitle"/>:
             <input type="text" name="title" value="${param.title}" id="addTitleId">
@@ -72,7 +79,7 @@
         </c:if>
     </form>
 </c:if>
-<h3 style="color: blueviolet;float:left;margin-left:20px;margin-right:20px"><fmt:message key="movie.moviesListTitle"/></h3>
+<h2 style="color: blueviolet;float:left;margin-left:20px;margin-right:20px"><fmt:message key="movie.moviesListTitle"/></h2>
 <table style="width: 100%;margin-left:20px">
     <tr style="text-align: left">
         <th><fmt:message key="movie.title"/></th>

@@ -8,7 +8,7 @@ public class BaseValidator {
 
     public boolean validateNotNull(String field, ValidationResult validationResult, String fieldName) {
         if (field == null || field.isEmpty()) {
-            validationResult.add(Error.of("missing." + fieldName.toLowerCase(), fieldName + " is missing"));
+            validationResult.add(Error.of("error.missing.field", fieldName));
             return false;
         }
         return true;
@@ -16,7 +16,7 @@ public class BaseValidator {
 
     public boolean validateEmail(String email, ValidationResult validationResult) {
         if (email != null && !EmailValidator.isValid(email)) {
-            validationResult.add(Error.of("wrong.email", "Email is wrong"));
+            validationResult.add(Error.of("error.wrong.email"));
             return false;
         }
         return true;
@@ -24,7 +24,7 @@ public class BaseValidator {
 
     public boolean validatePassword(String password, ValidationResult validationResult) {
         if (password != null && password.length() < 8) {
-            validationResult.add(Error.of("short.password", "Password must be at least 8 characters long"));
+            validationResult.add(Error.of("error.short.password"));
             return false;
         }
         return true;
@@ -36,10 +36,10 @@ public class BaseValidator {
                 int yearDigit = Integer.parseInt(year);
                 var currentYear = LocalDate.now().getYear();
                 if (yearDigit < 1900 || yearDigit > currentYear) {
-                    validationResult.add(Error.of("wrong.format", "Release year should be between 1900 and current " + currentYear));
+                    validationResult.add(Error.of("error.wrong.range.date"));
                 }
             } catch (NumberFormatException e) {
-                validationResult.add(Error.of("wrong.year", "Release year should be a digit. Example: 2005"));
+                validationResult.add(Error.of("error.wrong.format.date"));
             }
         }
     }

@@ -15,7 +15,6 @@ public class MoviePersonMapper {
 
     private static final MoviePersonMapper INSTANCE = new MoviePersonMapper();
 
-    // TODO Вопрос к Денису: Можно ли создавать не полноценный объект?
     public MoviePerson mapMoviePersonCreateDtoToEntity(MoviePersonCreatedDto moviePersonCreatedDto) {
         return MoviePerson.builder()
                 .movie(Movie

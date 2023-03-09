@@ -17,19 +17,16 @@ On you machine you should have:
 - Java 14 or higher
 - Docker - for application start
 
-##Start the server locally: (how to get and run)
-For local run, just simple execute the start script.
+##How to get and run application
+The following script will clone the project from github repo, 
+set permissions to execute start scripts and execute those scripts 
+which will start docker containers for postgres and video library itself
+and set a network between them.
 ```
-git clone
-cd repo name
-```
-To make scripts executable from a command line, run:
-```
+git clone git@github.com:tisv2000/video_library.git
+cd video_library
 chmod +x start
 chmod +x cleanup
-```
-Run start script to start up docker containers for Postgres and Video Library and set up a network between them:
-```
 ./start-app
 ```
 
@@ -37,11 +34,17 @@ To stop docker containers for Postgres and Video Library and remove network betw
 ```
 ./stop-app
 ```
-## Key features
+There are two predefined users:
+- Admin: login: admin@gmail.com, password: pass12345
+- User: user1@gmail.com, password: pass12345
 
+## Key features
+- There are two authorization roles available - User and Admin. Admin has more permissions than a User,
+for example only Admin is able to see all reviews for a specific user under `/reviews`
+- ???
 
 ## Database scheme
-
+![](Database scheme.png)
 
 ## Future improvements
 
@@ -50,4 +53,5 @@ To stop docker containers for Postgres and Video Library and remove network betw
 - Localization
 - Hide password
 - Restrict user to only be able to add one review for the movies + add possibility to delete reviews
+- Restrict user to add new movie/movie person (?)
 - Add tests with Selenium Web Driver

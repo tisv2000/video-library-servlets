@@ -7,7 +7,7 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: darkgreen;margin-left: 20px"><fmt:message key="allReviews.title"/></h3>
+<h2 style="color: darkgreen;margin-left: 20px"><fmt:message key="allReviews.title"/></h2>
 <form action="/reviews" method="get" style="margin-left:20px">
     <label for="emailId"><fmt:message key="allReviews.email"/>:
         <input type="text" name="email" value="${param.email}" id="emailId">
@@ -23,7 +23,7 @@
     </c:if>
 </form>
 
-<h3 style="color: darkgreen;margin-left:20px"><fmt:message key="allReviews.resultList"/></h3>
+<h2 style="color: darkgreen;margin-left:20px"><fmt:message key="allReviews.resultList"/></h2>
 <table style="width: 100%;margin-left:20px">
     <tr style="text-align: left">
         <th><fmt:message key="allReviews.movie"/></th>

@@ -17,6 +17,7 @@ public class PersonMapper {
                 .id(entity.getId())
                 .name(entity.getName())
                 .birthday(entity.getBirthday())
+                .image(entity.getImage())
                 .build();
     }
 
@@ -24,6 +25,7 @@ public class PersonMapper {
         return Person.builder()
                 .name(personCreatedDto.getName())
                 .birthday(LocalDateFormatter.format(personCreatedDto.getBirthday()))
+                .image(personCreatedDto.getImage())
                 .build();
     }
 

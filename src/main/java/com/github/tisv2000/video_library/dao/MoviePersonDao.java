@@ -59,8 +59,6 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
 
             var resultSet = preparedStatement.executeQuery();
 
-            // TODO Question to Denis:
-            //  Do we need a fully built Person and Role objects if eventually we only care about 'name' and 'title' fields - MoviePersonReceivedDto?
             List<MoviePerson> moviePersons = new ArrayList<>();
             while (resultSet.next()) {
                 moviePersons.add(build(resultSet));

@@ -4,7 +4,7 @@
 <html>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: blue;margin-left:20px;margin-right:20px"><fmt:message key="person.filter.title"/></h3>
+<h2 style="color: blue;margin-left:20px;margin-right:20px"><fmt:message key="person.filter.title"/></h2>
 <form action="/persons" method="get" style="margin-left: 20px">
     <label for="nameId"><fmt:message key="person.filter.name"/>:
         <input type="text" name="name" value="${param.name}" id="nameId">
@@ -21,13 +21,16 @@
 </form>
 
 <c:if test="${sessionScope.user.role == 'ADMIN'}">
-    <h3 style="color: blue;margin-left:20px"><fmt:message key="person.addPerson.title"/></h3>
-    <form action="/persons" method="post" style="margin-left: 20px">
+    <h2 style="color: blue;margin-left:20px"><fmt:message key="person.addPerson.title"/></h2>
+    <form action="${pageContext.request.contextPath}/persons" method="post" style="margin-left: 20px" enctype="multipart/form-data">
         <label for="addNameId"><fmt:message key="person.addPerson.name"/>:
             <input type="text" name="name" value="${param.name}" id="addNameId">
         </label><br>
         <label for="addBirthdayId"><fmt:message key="person.addPerson.birthday"/>:
             <input type="date" name="birthday" value="${param.birthday}" id="addBirthdayId">
+        </label><br>
+        <label for="imageId"><fmt:message key="person.addPerson.picture"/>:
+            <input type="file" name="image" value="${param.image}" id="imageId">
         </label><br>
         <button type="submit" style="color: blue"><fmt:message key="person.addPerson.addButton"/></button>
         <br>
@@ -41,7 +44,7 @@
         <br>
     </form>
 </c:if>
-<h3 style="color: blue;margin-left:20px"><fmt:message key="person.allPersons.title"/></h3>
+<h2 style="color: blue;margin-left:20px"><fmt:message key="person.allPersons.title"/></h2>
 <table style="width: 100%;margin-left:20px">
     <tr style="text-align: left">
         <th><fmt:message key="person.allPersons.name"/></th>

@@ -11,4 +11,5 @@ public class PersonDto {
     Integer id;
     String name;
     LocalDate birthday;
+    String image;
 }

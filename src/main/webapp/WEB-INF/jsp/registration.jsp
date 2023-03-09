@@ -4,7 +4,7 @@
 <html>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: darkcyan;margin-left:20px"><fmt:message key="registration.title"/></h3>
+<h2 style="color:darkcyan;margin-left:20px;margin-right:20px"><fmt:message key="registration.title"/></h2>
 <form action="${pageContext.request.contextPath}/registration" method="post" enctype="multipart/form-data"
       style="margin-left: 20px">
     <label for="nameId"><fmt:message key="registration.name"/>:

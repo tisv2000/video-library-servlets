@@ -13,9 +13,9 @@ public class CreateMoviePersonValidator extends BaseValidator implements Validat
     public ValidationResult isValid(MoviePersonCreatedDto moviePerson) {
         var validationResult = new ValidationResult();
 
-        validateNotNull(moviePerson.getPersonId(), validationResult, "Person");
+        validateNotNull(moviePerson.getPersonId(), validationResult, "movieDetails.addMoviePerson.person");
 
-        validateNotNull(moviePerson.getRoleId(), validationResult, "Role");
+        validateNotNull(moviePerson.getRoleId(), validationResult, "movieDetails.addMoviePerson.role");
 
         return validationResult;
     }

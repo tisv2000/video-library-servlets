@@ -3,9 +3,9 @@
 <head>
     <title>Video Library</title>
 </head>
-<fmt:setLocale value="${sessionScope.lang != null ? sessionScope.lang : 'en_US'}"/>
+<fmt:setLocale value="${cookie.userLocaleName.value != null ? cookie.userLocaleName.value : 'en_US'}"/>
 <fmt:setBundle basename="translations"/>
-<div>
+<div style="float:left;margin-left:20px">
     <form action="${pageContext.request.contextPath}/locale" , method="post">
         <button type="submit" name="lang" value="en_US">EN</button>
         <button type="submit" name="lang" value="ru_RU">RU</button>
@@ -37,4 +37,3 @@
     </c:if>
 </div>
 <br>
-

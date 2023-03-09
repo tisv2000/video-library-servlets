@@ -8,4 +8,5 @@ import lombok.Value;
 public class PersonCreatedDto {
     String name;
     String birthday;
+    String image;
 }

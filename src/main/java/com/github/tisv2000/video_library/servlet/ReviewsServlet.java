@@ -45,7 +45,7 @@ public class ReviewsServlet extends HttpServlet {
         } else {
             var user = userService.findByEmail(email);
             if (user.isEmpty()) {
-                req.setAttribute("errors", List.of(Error.of("notfound.user", "User with this email does not exist")));
+                req.setAttribute("errors", List.of(Error.of("error.user.notfound")));
             } else {
                 var reviews = reviewService.findAllWithUserId(user.get().getId());
                 req.setAttribute("reviews", reviews);

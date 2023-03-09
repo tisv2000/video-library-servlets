@@ -26,6 +26,12 @@ public class MovieDao implements Dao<Integer, Movie> {
             WHERE id = ?
             """;
 
+    private static final String FIND_BY_MOVIE_PERSON_ID_SQL = """
+            SELECT m.id, title, year, country, genre_id, m.image, description
+            FROM movie m INNER JOIN movie_person mp on m.id = mp.movie_id INNER JOIN person p on p.id = mp.person_id
+            WHERE p.id = ?
+            """;
+
     private static final String FIND_ALL_SQL = """
             SELECT id, title, year, country, genre_id, image, description
             FROM movie
@@ -104,6 +110,21 @@ public class MovieDao implements Dao<Integer, Movie> {
             } else {
                 return Optional.empty();
             }
+        }
+    }
+
+    @SneakyThrows
+    public List<Movie> findByMoviePersonId(Integer id) {
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(FIND_BY_MOVIE_PERSON_ID_SQL);) {
+            preparedStatement.setInt(1, id);
+
+            var resultSet = preparedStatement.executeQuery();
+            List<Movie> movies = new ArrayList<>();
+            while (resultSet.next()) {
+                movies.add(build(resultSet));
+            }
+            return movies;
         }
     }
 

@@ -2,6 +2,7 @@ package com.github.tisv2000.video_library.servlet;
 
 import com.github.tisv2000.video_library.dto.PersonCreatedDto;
 import com.github.tisv2000.video_library.dto.PersonFilterDto;
+import com.github.tisv2000.video_library.service.ImageService;
 import com.github.tisv2000.video_library.service.PersonService;
 import com.github.tisv2000.video_library.util.JspHelper;
 import com.github.tisv2000.video_library.validator.CreatePersonValidator;
@@ -24,6 +25,7 @@ public class PersonServlet extends HttpServlet {
     private static final PersonService personService = PersonService.getInstance();
     private static final CreatePersonValidator createPersonValidator = CreatePersonValidator.getInstance();
     private static final PersonFilterValidator personFilterValidator = PersonFilterValidator.getInstance();
+    private static final ImageService imageService = ImageService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,6 +63,7 @@ public class PersonServlet extends HttpServlet {
         var personCreatedDto = PersonCreatedDto.builder()
                 .name(req.getParameter("name"))
                 .birthday(req.getParameter("birthday"))
+                .image(req.getParameter("image"))
                 .build();
         ValidationResult result = createPersonValidator.isValid(personCreatedDto);
 
@@ -69,6 +72,7 @@ public class PersonServlet extends HttpServlet {
             redirectToPersonsWithAllAttributes(req, resp);
         } else {
             var personId = personService.createPerson(personCreatedDto);
+            imageService.upload("/persons/" + personCreatedDto.getImage() + ".jpeg", req.getPart("image").getInputStream());
             resp.sendRedirect(PERSONS + "/" + personId);
         }
     }

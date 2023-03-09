@@ -1,5 +1,7 @@
 package com.github.tisv2000.video_library.servlet;
 
+import com.github.tisv2000.video_library.service.GenreService;
+import com.github.tisv2000.video_library.service.MovieService;
 import com.github.tisv2000.video_library.service.PersonService;
 import com.github.tisv2000.video_library.util.JspHelper;
 import com.github.tisv2000.video_library.util.UrlPath;
@@ -15,6 +17,8 @@ import java.io.IOException;
 public class PersonDetailsServlet extends HttpServlet {
 
     private static final PersonService personService = PersonService.getInstance();
+    private static final MovieService movieService = MovieService.getInstance();
+    private static final GenreService genreService = GenreService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,6 +29,8 @@ public class PersonDetailsServlet extends HttpServlet {
             resp.sendError(404);
         } else {
             req.setAttribute("person", maybePerson.get());
+            req.setAttribute("genres", genreService.findAll());
+            req.setAttribute("movies", movieService.findByMoviePersonId(personId));
             req.getRequestDispatcher(JspHelper.getPath("personDetails")).forward(req, resp);
         }
     }

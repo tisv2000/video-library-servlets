@@ -13,21 +13,21 @@ public class CreateUserValidator extends BaseValidator implements Validator<User
     public ValidationResult isValid(UserCreatedDto user) {
         var validationResult = new ValidationResult();
 
-        validateNotNull(user.getName(), validationResult, "Name");
+        validateNotNull(user.getName(), validationResult, "registration.name");
 
-        validateNotNull(user.getBirthday(), validationResult, "Birthday");
+        validateNotNull(user.getBirthday(), validationResult, "registration.birthday");
 
-        if (validateNotNull(user.getEmail(), validationResult, "Email")) {
+        if (validateNotNull(user.getEmail(), validationResult, "registration.email")) {
             validateEmail(user.getEmail(), validationResult);
         }
 
-        if (validateNotNull(user.getGender(), validationResult, "Password")) {
+        if (validateNotNull(user.getGender(), validationResult, "registration.password")) {
             validatePassword(user.getPassword(), validationResult);
         }
 
-        validateNotNull(user.getGender(), validationResult, "Gender");
+        validateNotNull(user.getGender(), validationResult, "registration.gender");
 
-        validateNotNull(user.getImage(), validationResult, "Image");
+        validateNotNull(user.getImage(), validationResult, "registration.image");
 
         return validationResult;
     }

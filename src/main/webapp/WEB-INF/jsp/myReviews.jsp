@@ -7,7 +7,7 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: darkgreen;margin-left:20px"><fmt:message key="myReviews.title"/></h3>
+<h2 style="color: darkgreen;margin-left:20px"><fmt:message key="myReviews.title"/></h2>
 <table style="width: 100%;margin-left:20px">
     <tr style="text-align: left">
         <th><fmt:message key="myReviews.movieTitle"/></th>

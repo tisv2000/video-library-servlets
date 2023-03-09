@@ -24,30 +24,9 @@ public class PropertiesUtils {
         }
     }
 
-    public static String get3(String key) {
+    public static String get(String key) {
         return Optional.ofNullable(System.getProperty(key))
                 .orElseGet(() -> Optional.ofNullable(System.getenv(key))
                         .orElseGet(() -> PROPERTIES.getProperty(key)));
     }
-
-    public static String get2(String key) {
-        String value;
-        if ((value = System.getProperty(key)) != null) return value;
-        if ((value = System.getenv(key)) != null) return value;
-        return PROPERTIES.getProperty(key);
-    }
-
-    public static String get(String key) {
-        String property = System.getProperty(key);
-        if (property == null) {
-            property = System.getenv(key);
-            if (property == null) {
-                property = PROPERTIES.getProperty(key);
-            }
-        }
-        return property;
-    }
-
-
-
 }

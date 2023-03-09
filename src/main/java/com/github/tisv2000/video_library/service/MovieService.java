@@ -32,9 +32,17 @@ public class MovieService {
         return maybeMovie.map(movieMapper::mapMovieEntityToMovieReceiveDto);
     }
 
+    public List<MovieReceivedDto> findByMoviePersonId(Integer id) {
+        return movieDao.findByMoviePersonId(id)
+                .stream()
+                .map(movieMapper::mapMovieEntityToMovieReceiveDto)
+                .collect(toList());
+    }
+
     public List<MovieReceivedDto> findAllByFilters(MovieFilterDto movieFilterDto) {
-        return movieDao.findAllByFilters(movieFilterDto).stream().map(
-                        movieMapper::mapMovieEntityToMovieReceiveDto)
+        return movieDao.findAllByFilters(movieFilterDto)
+                .stream()
+                .map(movieMapper::mapMovieEntityToMovieReceiveDto)
                 .collect(toList());
     }
 

@@ -30,7 +30,7 @@
 <br>
 
 <c:if test="${sessionScope.user.role == 'ADMIN'}">
-    <h3 style="color: blueviolet;margin-left: 20px"><fmt:message key="movieDetails.addMoviePerson.title"/></h3>
+    <h2 style="color: blueviolet;margin-left: 20px"><fmt:message key="movieDetails.addMoviePerson.title"/></h2>
     <form action="${pageContext.request.contextPath}/movies/${requestScope.movie.id}" method="post"
           style="margin-left: 20px">
         <label for="personId"><fmt:message key="movieDetails.addMoviePerson.person"/>:
@@ -53,7 +53,6 @@
         <input hidden name="addMoviePersonMode" value="true">
         <button type="submit" style="color: blueviolet"><fmt:message key="movieDetails.addMoviePerson.addPersonButton"/></button>
         <br>
-            <%--        TODO How to do this?--%>
         <c:if test="${not empty requestScope.addMoviePersonErrors}">
             <div style="color: red">
                 <c:forEach var="error" items="${requestScope.addMoviePersonErrors}">
@@ -63,7 +62,7 @@
         </c:if>
     </form>
 </c:if>
-<h3 style="color: blueviolet;margin-left: 20px"><fmt:message key="movieDetails.addReview.title"/></h3>
+<h2 style="color: blueviolet;margin-left: 20px"><fmt:message key="movieDetails.addReview.title"/></h2>
 <form action="${pageContext.request.contextPath}/movies/${requestScope.movie.id}" method="post"
       style="margin-left: 20px">
     <label for="textId"><fmt:message key="movieDetails.addReview.text"/>:
@@ -84,7 +83,7 @@
     </c:if>
 </form>
 
-<h3 style="color: blueviolet;margin-left: 20px"><fmt:message key="movieDetails.allReviews.title"/></h3>
+<h2 style="color: blueviolet;margin-left: 20px"><fmt:message key="movieDetails.allReviews.title"/></h2>
 <div>
     <table style="width: 100%;margin-left:20px">
         <tr style="text-align: left">

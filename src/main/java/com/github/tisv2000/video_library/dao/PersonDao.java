@@ -20,23 +20,23 @@ public class PersonDao implements Dao<Integer, Person> {
     private static final PersonDao INSTANCE = new PersonDao();
 
     private static final String FIND_ALL_SQL = """
-            SELECT id, name, birthday
+            SELECT id, name, birthday, image
             FROM person
             """;
 
     private static final String SAVE_SQL = """
-            INSERT INTO person (name, birthday)
-            VALUES (?, ?)
+            INSERT INTO person (name, birthday, image)
+            VALUES (?, ?, ?)
             """;
 
     private static final String FIND_BY_ID_SQL = """
-            SELECT id, name, birthday
+            SELECT id, name, birthday, image
             FROM person
             WHERE id=?
             """;
 
     private static final String FIND_BY_NAME_SQL = """
-            SELECT id, name, birthday
+            SELECT id, name, birthday, image
             FROM person
             WHERE name=?
             """;
@@ -48,6 +48,7 @@ public class PersonDao implements Dao<Integer, Person> {
              var preparedStatement = connection.prepareStatement(SAVE_SQL, Statement.RETURN_GENERATED_KEYS);) {
             preparedStatement.setObject(1, entity.getName());
             preparedStatement.setObject(2, entity.getBirthday());
+            preparedStatement.setObject(3, entity.getImage());
 
             preparedStatement.executeUpdate();
 
@@ -122,6 +123,7 @@ public class PersonDao implements Dao<Integer, Person> {
                 .id(resultSet.getInt("id"))
                 .name(resultSet.getString("name"))
                 .birthday(resultSet.getDate("birthday").toLocalDate())
+                .image(resultSet.getString("image"))
                 .build();
     }
 

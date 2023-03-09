@@ -44,10 +44,10 @@ public class MovieServlet extends HttpServlet {
     @SneakyThrows
     private void filterMovie(HttpServletRequest req, HttpServletResponse resp) {
         MovieFilterDto movieFilterDto = MovieFilterDto.builder()
-                .title(req.getParameter("title"))
-                .year(req.getParameter("year"))
-                .country(req.getParameter("country"))
-                .genre(req.getParameter("genre"))
+                .title(req.getParameter("filterTitle"))
+                .year(req.getParameter("filterYear"))
+                .country(req.getParameter("filterCountry"))
+                .genre(req.getParameter("filterGenre"))
                 .build();
         var validationResult = movieFilterValidator.isValid(movieFilterDto);
 
@@ -80,7 +80,6 @@ public class MovieServlet extends HttpServlet {
             redirectToAllFoundMovies(req, resp);
         } else {
             var movieId = movieService.createMovie(movieCreateDto);
-            // TODO improve logic to save pictures - make unique names, so that they do not get overwritten
             imageService.upload("/movies/" + movieCreateDto.getImage() + ".jpeg", req.getPart("image").getInputStream());
             resp.sendRedirect(MOVIES + "/" + movieId);
         }
@@ -89,6 +88,7 @@ public class MovieServlet extends HttpServlet {
 
     private void redirectToAllFilteredMovies(HttpServletRequest req, HttpServletResponse resp, MovieFilterDto movieFilterDto) throws ServletException, IOException {
         req.setAttribute("movies", movieService.findAllByFilters(movieFilterDto));
+        req.setAttribute("genres", genreService.findAll());
         req.getRequestDispatcher(JspHelper.getPath("movies")).forward(req, resp);
     }
 

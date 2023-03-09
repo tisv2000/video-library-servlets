@@ -4,7 +4,7 @@
 <html>
 <body>
 <%@include file="header.jsp" %>
-<h3 style="color: darkblue;margin-left: 20px"><fmt:message key="login.title"/></h3>
+<h2 style="color:darkblue;margin-left:20px"><fmt:message key="login.title"/></h2>
 <form action="/login" method="post" style="margin-left: 20px">
     <label for="emailId"><fmt:message key="login.email"/>:
         <input type="text" name="email" value="${param.email}" id="emailId">

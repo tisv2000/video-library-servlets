@@ -13,4 +13,5 @@ public class Person {
     private Integer id;
     private String name;
     private LocalDate birthday;
+    private String image;;
 }

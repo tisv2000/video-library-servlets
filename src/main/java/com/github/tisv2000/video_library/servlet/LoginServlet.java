@@ -4,6 +4,7 @@ import com.github.tisv2000.video_library.dto.LoginDto;
 import com.github.tisv2000.video_library.dto.UserReceivedDto;
 import com.github.tisv2000.video_library.service.UserService;
 import com.github.tisv2000.video_library.util.JspHelper;
+import com.github.tisv2000.video_library.util.LocaleBundleUtils;
 import com.github.tisv2000.video_library.validator.Error;
 import com.github.tisv2000.video_library.validator.LoginValidator;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.github.tisv2000.video_library.util.UrlPath.LOGIN;
@@ -28,6 +30,11 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = JspHelper.getPath("login");
+        LocaleBundleUtils.setLocaleName(Arrays.stream(req.getCookies())
+                .filter((cookie) -> cookie.getName().equals("userLocaleName"))
+                .map(cookie -> cookie.getValue())
+                .findFirst()
+                .orElse(LocaleBundleUtils.DEFAULT_LOCALE));
         req.getRequestDispatcher(login).forward(req, resp);
     }
 
@@ -53,7 +60,7 @@ public class LoginServlet extends HttpServlet {
 
     @SneakyThrows
     private void onLoginFailure(HttpServletRequest req, HttpServletResponse resp) {
-        req.setAttribute("errors", List.of(Error.of("login.unsuccessful", "Login information is incorrect")));
+        req.setAttribute("errors", List.of(Error.of( "error.login.unsuccessful")));
         req.getRequestDispatcher(JspHelper.getPath("login")).forward(req, resp);
     }
 
