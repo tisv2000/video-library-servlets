@@ -12,15 +12,18 @@ In this project I wanted to show my work with the following technologies:
 
 ## Prerequisites
 
-On you machine you should have:
+On you machine you must have:
 
 - Java 14 or higher
 - Docker - for application start
 
-##How to get and run application
+## How to get and run application
+
+**First, make sure you have Docker up and running, and also that ports 8080 and 5432 are free.**
+
 The following script will clone the project from github repo, 
 set permissions to execute start scripts and execute those scripts 
-which will start docker containers for postgres and video library itself
+which will start docker containers for postgres and video library
 and set a network between them.
 ```
 git clone git@github.com:tisv2000/video-library-servlets.git
@@ -29,33 +32,28 @@ chmod +x start-app
 chmod +x stop-app
 ./start-app
 ```
-./mvnw clean install -Dmaven.test.skip=true
 
 To stop docker containers for Postgres and Video Library and remove network between them, run the cleanup script:
 ```
 ./stop-app
 ```
-There are two predefined users:
-- Admin: login: admin@gmail.com, password: pass12345
-- User: user1@gmail.com, password: pass12345
+There are two predefined users that you can use:
+- Admin - login: **admin@gmail.com**, password: **pass12345**
+- User - login: **user1@gmail.com**, password: **pass12345**
 
 ## Key features
-- There are two authorization roles available - User and Admin. Admin has more permissions than a User.
-Here are 
-    - User is only able to see his own reviews, while Admin can also check reviews of any user under `/reviews`
-    - Only Admin has permissions to add a new movie or a new movie person, users have read-only permissions 
-  and can add reviews for a movie
-- There is a localization available for two languages: English and Russian
+- Login/registration/logout are available, also with errors handling
+- Following functionalities are available
+  - Filtering movies by different filter parameters, adding new movies to the library
+  - Adding reviews for movies, and also reviewing a list of all reviews for a specific user
+  - Adding new movie persons (actors/directors/producers/composers), searching for them, reviewing their data
+- There are two **authorization** roles available - User and Admin. Admin has more permissions than a User.
+Here are some differences in those permissions:
+  - User is only able to see his own reviews, while Admin can also check reviews of any user under `/reviews`
+  - Only Admin has permissions to add a new movie or a new movie person, users have read-only permissions 
+  and can only add reviews for a movie
+- There is localization available for three languages: English, German and Russian
 
 ## Database scheme
-![](Database scheme.png)
 
-## Future improvements
-
-- Use H2 DB for tests, so that real (production) DB is not affected
-- More unit tests - for service and util classes
-- Localization
-- Hide password
-- Restrict user to only be able to add one review for the movies + add possibility to delete reviews
-- Restrict user to add new movie/movie person (?)
-- Add tests with Selenium Web Driver
+![database-scheme.png](/src/images/readme/database-scheme.png)

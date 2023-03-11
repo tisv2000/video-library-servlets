@@ -63,7 +63,7 @@ public class PersonServlet extends HttpServlet {
         var personCreatedDto = PersonCreatedDto.builder()
                 .name(req.getParameter("name"))
                 .birthday(req.getParameter("birthday"))
-                .image(req.getParameter("image"))
+                .image(req.getPart("image").getSubmittedFileName())
                 .build();
         ValidationResult result = createPersonValidator.isValid(personCreatedDto);
 
