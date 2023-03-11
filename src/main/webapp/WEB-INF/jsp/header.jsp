@@ -8,6 +8,7 @@
 <div style="float:left;margin-left:20px">
     <form action="${pageContext.request.contextPath}/locale" , method="post">
         <button type="submit" name="lang" value="en_US">EN</button>
+        <button type="submit" name="lang" value="de_DE">DE</button>
         <button type="submit" name="lang" value="ru_RU">RU</button>
 <%--                <select name="lang" onchange="this.form.submit()">--%>
 <%--                    <option value="en_US">EN</option>--%>

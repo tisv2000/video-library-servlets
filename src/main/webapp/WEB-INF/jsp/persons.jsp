@@ -22,7 +22,7 @@
 
 <c:if test="${sessionScope.user.role == 'ADMIN'}">
     <h2 style="color: blue;margin-left:20px"><fmt:message key="person.addPerson.title"/></h2>
-    <form action="${pageContext.request.contextPath}/persons" method="post" style="margin-left: 20px" enctype="multipart/form-data">
+    <form action="${pageContext.request.contextPath}/persons" method="post" enctype="multipart/form-data" style="margin-left: 20px">
         <label for="addNameId"><fmt:message key="person.addPerson.name"/>:
             <input type="text" name="name" value="${param.name}" id="addNameId">
         </label><br>

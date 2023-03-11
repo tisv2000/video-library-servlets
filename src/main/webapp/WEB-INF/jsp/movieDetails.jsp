@@ -14,7 +14,8 @@
         <span><b><fmt:message key="movieDetails.description"/>:</b> ${requestScope.movie.description}</span> <br><br>
     </div>
 </div><br>
-<table style="width: 50%;margin-left:20px"><b><fmt:message key="movieDetails.moviePersonsTitle"/>:</b><br>
+<h3 style="margin-left: 20px;color: blueviolet"><fmt:message key="movieDetails.moviePersonsTitle"/>:</h3>
+<table style="width: 50%;margin-left:20px"><br>
     <tr style="text-align: left">
         <th><fmt:message key="movieDetails.moviePerson.name"/></th>
         <th><fmt:message key="movieDetails.moviePerson.role"/></th>

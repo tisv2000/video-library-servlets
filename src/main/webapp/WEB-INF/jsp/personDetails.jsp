@@ -19,7 +19,7 @@
 </div>
 <br>
 <div style="margin-left:20px; float:left">
-    <h2 style="color: red;float:left;margin-left:20px;margin-right:20px"><fmt:message key="movie.moviesListTitle"/></h2>
+    <h3 style="color: red;float:left;margin-left:20px;margin-right:20px"><fmt:message key="movie.moviesListTitle"/></h3>
     <table style="width: 100%;margin-left:20px">
         <tr style="text-align: left">
             <th><fmt:message key="movie.title"/></th>
