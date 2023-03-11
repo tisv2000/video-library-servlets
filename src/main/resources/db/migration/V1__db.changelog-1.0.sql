@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS genre
 (
-    id    SERIAL PRIMARY KEY,
-    title VARCHAR(256)
+    id          SERIAL PRIMARY KEY,
+    title       VARCHAR(256)
     );
 
 CREATE TABLE IF NOT EXISTS movie
@@ -17,15 +17,16 @@ CREATE TABLE IF NOT EXISTS movie
 
 CREATE TABLE IF NOT EXISTS person_role
 (
-    id    SERIAL PRIMARY KEY,
-    title VARCHAR(256) NOT NULL
+    id          SERIAL PRIMARY KEY,
+    title       VARCHAR(256) NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS person
 (
     id         SERIAL PRIMARY KEY,
     name       VARCHAR(256) NOT NULL,
-    birthday DATE
+    birthday   DATE,
+    image      VARCHAR(124)
     );
 
 CREATE TABLE IF NOT EXISTS movie_person
@@ -43,9 +44,9 @@ CREATE TABLE IF NOT EXISTS users
     birthday DATE NOT NULL,
     password VARCHAR(256) NOT NULL,
     email    VARCHAR(256) NOT NULL UNIQUE,
-    image   VARCHAR(124),
+    image    VARCHAR(124),
     role     VARCHAR(32)  NOT NULL,
-    gender    VARCHAR(32)  NOT NULL
+    gender   VARCHAR(32)  NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS review

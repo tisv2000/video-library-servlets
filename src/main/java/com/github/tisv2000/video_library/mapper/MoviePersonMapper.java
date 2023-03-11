@@ -33,6 +33,7 @@ public class MoviePersonMapper {
     }
     public MoviePersonReceivedDto mapEntityToMoviePersonReceiveDto(MoviePerson entity) {
         return MoviePersonReceivedDto.builder()
+                .personId(entity.getPerson().getId())
                 .name(entity.getPerson().getName())
                 .role(PersonRoleDto.builder()
                         .id(entity.getRole().getId())

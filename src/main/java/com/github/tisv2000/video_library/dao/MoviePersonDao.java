@@ -26,7 +26,7 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
             """;
 
     private static final String FIND_ALL_FOR_MOVIE_SQL = """
-            SELECT person.name, person_role.title
+            SELECT person.id, person.name, person_role.title
                   FROM movie_person
                   INNER JOIN person ON movie_person.person_id = person.id
                   INNER JOIN person_role ON movie_person.role_id = person_role.id
@@ -92,6 +92,7 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
         return MoviePerson.builder()
                 .person(Person
                         .builder()
+                        .id(resultSet.getInt("id"))
                         .name(resultSet.getString("name"))
                         .build())
                 .role(PersonRole

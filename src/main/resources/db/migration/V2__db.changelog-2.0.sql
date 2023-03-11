@@ -15,7 +15,7 @@ VALUES (1, 'Producer'),
        (3, 'Actor'),
        (4, 'Composer');
 
-INSERT INTO person (id, name, birthday)
+INSERT INTO person (id, name, birthday, image)
 VALUES (1, 'Emma Watson', '1990-04-25', 'EmmaWatson'),
        (2, 'Brad Pitt', '1963-12-18', 'BradPitt'),
        (3, 'Danial Radcliffe', '1989-07-23', 'DanialRadcliffe'),
@@ -69,16 +69,10 @@ VALUEs (1, 10, 4),
        (3, 15, 3),
        (3, 16, 3),
        (4, 8, 1),
-       (4, 8, 2),
-       (4, 8, 3),
        (4, 9, 3),
        (5, 8, 1),
-       (5, 8, 2),
-       (5, 8, 3),
        (5, 9, 3),
        (6, 8, 1),
-       (6, 8, 2),
-       (6, 8, 3),
        (6, 9, 3),
        (7, 9, 3),
        (7, 10, 4),
@@ -122,11 +116,8 @@ SELECT SETVAL('users_id_seq', (SELECT MAX(id) FROM users));
 
 INSERT INTO review (user_id, movie_id, text, rate)
 VALUES (1, 1, 'Nice movie', 9),
+       (1, 2, 'Good one', 8),
        (1, 3, 'One of my favorite movies. Watched it many times, definitely recommend!', 10),
        (2, 1, 'Such a lovely story, absolutely love it!', 10),
-       (2, 3, 'First 3 seasons are the best, but the last few are not that great anymore...', 7),
-       (3, 1, 'Good one', 8),
-       (3, 3, 'Cool movie', 9),
-       (4, 1, 'Great movie', 10),
-       (4, 3, 'I really like this movie', 9);
-
+       (2, 2, 'Cool movie', 9),
+       (2, 3, 'First 3 seasons are the best, but the last few are not that great anymore...', 7);

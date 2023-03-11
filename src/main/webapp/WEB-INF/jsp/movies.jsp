@@ -24,12 +24,6 @@
                 <option value="${genre.id}" ${genre.id == requestScope.filterGenre ? 'selected' : ''}>${genre.title}</option>
             </c:forEach>
         </select>
-<%--        <select name="filterGenre" id="genreId">--%>
-<%--            <option value="0">All genres</option>--%>
-<%--            <c:forEach var="g" items="${requestScope.genres}">--%>
-<%--                <option value="${g.id}" ${g.id==requestScope.filterGenre ? 'selected' : ''}>${g.title}</option>--%>
-<%--            </c:forEach>--%>
-<%--        </select>--%>
     </label>
     <button type="submit" style="margin-left: 10px;color: blueviolet"><fmt:message key="movie.filterButton"/></button>
     <br>

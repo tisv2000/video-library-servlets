@@ -22,7 +22,9 @@
 
     <c:forEach var="moviePerson" items="${requestScope.moviePersons}">
         <tr>
-            <td>${moviePerson.name}</td>
+            <td>
+                <a href="${pageContext.request.contextPath}/persons/${moviePerson.personId}">${moviePerson.name}</a>
+            </td>
             <td>${moviePerson.role.title}</td>
         </tr>
     </c:forEach>

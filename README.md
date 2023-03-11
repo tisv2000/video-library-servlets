@@ -23,12 +23,13 @@ set permissions to execute start scripts and execute those scripts
 which will start docker containers for postgres and video library itself
 and set a network between them.
 ```
-git clone git@github.com:tisv2000/video_library.git
-cd video_library
-chmod +x start
-chmod +x cleanup
+git clone git@github.com:tisv2000/video-library-servlets.git
+cd video-library-servlets
+chmod +x start-app
+chmod +x stop-app
 ./start-app
 ```
+./mvnw clean install -Dmaven.test.skip=true
 
 To stop docker containers for Postgres and Video Library and remove network between them, run the cleanup script:
 ```
@@ -39,9 +40,12 @@ There are two predefined users:
 - User: user1@gmail.com, password: pass12345
 
 ## Key features
-- There are two authorization roles available - User and Admin. Admin has more permissions than a User,
-for example only Admin is able to see all reviews for a specific user under `/reviews`
-- ???
+- There are two authorization roles available - User and Admin. Admin has more permissions than a User.
+Here are 
+    - User is only able to see his own reviews, while Admin can also check reviews of any user under `/reviews`
+    - Only Admin has permissions to add a new movie or a new movie person, users have read-only permissions 
+  and can add reviews for a movie
+- There is a localization available for two languages: English and Russian
 
 ## Database scheme
 ![](Database scheme.png)
