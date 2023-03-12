@@ -1,14 +1,16 @@
 # Video Library
 
 This is a pet project of Lana Timofeeva.
-In this project I wanted to show my work with the following technologies:
+In this project I wanted to show my work with the following technologies/tools:
 - Java 14+
 - Servlets
-- JSP
+- JSP, JSTL
 - JDBC
-- Docker
+- Flyway
 - Postgres
-- Migration scripts
+- Docker
+- Maven
+- Git
 
 ## Prerequisites
 
@@ -21,15 +23,20 @@ On you machine you must have:
 
 **First, make sure you have Docker up and running, and also that ports 8080 and 5432 are free.**
 
-The following script will clone the project from github repo, 
-set permissions to execute start scripts and execute those scripts 
-which will start docker containers for postgres and video library
-and set a network between them.
+The following set of commands will clone the project from GitHub repo and 
+set permissions to execute `start-app` and `stop-app` scripts.
 ```
 git clone git@github.com:tisv2000/video-library-servlets.git
 cd video-library-servlets
 chmod +x start-app
 chmod +x stop-app
+```
+To start the app, run the following script.
+It will build the project, start docker containers for postgres and video-library and set up a network
+between them. Then it will run migration scripts to create and fill out database tables,
+and after that it will automatically open video-library start page in the browser under
+the localhost.
+```
 ./start-app
 ```
 
@@ -42,18 +49,19 @@ There are two predefined users that you can use:
 - User - login: **user1@gmail.com**, password: **pass12345**
 
 ## Key features
-- Login/registration/logout are available, also with errors handling
-- Following functionalities are available
-  - Filtering movies by different filter parameters, adding new movies to the library
-  - Adding reviews for movies, and also reviewing a list of all reviews for a specific user
-  - Adding new movie persons (actors/directors/producers/composers), searching for them, reviewing their data
-- There are two **authorization** roles available - User and Admin. Admin has more permissions than a User.
-Here are some differences in those permissions:
-  - User is only able to see his own reviews, while Admin can also check reviews of any user under `/reviews`
-  - Only Admin has permissions to add a new movie or a new movie person, users have read-only permissions 
-  and can only add reviews for a movie
-- There is localization available for three languages: English, German and Russian
+- This application is a movie catalog with a following functionality:
+  - All users:
+    - Filtering movies by different filter parameters
+    - Viewing movies detailed information, including movie participants (actors/directors/producers/composers) and users' reviews
+    - Viewing movie participants detailed information
+    - Adding reviews for movies
+  - Admins only:
+    - Adding new movies to the library
+    - Adding new movie participants
+    - Viewing reviews for a specific user
+- Login/registration/logout are available
+- There is localization available for three languages: `English`, `German` and `Russian`
 
 ## Database scheme
 
-![database-scheme.png](/src/images/readme/database-scheme.png)
+![database-scheme.png](/doc/img/database-scheme.png)
