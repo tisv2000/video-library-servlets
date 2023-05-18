@@ -1,7 +1,7 @@
 package com.github.tisv2000.videolibrary.service;
 
 import com.github.tisv2000.videolibrary.dao.PersonRoleDao;
-import com.github.tisv2000.videolibrary.dto.PersonRoleReceivedDao;
+import com.github.tisv2000.videolibrary.dto.PersonRoleReceivedDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -15,9 +15,9 @@ public class PersonRoleService {
     private static final PersonRoleService INSTANCE = new PersonRoleService();
     private final PersonRoleDao personRoleDao = PersonRoleDao.getInstance();
 
-    public List<PersonRoleReceivedDao> findAll() {
+    public List<PersonRoleReceivedDto> findAll() {
         return personRoleDao.findAll().stream()
-                .map(entity -> PersonRoleReceivedDao
+                .map(entity -> PersonRoleReceivedDto
                         .builder()
                         .id(entity.getId())
                         .title(entity.getTitle())

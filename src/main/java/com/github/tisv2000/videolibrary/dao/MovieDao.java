@@ -18,7 +18,7 @@ import java.util.Optional;
 public class MovieDao implements Dao<Integer, Movie> {
 
     private static final MovieDao INSTANCE = new MovieDao();
-    public static final GenreDao GENRE = GenreDao.getInstance();
+    public final GenreDao GENRE = GenreDao.getInstance();
 
     private static final String FIND_BY_ID_SQL = """
             SELECT id, title, year, country, genre_id, image, description
@@ -146,30 +146,28 @@ public class MovieDao implements Dao<Integer, Movie> {
     public List<Movie> findAllByFilters(MovieFilterDto movieFilterDto) {
 
         List<Object> predicateValues = new ArrayList<>();
-        String sql = "";
+        StringBuilder sqlBuilder = new StringBuilder();
 
         if (movieFilterDto.getTitle() != null && !movieFilterDto.getTitle().isEmpty()) {
-            sql += "AND title=? ";
+            sqlBuilder.append("AND title=? ");
             predicateValues.add(movieFilterDto.getTitle());
         }
         if (movieFilterDto.getCountry() != null && !movieFilterDto.getCountry().isEmpty()) {
-            sql += "AND country=? ";
+            sqlBuilder.append("AND country=? ");
             predicateValues.add(movieFilterDto.getCountry());
         }
         if (movieFilterDto.getYear() != null && !movieFilterDto.getYear().isEmpty()) {
-            sql += "AND year=? ";
+            sqlBuilder.append("AND year=? ");
             predicateValues.add(Integer.valueOf(movieFilterDto.getYear()));
         }
         if (movieFilterDto.getGenre() != null && !movieFilterDto.getGenre().isEmpty()) {
-            sql += "AND genre_id=? ";
+            sqlBuilder.append("AND genre_id=? ");
             predicateValues.add(Integer.valueOf(movieFilterDto.getGenre()));
         }
 
-        if (!sql.isEmpty()) {
-            sql = FIND_ALL_SQL + sql.replaceFirst("AND ", " WHERE ");
-        } else {
-            sql = FIND_ALL_SQL;
-        }
+        String sql = sqlBuilder.length() > 0
+                ? FIND_ALL_SQL + sqlBuilder.replace(0, 4, " WHERE ")
+                : FIND_ALL_SQL;
 
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(sql);) {

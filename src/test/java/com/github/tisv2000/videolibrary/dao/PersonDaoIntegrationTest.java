@@ -10,32 +10,32 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class PersonDaoTest {
+public class PersonDaoIntegrationTest {
 
-    private final PersonDao underTest = PersonDao.getInstance();
+    private final PersonDao personDao = PersonDao.getInstance();
 
     @Test
     public void testFindAll() {
-        var persons = underTest.findAll();
+        var persons = personDao.findAll();
         assertTrue(persons.size() > 18);
     }
 
     @Test
     public void findByIdPositiveTest() {
-        var maybeResult = underTest.findById(1);
+        var maybeResult = personDao.findById(1);
         assertTrue(maybeResult.isPresent());
         assertEquals(maybeResult.get().getName(), "Emma Watson", "Wrong name!");
     }
 
     @Test
     public void findByIdNegativeTest() {
-        var maybeResult = underTest.findById(10000);
+        var maybeResult = personDao.findById(10000);
         assertTrue(maybeResult.isEmpty());
     }
 
     @Test(dataProvider = "personFilterDataProvider")
     public void findAllByNameTest(PersonFilterDto personFilterDto, int expectedPersonsAmount) {
-        var persons = underTest.findAllByName(personFilterDto);
+        var persons = personDao.findAllByName(personFilterDto);
         assertEquals(persons.size(), expectedPersonsAmount);
     }
 
@@ -45,7 +45,7 @@ public class PersonDaoTest {
                 .name("Test")
                 .birthday(LocalDateFormatter.format("1990-03-03"))
                 .build();
-        underTest.save(person);
+        personDao.save(person);
         Assert.assertNotNull(person.getId());
     }
 

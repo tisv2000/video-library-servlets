@@ -4,7 +4,9 @@ import com.github.tisv2000.videolibrary.dto.MovieReceivedDto;
 import com.github.tisv2000.videolibrary.dto.ReviewCreatedDto;
 import com.github.tisv2000.videolibrary.dto.ReviewReceiveDto;
 import com.github.tisv2000.videolibrary.dto.UserReceivedDto;
-import com.github.tisv2000.videolibrary.entity.*;
+import com.github.tisv2000.videolibrary.entity.Review;
+import com.github.tisv2000.videolibrary.entity.User;
+import com.github.tisv2000.videolibrary.entity.Movie;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

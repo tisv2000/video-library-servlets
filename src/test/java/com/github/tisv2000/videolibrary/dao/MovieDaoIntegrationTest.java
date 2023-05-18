@@ -11,9 +11,9 @@ import java.util.Optional;
 
 import static org.testng.Assert.*;
 
-public class MovieDaoTest {
+public class MovieDaoIntegrationTest {
 
-    private final MovieDao underTest = MovieDao.getInstance();
+    private final MovieDao movieDao = MovieDao.getInstance();
 
     public static final Integer MOVIE_ID = 3;
     public static final String MOVIE_TITLE = "The Vampire Diaries";
@@ -23,7 +23,7 @@ public class MovieDaoTest {
     public static final String IMAGE = "vampireDiaries";
     public static final String DESCRIPTION = "On her first day at high school";
 
-    public static final Movie NEW_MOVIE = new Movie(
+    public static final Movie newMovie = new Movie(
             null,
             "Gladiator",
             2000,
@@ -40,7 +40,7 @@ public class MovieDaoTest {
     public void findMovieByIdPositiveTest() {
         // GIVEN
         // WHEN
-        Optional<Movie> maybeMovie = underTest.findById(MOVIE_ID);
+        Optional<Movie> maybeMovie = movieDao.findById(MOVIE_ID);
 
         // THEN
         assertTrue(maybeMovie.isPresent(), "Movie is missing!");
@@ -56,17 +56,17 @@ public class MovieDaoTest {
     public void findAllMovies() {
         // GIVEN
         // WHEN
-        List<Movie> movies = underTest.findAll();
+        List<Movie> movies = movieDao.findAll();
 
         // THEN
-        assertTrue(movies.size() > 0, "Amount of movie titles is not correct!");
+        assertEquals(movies.size(), 16, "Amount of movie titles is not correct!");
     }
 
     @Test(dataProvider = "movieFilterDataProvider")
     public void findAllByFiltersTest(MovieFilterDto movieFilterDto, int expectedAmountOfMovies) {
         // GIVEN
         // WHEN
-        var movies = underTest.findAllByFilters(movieFilterDto);
+        var movies = movieDao.findAllByFilters(movieFilterDto);
 
         // THEN
         assertEquals(movies.size(), expectedAmountOfMovies,
@@ -77,35 +77,35 @@ public class MovieDaoTest {
     public void saveMovie() {
         // GIVEN
         // WHEN
-        underTest.save(NEW_MOVIE);
+        movieDao.save(newMovie);
 
         // THEN
-        assertNotNull(NEW_MOVIE.getId());
+        assertNotNull(newMovie.getId());
     }
 
     @Test(dependsOnMethods = {"saveMovie"})
     public void updateMovie() {
         // GIVEN
-        var updatedMovie = NEW_MOVIE;
+        var updatedMovie = newMovie;
         var newYear = 2001;
 
         // WHEN
         updatedMovie.setYear(newYear);
 
         // THEN
-        assertTrue(underTest.update(updatedMovie));
-        assertEquals(underTest.findById(NEW_MOVIE.getId()).get().getYear().intValue(), newYear);
+        assertTrue(movieDao.update(updatedMovie));
+        assertEquals(movieDao.findById(newMovie.getId()).get().getYear().intValue(), newYear);
     }
 
     @Test(dependsOnMethods = {"updateMovie"})
     public void deleteMovie() {
         // GIVEN
         // WHEN
-        var isDeleted = underTest.delete(NEW_MOVIE.getId());
+        var isDeleted = movieDao.delete(newMovie.getId());
 
         // THEN
         assertTrue(isDeleted);
-        assertFalse(underTest.findById(NEW_MOVIE.getId()).isPresent());
+        assertFalse(movieDao.findById(newMovie.getId()).isPresent());
     }
 
     @DataProvider(name = "movieFilterDataProvider")

@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = JspHelper.getPath("login");
         LocaleBundleUtils.setLocaleName(Arrays.stream(req.getCookies())
-                .filter((cookie) -> cookie.getName().equals("userLocaleName"))
+                .filter(cookie -> cookie.getName().equals("userLocaleName"))
                 .map(cookie -> cookie.getValue())
                 .findFirst()
                 .orElse(LocaleBundleUtils.DEFAULT_LOCALE));

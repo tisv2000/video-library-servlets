@@ -4,7 +4,6 @@ import com.github.tisv2000.videolibrary.dao.GenreDao;
 import com.github.tisv2000.videolibrary.dto.MovieCreatedDto;
 import com.github.tisv2000.videolibrary.dto.MovieReceivedDto;
 import com.github.tisv2000.videolibrary.entity.Movie;
-import com.github.tisv2000.videolibrary.service.ImageService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +11,7 @@ import lombok.NoArgsConstructor;
 public class MovieMapper {
 
     private static final MovieMapper INSTANCE = new MovieMapper();
-    private static final GenreDao genreDao = GenreDao.getInstance();
-    private static final ImageService imageService = ImageService.getInstance();
+    private final GenreDao genreDao = GenreDao.getInstance();
 
     public Movie mapMovieCreateDtoToMovieEntity(MovieCreatedDto movieCreatedDto) {
         return Movie.builder()

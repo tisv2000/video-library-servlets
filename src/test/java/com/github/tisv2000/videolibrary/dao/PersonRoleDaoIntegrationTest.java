@@ -4,13 +4,13 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertTrue;
 
-public class PersonRoleDaoTest {
+public class PersonRoleDaoIntegrationTest {
 
-    private final PersonRoleDao underTest = PersonRoleDao.getInstance();
+    private final PersonRoleDao personRoleDao = PersonRoleDao.getInstance();
 
     @Test
     public void findAllTest() {
-        var personRoles = underTest.findAll();
+        var personRoles = personRoleDao.findAll();
         assertTrue(personRoles.size() > 1);
     }
 }

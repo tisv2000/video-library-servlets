@@ -8,9 +8,9 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-public class ReviewDaoTest {
+public class ReviewDaoIntegrationTest {
 
-    private final ReviewDao underTest = ReviewDao.getInstance();
+    private final ReviewDao reviewDao = ReviewDao.getInstance();
 
     @Test
     public void saveTest() {
@@ -27,7 +27,7 @@ public class ReviewDaoTest {
                 .build();
 
         // WHEN
-        underTest.save(review);
+        reviewDao.save(review);
 
         // THEN
         assertNotNull(review.getId());
@@ -37,7 +37,7 @@ public class ReviewDaoTest {
     public void findAllTest() {
         // GIVEN
         // WHEN
-        var reviews = underTest.findAll();
+        var reviews = reviewDao.findAll();
 
         // THEN
         assertTrue(reviews.size() > 0);
@@ -47,7 +47,7 @@ public class ReviewDaoTest {
     public void findAllByMovieIdTest() {
         // GIVEN
         // WHEN
-        var reviews = underTest.findAllByMovieId(3);
+        var reviews = reviewDao.findAllByMovieId(3);
 
         // THEN
         assertTrue(reviews.size() > 0);
@@ -57,7 +57,7 @@ public class ReviewDaoTest {
     public void findAllByUserIdTest() {
         // GIVEN
         // WHEN
-        var reviews = underTest.findAllByUserId(1);
+        var reviews = reviewDao.findAllByUserId(1);
 
         // THEN
         assertTrue(reviews.size() > 0);

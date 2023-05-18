@@ -9,7 +9,7 @@ import com.github.tisv2000.videolibrary.validator.CreatePersonValidator;
 import com.github.tisv2000.videolibrary.validator.PersonFilterValidator;
 import com.github.tisv2000.videolibrary.validator.ValidationResult;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.*;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import static com.github.tisv2000.videolibrary.util.UrlPath.PERSONS;
 
+@MultipartConfig
 @WebServlet(PERSONS)
 public class PersonServlet extends HttpServlet {
 

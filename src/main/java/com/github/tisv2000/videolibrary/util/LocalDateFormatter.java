@@ -12,10 +12,6 @@ public class LocalDateFormatter {
     public static final String PATTERN = "yyyy-MM-dd";
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(PATTERN);
 
-    public LocalDate format(String date) {
-        return LocalDate.parse(date, FORMATTER);
-    }
-
     public boolean isValid(String date) {
         try {
             format(date);
@@ -23,5 +19,9 @@ public class LocalDateFormatter {
         } catch (DateTimeParseException exception) {
             return false;
         }
+    }
+
+    public LocalDate format(String date) {
+        return LocalDate.parse(date, FORMATTER);
     }
 }

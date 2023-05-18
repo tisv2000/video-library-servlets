@@ -21,7 +21,6 @@ public class MovieService {
     private final MovieMapper movieMapper = MovieMapper.getInstance();
 
     public List<MovieReceivedDto> findAll() {
-
         return movieDao.findAll().stream()
                 .map(movieMapper::mapMovieEntityToMovieReceiveDto)
                 .collect(toList());

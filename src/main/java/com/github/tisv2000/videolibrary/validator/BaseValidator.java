@@ -4,7 +4,7 @@ import com.github.tisv2000.videolibrary.util.EmailValidator;
 
 import java.time.LocalDate;
 
-public class BaseValidator {
+public abstract class BaseValidator {
 
     public boolean validateNotNull(String field, ValidationResult validationResult, String fieldName) {
         if (field == null || field.isEmpty()) {

@@ -55,7 +55,7 @@ public class MovieServlet extends HttpServlet {
             req.setAttribute("filterMovieErrors", validationResult.getErrors());
             redirectToAllFoundMovies(req, resp);
         } else {
-            redirectToAllFilteredMovies(req, resp, movieFilterDto);
+            forwardToAllFilteredMovies(req, resp, movieFilterDto);
         }
     }
 
@@ -86,7 +86,7 @@ public class MovieServlet extends HttpServlet {
 
     }
 
-    private void redirectToAllFilteredMovies(HttpServletRequest req, HttpServletResponse resp, MovieFilterDto movieFilterDto) throws ServletException, IOException {
+    private void forwardToAllFilteredMovies(HttpServletRequest req, HttpServletResponse resp, MovieFilterDto movieFilterDto) throws ServletException, IOException {
         req.setAttribute("movies", movieService.findAllByFilters(movieFilterDto));
         req.setAttribute("genres", genreService.findAll());
         req.getRequestDispatcher(JspHelper.getPath("movies")).forward(req, resp);

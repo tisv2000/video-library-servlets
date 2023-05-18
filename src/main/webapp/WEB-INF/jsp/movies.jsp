@@ -50,7 +50,8 @@
         </label><br>
         <label for="addGenreId"><fmt:message key="movie.newMovieGenre"/>:
             <select name="genre" id="addGenreId">
-                <option value="" disabled selected><fmt:message key="movie.selectGenreText"/></option>
+<%--                <option value="" disabled selected><fmt:message key="movie.selectGenreText"/></option>--%>
+                <option value="${genre.id}" selected="${param.genre == null ? false : true}">${genre.title}</option>
                 <c:forEach var="genre" items="${requestScope.genres}">
                     <option value="${genre.id}">${genre.title}</option>
                 </c:forEach>

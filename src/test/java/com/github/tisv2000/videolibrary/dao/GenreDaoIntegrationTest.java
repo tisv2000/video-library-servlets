@@ -9,9 +9,9 @@ import java.util.Optional;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class GenreDaoTest {
+public class GenreDaoIntegrationTest {
 
-    private final GenreDao underTest = GenreDao.getInstance();
+    private final GenreDao genreDao = GenreDao.getInstance();
 
     public static final Integer GENRE_ID = 6;
     public static final String GENRE_TITLE = "Drama";
@@ -20,7 +20,7 @@ public class GenreDaoTest {
     public void findGenreByIdPositiveTest() {
         // GIVEN
         // WHEN
-        Optional<Genre> maybeGenre = underTest.findById(GENRE_ID);
+        Optional<Genre> maybeGenre = genreDao.findById(GENRE_ID);
 
         // THEN
         assertTrue(maybeGenre.isPresent(), "Genre is missing!");
@@ -31,7 +31,7 @@ public class GenreDaoTest {
     public void findAllGenres() {
         // GIVEN
         // WHEN
-        List<Genre> genres = underTest.findAll();
+        List<Genre> genres = genreDao.findAll();
 
         // THEN
         assertEquals(9, genres.size(), "Amount of genre titles is not correct!");

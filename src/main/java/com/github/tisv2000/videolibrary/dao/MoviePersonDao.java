@@ -33,6 +33,11 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
                   WHERE movie_id = ?
             """;
 
+    private static final String DELETE_SQL = """
+            DELETE FROM movie_person
+            WHERE id = ?
+            """;
+
     @SneakyThrows
     @Override
     public void save(MoviePerson entity) {
@@ -83,10 +88,14 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
     }
 
     @Override
+    @SneakyThrows
     public boolean delete(Integer id) {
-        return false;
+        try (var connection = ConnectionManager.get();
+             var preparedStatement = connection.prepareStatement(DELETE_SQL);) {
+            preparedStatement.setInt(1, id);
+            return preparedStatement.executeUpdate() == 1;
+        }
     }
-
 
     private MoviePerson build(ResultSet resultSet) throws SQLException {
         return MoviePerson.builder()

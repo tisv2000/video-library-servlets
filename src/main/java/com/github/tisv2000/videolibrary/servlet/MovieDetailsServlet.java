@@ -57,7 +57,7 @@ public class MovieDetailsServlet extends HttpServlet {
             moviePersonService.addMoviePerson(moviePersonDto);
         }
 
-        var movie = movieService.findById(Integer.parseInt(movieId));
+        var movie = movieService.findById(Integer.parseInt(movieId)).orElse(null);
         checkAndRedirectToMovieDetails(movie, resp, req);
     }
 
@@ -79,23 +79,23 @@ public class MovieDetailsServlet extends HttpServlet {
             reviewService.createReview(reviewCreateDto);
         }
 
-        var movie = movieService.findById(Integer.parseInt(movieId));
+        var movie = movieService.findById(Integer.parseInt(movieId)).orElse(null);
         checkAndRedirectToMovieDetails(movie, resp, req);
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         var movieId = Integer.parseInt(req.getRequestURI().substring(req.getRequestURI().lastIndexOf("/") + 1));
-        var movie = movieService.findById(movieId);
+        var movie = movieService.findById(movieId).orElse(null);
         checkAndRedirectToMovieDetails(movie, resp, req);
     }
 
 
-    private void checkAndRedirectToMovieDetails(Optional<MovieReceivedDto> movie, HttpServletResponse resp, HttpServletRequest req) throws IOException {
-        if (movie.isEmpty()) {
+    private void checkAndRedirectToMovieDetails(MovieReceivedDto movie, HttpServletResponse resp, HttpServletRequest req) throws IOException {
+        if (movie == null) {
             resp.sendError(404);
         } else {
-            redirectToMovieDetailsWithAllAttributes(req, resp, movie.get());
+            redirectToMovieDetailsWithAllAttributes(req, resp, movie);
         }
     }
 

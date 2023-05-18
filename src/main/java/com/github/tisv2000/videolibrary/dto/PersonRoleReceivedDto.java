@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class PersonRoleReceivedDao {
+public class PersonRoleReceivedDto {
     Integer id;
     String title;
 }

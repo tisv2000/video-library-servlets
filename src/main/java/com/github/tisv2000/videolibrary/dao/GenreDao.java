@@ -3,7 +3,11 @@ package com.github.tisv2000.videolibrary.dao;
 import com.github.tisv2000.videolibrary.entity.Genre;
 import com.github.tisv2000.videolibrary.exception.DaoException;
 import com.github.tisv2000.videolibrary.util.ConnectionManager;
-import java.util.*;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Optional;
+import java.util.ArrayList;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
@@ -22,33 +26,7 @@ public class GenreDao implements Dao<Integer, Genre> {
             FROM genre
             """;
 
-    @Override
-    @SneakyThrows
-    public Optional<Genre> findById(Integer id) {
-        checkCache();
-        return Optional.ofNullable(cache.get(id));
-    }
-
-    @Override
-    @SneakyThrows
-    public List<Genre> findAll() {
-        checkCache();
-        return new ArrayList<>(cache.values());
-    }
-
-    @SneakyThrows
-    private void checkCache() {
-        if (cache.isEmpty()) {
-            synchronized (this) {
-                if (cache.isEmpty()) {
-                    fillCache();
-                }
-            }
-        }
-    }
-
-    @SneakyThrows
-    private void fillCache() {
+    static { // fails if it's not static...
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_ALL_SQL);) {
             var resultSet = preparedStatement.executeQuery();
@@ -56,7 +34,21 @@ public class GenreDao implements Dao<Integer, Genre> {
                 var genre = build(resultSet);
                 cache.put(genre.getId(), genre);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    @SneakyThrows
+    public Optional<Genre> findById(Integer id) {
+        return Optional.ofNullable(cache.get(id));
+    }
+
+    @Override
+    @SneakyThrows
+    public List<Genre> findAll() {
+        return new ArrayList<>(cache.values());
     }
 
     @Override
@@ -75,7 +67,7 @@ public class GenreDao implements Dao<Integer, Genre> {
     }
 
 
-    private Genre build(ResultSet resultSet) throws SQLException {
+    private static Genre build(ResultSet resultSet) throws SQLException {
         return Genre.builder()
                 .id(resultSet.getInt("id"))
                 .title(resultSet.getString("title"))

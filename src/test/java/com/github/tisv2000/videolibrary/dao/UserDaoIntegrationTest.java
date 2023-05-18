@@ -10,11 +10,13 @@ import org.testng.annotations.Test;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
-public class UserDaoTest {
+public class UserDaoIntegrationTest {
 
-    private final UserDao underTest = UserDao.getInstance();
+    private final UserDao userDao = UserDao.getInstance();
 
     private static final String EMAIL = LocalDateTime.now() + "test@test.test";
     private static final String NOT_EXISTING_EMAIL = "wrong@test.test";
@@ -39,7 +41,7 @@ public class UserDaoTest {
                 .build();
 
         // WHEN
-        underTest.save(user);
+        userDao.save(user);
 
         // THEN
         assertNotNull(user.getId());
@@ -49,7 +51,7 @@ public class UserDaoTest {
     public void findByExistingEmailTest() {
         // GIVEN
         // WHEN
-        var user = underTest.findByEmail(EMAIL);
+        var user = userDao.findByEmail(EMAIL);
 
         // THEN
         assertTrue(user.isPresent());
@@ -65,7 +67,7 @@ public class UserDaoTest {
     public void findByNotExistingEmailTest() {
         // GIVEN
         // WHEN
-        var user = underTest.findByEmail(NOT_EXISTING_EMAIL);
+        var user = userDao.findByEmail(NOT_EXISTING_EMAIL);
 
         // THEN
         assertTrue(user.isEmpty());
@@ -75,7 +77,7 @@ public class UserDaoTest {
     public void findByEmailAndPasswordPositiveTest() {
         // GIVEN
         // WHEN
-        var user = underTest.findByEmailAndPassword(EMAIL, PASSWORD);
+        var user = userDao.findByEmailAndPassword(EMAIL, PASSWORD);
 
         // THEN
         assertTrue(user.isPresent());
@@ -91,7 +93,7 @@ public class UserDaoTest {
     public void findByEmailAndPasswordNegativeTest(String email, String password) {
         // GIVEN
         // WHEN
-        var user = underTest.findByEmailAndPassword(email, password);
+        var user = userDao.findByEmailAndPassword(email, password);
 
         // THEN
         assertTrue(user.isEmpty());

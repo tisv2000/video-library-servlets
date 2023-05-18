@@ -83,11 +83,9 @@ public class PersonDao implements Dao<Integer, Person> {
 
             var resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()) {
-                return Optional.of(build(resultSet));
-            } else {
-                return Optional.empty();
-            }
+            return resultSet.next()
+                    ? Optional.of(build(resultSet))
+                    : Optional.empty();
         }
     }
 

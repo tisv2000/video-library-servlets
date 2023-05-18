@@ -1,6 +1,7 @@
 package com.github.tisv2000.videolibrary.util;
 
 import java.util.ResourceBundle;
+import java.util.Locale;
 
 public class LocaleBundleUtils {
 
@@ -13,7 +14,7 @@ public class LocaleBundleUtils {
     }
 
     public static void setLocaleName(String localeName) {
-        java.util.Locale locale = new java.util.Locale(localeName.substring(0, 2), localeName.substring(3, 5));
+        Locale locale = new Locale(localeName.substring(0, 2), localeName.substring(3, 5));
         bundle = ResourceBundle.getBundle(BUNDLE_NAME, locale);
     }
 
