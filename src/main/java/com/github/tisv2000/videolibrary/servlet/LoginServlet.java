@@ -9,14 +9,11 @@ import com.github.tisv2000.videolibrary.validator.Error;
 import com.github.tisv2000.videolibrary.validator.LoginValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
+import java.util.*;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import static com.github.tisv2000.videolibrary.util.UrlPath.LOGIN;
 import static com.github.tisv2000.videolibrary.util.UrlPath.MOVIES;
@@ -66,6 +63,7 @@ public class LoginServlet extends HttpServlet {
 
     @SneakyThrows
     private void onLoginSuccess(UserReceivedDto user, HttpServletRequest req, HttpServletResponse resp) {
+        req.getSession().setAttribute("user", user);
         req.getSession().setAttribute("user", user);
         resp.sendRedirect(MOVIES);
     }

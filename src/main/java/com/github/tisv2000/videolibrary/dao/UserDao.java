@@ -3,6 +3,7 @@ package com.github.tisv2000.videolibrary.dao;
 import com.github.tisv2000.videolibrary.entity.Gender;
 import com.github.tisv2000.videolibrary.entity.Role;
 import com.github.tisv2000.videolibrary.entity.User;
+import com.github.tisv2000.videolibrary.exception.*;
 import com.github.tisv2000.videolibrary.util.ConnectionManager;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -89,22 +90,22 @@ public class UserDao implements Dao<Integer, User> {
 
     @Override
     public boolean update(User entity) {
-        return false;
+        throw new NotSupportedOperationException("Update operation is not supported for User");
     }
 
     @Override
     public Optional<User> findById(Integer id) {
-        return Optional.empty();
+        throw new NotSupportedOperationException("Find by Id operation is not supported for User");
     }
 
     @Override
     public List<User> findAll() {
-        return null;
+        throw new NotSupportedOperationException("Find All operation is not supported for User");
     }
 
     @Override
     public boolean delete(Integer id) {
-        return false;
+        throw new NotSupportedOperationException("Delete operation is not supported for User");
     }
 
     private User build(ResultSet resultSet) throws SQLException {

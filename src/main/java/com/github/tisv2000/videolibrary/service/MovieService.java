@@ -1,10 +1,10 @@
 package com.github.tisv2000.videolibrary.service;
 
-import com.github.tisv2000.videolibrary.dao.MovieDao;
+import com.github.tisv2000.videolibrary.dao.*;
 import com.github.tisv2000.videolibrary.dto.MovieCreatedDto;
 import com.github.tisv2000.videolibrary.dto.MovieReceivedDto;
 import com.github.tisv2000.videolibrary.dto.MovieFilterDto;
-import com.github.tisv2000.videolibrary.mapper.MovieMapper;
+import com.github.tisv2000.videolibrary.mapper.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +18,7 @@ public class MovieService {
 
     private static final MovieService INSTANCE = new MovieService();
     private final MovieDao movieDao = MovieDao.getInstance();
+    private final MoviePersonDao moviePersonDao = MoviePersonDao.getInstance();
     private final MovieMapper movieMapper = MovieMapper.getInstance();
 
     public List<MovieReceivedDto> findAll() {
@@ -32,9 +33,9 @@ public class MovieService {
     }
 
     public List<MovieReceivedDto> findByMoviePersonId(Integer id) {
-        return movieDao.findByMoviePersonId(id)
+        return moviePersonDao.findAllByMoviePersonId(id)
                 .stream()
-                .map(movieMapper::mapMovieEntityToMovieReceiveDto)
+                .map((moviePerson) -> movieMapper.mapMovieEntityToMovieReceiveDto(moviePerson.getMovie()))
                 .collect(toList());
     }
 

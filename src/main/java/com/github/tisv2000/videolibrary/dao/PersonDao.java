@@ -2,6 +2,7 @@ package com.github.tisv2000.videolibrary.dao;
 
 import com.github.tisv2000.videolibrary.dto.PersonFilterDto;
 import com.github.tisv2000.videolibrary.entity.Person;
+import com.github.tisv2000.videolibrary.exception.*;
 import com.github.tisv2000.videolibrary.util.ConnectionManager;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -107,12 +108,12 @@ public class PersonDao implements Dao<Integer, Person> {
 
     @Override
     public boolean update(Person entity) {
-        return false;
+        throw new NotSupportedOperationException("Update operation is not supported for Person");
     }
 
     @Override
     public boolean delete(Integer id) {
-        return false;
+        throw new NotSupportedOperationException("Delete operation is not supported for Person");
     }
 
 

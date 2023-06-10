@@ -1,6 +1,7 @@
 package com.github.tisv2000.videolibrary.dao;
 
 import com.github.tisv2000.videolibrary.entity.PersonRole;
+import com.github.tisv2000.videolibrary.exception.*;
 import com.github.tisv2000.videolibrary.util.ConnectionManager;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -40,21 +41,22 @@ public class PersonRoleDao implements Dao<Integer, PersonRole> {
 
     @Override
     public void save(PersonRole entity) {
+        throw new NotSupportedOperationException("Save operation is not supported for PersonRole");
     }
 
     @Override
     public boolean update(PersonRole entity) {
-        return false;
+        throw new NotSupportedOperationException("Update operation is not supported for PersonRole");
     }
 
     @Override
     public Optional<PersonRole> findById(Integer id) {
-        return Optional.empty();
+        throw new NotSupportedOperationException("Find by Id operation is not supported for PersonRole");
     }
 
     @Override
     public boolean delete(Integer id) {
-        return false;
+        throw new NotSupportedOperationException("Delete operation is not supported for PersonRole");
     }
 
 

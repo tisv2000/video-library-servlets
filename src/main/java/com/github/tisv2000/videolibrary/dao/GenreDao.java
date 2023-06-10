@@ -19,14 +19,14 @@ import java.sql.SQLException;
 public class GenreDao implements Dao<Integer, Genre> {
     private static final GenreDao INSTANCE = new GenreDao();
 
-    private static final Map<Integer, Genre> cache = new HashMap<>();
+    private final Map<Integer, Genre> cache = new HashMap<>();
 
     private static final String FIND_ALL_SQL = """
             SELECT id, title
             FROM genre
             """;
 
-    static { // fails if it's not static...
+    { // fails if it's not static...
         try (var connection = ConnectionManager.get();
              var preparedStatement = connection.prepareStatement(FIND_ALL_SQL);) {
             var resultSet = preparedStatement.executeQuery();

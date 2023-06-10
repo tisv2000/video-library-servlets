@@ -121,3 +121,11 @@ VALUES (1, 1, 'Nice movie', 9),
        (2, 1, 'Such a lovely story, absolutely love it!', 10),
        (2, 2, 'Cool movie', 9),
        (2, 3, 'First 3 seasons are the best, but the last few are not that great anymore...', 7);
+
+SELECT person.id as personId, person.name, person.birthday, person_role.title as personRoleTitle, person.image as personImage,
+       movie.id as movieId, movie.title, movie.year, movie.country, movie.genre_id, movie.image as movieImage, movie.description
+FROM movie_person
+         INNER JOIN person ON movie_person.person_id = person.id
+         INNER JOIN person_role ON movie_person.role_id = person_role.id
+         INNER JOIN movie on movie.id = movie_person.movie_id
+WHERE person_id = 15
