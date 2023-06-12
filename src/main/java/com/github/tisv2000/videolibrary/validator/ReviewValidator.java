@@ -13,9 +13,9 @@ public class ReviewValidator extends BaseValidator implements Validator<ReviewCr
     public ValidationResult isValid(ReviewCreatedDto review) {
         var validationResult = new ValidationResult();
 
-        validateNotNull(review.getText(), validationResult, "movieDetails.addReview.text");
+        validateNotNull(review.getText(), validationResult, "error.missing.field.review.text");
 
-        validateNotNull(review.getRate(), validationResult, "movieDetails.addReview.rate");
+        validateNotNull(review.getRate(), validationResult, "error.missing.field.review.rate");
 
         return validationResult;
     }

@@ -13,9 +13,13 @@ public class CreatePersonValidator extends BaseValidator implements Validator<Pe
     public ValidationResult isValid(PersonCreatedDto person) {
         var validationResult = new ValidationResult();
 
-        validateNotNull(person.getName(), validationResult, "person.addPerson.name");
+        validateNotNull(person.getName(), validationResult, "error.missing.field.name");
 
-        validateNotNull(person.getBirthday(), validationResult, "person.addPerson.birthday");
+        if (validateNotNull(person.getBirthday(), validationResult, "error.missing.field.birthday")) {
+            validateYear(person.getBirthday().substring(0, 4), validationResult);
+        }
+
+        validateNotNull(person.getImage(), validationResult, "error.missing.field.image");
 
         return validationResult;
     }

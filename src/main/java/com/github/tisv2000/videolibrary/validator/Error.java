@@ -2,17 +2,11 @@ package com.github.tisv2000.videolibrary.validator;
 
 import lombok.Value;
 
-import static com.github.tisv2000.videolibrary.util.LocaleBundleUtils.getString;
-
 @Value
 public class Error {
-    String message;
+    String errorPropertyName;
 
-    public static Error of(String message) {
-        return new Error(getString(message));
-    }
-
-    public static Error of(String message, String field) {
-        return new Error(getString(field, message));
+    public static Error of(String errorPropertyName) {
+        return new Error(errorPropertyName);
     }
 }

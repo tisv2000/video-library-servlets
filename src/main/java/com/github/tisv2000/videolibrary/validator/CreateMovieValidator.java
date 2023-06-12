@@ -13,19 +13,19 @@ public class CreateMovieValidator extends BaseValidator implements Validator<Mov
     public ValidationResult isValid(MovieCreatedDto movie) {
         var validationResult = new ValidationResult();
 
-        validateNotNull(movie.getTitle(), validationResult, "movie.newMovieTitle");
+        validateNotNull(movie.getTitle(), validationResult, "error.missing.field.movie.title");
 
-        validateNotNull(movie.getCountry(), validationResult, "movie.newMovieCountry");
+        validateNotNull(movie.getCountry(), validationResult, "error.missing.field.movie.country");
 
-        if (validateNotNull(movie.getYear(), validationResult, "movie.newMovieYear")) {
+        if (validateNotNull(movie.getYear(), validationResult, "error.missing.field.movie.year")) {
             validateYear(movie.getYear(), validationResult);
         }
 
-        validateNotNull(movie.getGenre(), validationResult, "movie.newMovieGenre");
+        validateNotNull(movie.getGenre(), validationResult, "error.missing.field.movie.genre");
 
-        validateNotNull(movie.getDescription(), validationResult, "movie.newMovieDescription");
+        validateNotNull(movie.getDescription(), validationResult, "error.missing.field.movie.description");
 
-        validateNotNull(movie.getImage(), validationResult, "movie.newMovieImage");
+        validateNotNull(movie.getImage(), validationResult, "error.missing.field.image");
 
         return validationResult;
     }

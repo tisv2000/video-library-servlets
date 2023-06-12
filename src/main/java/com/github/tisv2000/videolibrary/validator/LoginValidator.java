@@ -17,9 +17,9 @@ public class LoginValidator extends BaseValidator implements Validator<LoginDto>
     public ValidationResult isValid(LoginDto login) {
         var validationResult = new ValidationResult();
 
-        validateNotNull(login.getEmail(), validationResult, "login.email");
+        validateNotNull(login.getEmail(), validationResult, "error.missing.field.email");
 
-        validateNotNull(login.getPassword(), validationResult, "login.password");
+        validateNotNull(login.getPassword(), validationResult, "error.missing.field.password");
 
         return validationResult;
     }

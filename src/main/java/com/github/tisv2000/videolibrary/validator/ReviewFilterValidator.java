@@ -12,7 +12,7 @@ public class ReviewFilterValidator extends BaseValidator implements Validator<St
     public ValidationResult isValid(String email) {
         var validationResult = new ValidationResult();
 
-        validateNotNull(email, validationResult, "allReviews.email");
+        validateNotNull(email, validationResult, "error.missing.field.email");
 
         return validationResult;
     }

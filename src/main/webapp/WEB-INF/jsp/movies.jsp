@@ -30,7 +30,7 @@
     <c:if test="${not empty requestScope.filterMovieErrors}">
         <div style="color: red;margin-left: 20px">
             <c:forEach var="error" items="${requestScope.filterMovieErrors}">
-                <span>${error.message}</span><br>
+                <span><fmt:message key="${error.errorPropertyName}"/></span><br>
             </c:forEach>
         </div>
     </c:if>
@@ -68,7 +68,7 @@
         <c:if test="${not empty requestScope.addMovieErrors}">
             <div style="color: red">
                 <c:forEach var="error" items="${requestScope.addMovieErrors}">
-                    <span>${error.message}</span><br>
+                    <span><fmt:message key="${error.errorPropertyName}"/></span><br>
                 </c:forEach>
             </div>
         </c:if>

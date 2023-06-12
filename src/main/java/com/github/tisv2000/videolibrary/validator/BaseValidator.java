@@ -6,9 +6,9 @@ import java.time.LocalDate;
 
 public abstract class BaseValidator {
 
-    public boolean validateNotNull(String field, ValidationResult validationResult, String fieldName) {
+    public boolean validateNotNull(String field, ValidationResult validationResult, String errorCode) {
         if (field == null || field.isEmpty()) {
-            validationResult.add(Error.of("error.missing.field", fieldName));
+            validationResult.add(Error.of(errorCode));
             return false;
         }
         return true;

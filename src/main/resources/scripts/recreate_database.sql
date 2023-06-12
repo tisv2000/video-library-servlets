@@ -68,4 +68,7 @@ CREATE TABLE IF NOT EXISTS review
     rate     INT NOT NULL
 );
 
-select p.name from movie_person inner join person p on p.id = movie_person.person_id where movie_id = 3
+-- select p.name from movie_person inner join person p on p.id = movie_person.person_id where movie_id = 3
+SELECT id, name, birthday, image
+FROM person
+WHERE id=1

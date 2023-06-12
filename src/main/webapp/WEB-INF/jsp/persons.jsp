@@ -14,7 +14,7 @@
     <c:if test="${not empty requestScope.filterPersonErrors}">
         <div style="color: red">
             <c:forEach var="error" items="${requestScope.filterPersonErrors}">
-                <span>${error.message}</span><br>
+                <span><fmt:message key="${error.errorPropertyName}"/></span><br>
             </c:forEach>
         </div>
     </c:if>
@@ -37,7 +37,7 @@
         <c:if test="${not empty requestScope.addPersonErrors}">
             <div style="color: red">
                 <c:forEach var="error" items="${requestScope.addPersonErrors}">
-                    <span>${error.message}</span><br>
+                    <span><fmt:message key="${error.errorPropertyName}"/></span><br>
                 </c:forEach>
             </div>
         </c:if>

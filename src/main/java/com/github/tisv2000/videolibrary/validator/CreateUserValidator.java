@@ -13,21 +13,25 @@ public class CreateUserValidator extends BaseValidator implements Validator<User
     public ValidationResult isValid(UserCreatedDto user) {
         var validationResult = new ValidationResult();
 
-        validateNotNull(user.getName(), validationResult, "registration.name");
+        validateNotNull(user.getName(), validationResult, "error.missing.field.name");
 
-        validateNotNull(user.getBirthday(), validationResult, "registration.birthday");
+        validateNotNull(user.getBirthday(), validationResult, "error.missing.field.birthday");
 
-        if (validateNotNull(user.getEmail(), validationResult, "registration.email")) {
+        if (validateNotNull(user.getEmail(), validationResult, "error.missing.field.email")) {
             validateEmail(user.getEmail(), validationResult);
         }
 
-        if (validateNotNull(user.getGender(), validationResult, "registration.password")) {
+        if (validateNotNull(user.getPassword(), validationResult, "error.missing.field.password")) {
             validatePassword(user.getPassword(), validationResult);
         }
 
-        validateNotNull(user.getGender(), validationResult, "registration.gender");
+        validateNotNull(user.getGender(), validationResult, "error.missing.field.gender");
 
-        validateNotNull(user.getImage(), validationResult, "registration.image");
+        if (validateNotNull(user.getBirthday(), validationResult, "error.missing.field.birthday")) {
+            validateYear(user.getBirthday().substring(0, 4), validationResult);
+        }
+
+        validateNotNull(user.getImage(), validationResult, "error.missing.field.image");
 
         return validationResult;
     }

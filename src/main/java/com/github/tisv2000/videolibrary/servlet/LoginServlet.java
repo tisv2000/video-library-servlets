@@ -4,7 +4,6 @@ import com.github.tisv2000.videolibrary.dto.LoginDto;
 import com.github.tisv2000.videolibrary.dto.UserReceivedDto;
 import com.github.tisv2000.videolibrary.service.UserService;
 import com.github.tisv2000.videolibrary.util.JspHelper;
-import com.github.tisv2000.videolibrary.util.LocaleBundleUtils;
 import com.github.tisv2000.videolibrary.validator.Error;
 import com.github.tisv2000.videolibrary.validator.LoginValidator;
 import jakarta.servlet.ServletException;
@@ -27,11 +26,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = JspHelper.getPath("login");
-        LocaleBundleUtils.setLocaleName(Arrays.stream(req.getCookies())
-                .filter(cookie -> cookie.getName().equals("userLocaleName"))
-                .map(cookie -> cookie.getValue())
-                .findFirst()
-                .orElse(LocaleBundleUtils.DEFAULT_LOCALE));
         req.getRequestDispatcher(login).forward(req, resp);
     }
 

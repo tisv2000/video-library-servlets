@@ -41,7 +41,7 @@ public class MoviePersonDao implements Dao<Integer, MoviePerson> {
                      INNER JOIN person ON movie_person.person_id = person.id
                      INNER JOIN person_role ON movie_person.role_id = person_role.id
                      INNER JOIN movie on movie.id = movie_person.movie_id
-            WHERE person_id = 15?
+            WHERE person_id = ?
             """;
 
     private static final String DELETE_SQL = """
